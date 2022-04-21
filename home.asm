@@ -1,4 +1,3 @@
-
 ; The rst vectors are unused.
 SECTION "rst 00", ROM0 [$00]
 	rst $38
@@ -7,15 +6,15 @@ SECTION "rst 08", ROM0 [$08]
 SECTION "rst 10", ROM0 [$10]
 	rst $38
 SECTION "rst 18", ROM0 [$18]
-	rst $38
+        rst $38
 SECTION "rst 20", ROM0 [$20]
-	rst $38
+        rst $38
 SECTION "rst 28", ROM0 [$28]
 	rst $38
 SECTION "rst 30", ROM0 [$30]
 	rst $38
 SECTION "rst 38", ROM0 [$38]
-	rst $38
+	jp Start	; prevents most crashes
 
 ; Hardware interrupts
 SECTION "vblank", ROM0 [$40]
@@ -209,7 +208,7 @@ DrawHPBar:: ; 1336 (0:1336)
 	and a
 	jr nz, .fill
 
-	; If c iz nonzero, draw a pixel anyway.
+	; If c is nonzero, draw a pixel anyway.
 	ld a, c
 	and a
 	jr z, .done
@@ -544,15 +543,6 @@ PrintLevelCommon:: ; 1523 (0:1523)
 	ld b,$41 ; no leading zeroes, left-aligned, one byte
 	jp PrintNumber
 
-Func_152e:: ; 152e (0:152e)
-; Unused.
-	ld hl,wMoves
-	ld c,a
-	ld b,0
-	add hl,bc
-	ld a,[hl]
-	ret
-
 ; copies the base stat data of a pokemon to W_MONHDEXNUM (W_MONHEADER)
 ; INPUT:
 ; [wd0b5] = pokemon ID
@@ -726,43 +716,34 @@ UncompressMonSprite:: ; 1627 (0:1627)
 	ld [W_SPRITEINPUTPTR],a    ; fetch sprite input pointer
 	ld a,[hl]
 	ld [W_SPRITEINPUTPTR+1],a
-; define (by index number) the bank that a pokemon's image is in
-; index = Mew, bank 1
-; index = Kabutops fossil, bank $B
-;	index < $1F, bank 9
-; $1F ≤ index < $4A, bank $A
-; $4A ≤ index < $74, bank $B
-; $74 ≤ index < $99, bank $C
-; $99 ≤ index,       bank $D
 	ld a,[wcf91] ; XXX name for this ram location
+; new code to read banks from a predefined set
+	ld c,a
+	xor a
 	ld b,a
-	cp MEW
-	ld a,BANK(MewPicFront)
-	jr z,.GotBank
-	ld a,b
-	cp FOSSIL_KABUTOPS
-	ld a,BANK(FossilKabutopsPic)
-	jr z,.GotBank
-	ld a,b
-	cp TANGELA + 1
-	ld a,BANK(TangelaPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp MOLTRES + 1
-	ld a,BANK(MoltresPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp BEEDRILL + 2
-	ld a,BANK(BeedrillPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp STARMIE + 1
-	ld a,BANK(StarmiePicFront)
-	jr c,.GotBank
-	ld a,BANK(VictreebelPicFront)
-.GotBank
+	ld a, Bank(MonBankData)
+	call BankswitchHome
+	ld de, MonBankData	; a table with all the banks for pokemon pics :3
+	push hl
+	ld h,d
+	ld l,e
+	add hl,bc		; get correct entry
+	ld d,h
+	ld e,l
+	pop hl
+	ld a, [de]		; get bank
+	ld b, a
+	call BankswitchBack
+	ld a, b
 	jp UncompressSpriteData
 
+PlayMusicEntry::
+	push de
+	ld d, a
+	callba _PlayMusicEntry
+	pop de
+	ret
+	
 ; de: destination location
 LoadMonFrontSprite:: ; 1665 (0:1665)
 	push de
@@ -1936,7 +1917,6 @@ GetItemName:: ; 2fcf (0:2fcf)
 	ld [wPredefBank],a
 	call GetName
 	jr .Finish
-
 .Machine
 	call GetMachineName
 .Finish
@@ -2137,7 +2117,7 @@ IsKeyItem:: ; 30d9 (0:30d9)
 ; function to draw various text boxes
 ; INPUT:
 ; [wTextBoxID] = text box ID
-DisplayTextBoxID:: ; 30e8 (0:30e8)
+DisplayTextBoxID :: ; 30e8 (0:30e8)
 	ld a,[H_LOADEDROMBANK]
 	push af
 	ld a,BANK(DisplayTextBoxID_)
@@ -2575,7 +2555,7 @@ GetSavedEndBattleTextPointer:: ; 33b7 (0:33b7)
 	ld a, [wEndBattleWinTextPointer + 1]
 	ld l, a
 	ret
-.lostBattle
+.lostBattle	; is this unused?
 	ld a, [wEndBattleLoseTextPointer]
 	ld h, a
 	ld a, [wEndBattleLoseTextPointer + 1]
@@ -2588,15 +2568,6 @@ TrainerEndBattleText:: ; 33cf (0:33cf)
 	call GetSavedEndBattleTextPointer
 	call TextCommandProcessor
 	jp TextScriptEnd
-
-; XXX unused?
-Func_33dd:: ; 33dd (0:33dd)
-	ld a, [wFlags_0xcd60]
-	bit 0, a
-	ret nz
-	call EngageMapTrainer
-	xor a
-	ret
 
 PlayTrainerMusic:: ; 33e8 (0:33e8)
 	ld a, [wEngagedTrainerClass]
@@ -3102,14 +3073,14 @@ LoadFontTilePatterns::
 .off
 	ld hl, FontGraphics
 	ld de, vFont
-	ld bc, $400
+	ld bc, $800
 	ld a, BANK(FontGraphics)
-	jp FarCopyDataDouble ; if LCD is off, transfer all at once
+	jp FarCopyData2 ; if LCD is off, transfer all at once
 .on
 	ld de, FontGraphics
 	ld hl, vFont
 	ld bc, BANK(FontGraphics) << 8 | $80
-	jp CopyVideoDataDouble ; if LCD is on, transfer during V-blank
+	jp CopyVideoData ; if LCD is on, transfer during V-blank
 
 LoadTextBoxTilePatterns::
 	ld a, [rLCDC]
@@ -3454,7 +3425,7 @@ WaitForTextScrollButtonPress:: ; 3865 (0:3865)
 	push af
 	xor a
 	ld [H_DOWNARROWBLINKCNT1], a
-	ld a, $6
+	ld a, $1
 	ld [H_DOWNARROWBLINKCNT2], a
 .loop
 	push hl
@@ -3463,7 +3434,7 @@ WaitForTextScrollButtonPress:: ; 3865 (0:3865)
 	jr z, .skipAnimation
 	call TownMapSpriteBlinkingAnimation
 .skipAnimation
-	hlCoord 18, 16
+	hlCoord 18, 17
 	call HandleDownArrowBlinkTiming
 	pop hl
 	call JoypadLowSensitivity
@@ -3940,7 +3911,7 @@ HandleMenuInputPokemonSelection:: ; 3ac2 (0:3ac2)
 	jr nz,.keyPressed
 	push hl
 	hlCoord 18, 11 ; coordinates of blinking down arrow in some menus
-	call HandleDownArrowBlinkTiming ; blink down arrow (if any)
+	;call HandleDownArrowBlinkTiming ; blink down arrow (if any)
 	pop hl
 	ld a,[wMenuJoypadPollCount]
 	dec a
@@ -4027,79 +3998,7 @@ HandleMenuInputPokemonSelection:: ; 3ac2 (0:3ac2)
 	jr .checkIfAButtonOrBButtonPressed
 
 PlaceMenuCursor:: ; 3b7c (0:3b7c)
-	ld a,[wTopMenuItemY]
-	and a ; is the y coordinate 0?
-	jr z,.adjustForXCoord
-	ld hl,wTileMap
-	ld bc,SCREEN_WIDTH
-.topMenuItemLoop
-	add hl,bc
-	dec a
-	jr nz,.topMenuItemLoop
-.adjustForXCoord
-	ld a,[wTopMenuItemX]
-	ld b,0
-	ld c,a
-	add hl,bc
-	push hl
-	ld a,[wLastMenuItem]
-	and a ; was the previous menu id 0?
-	jr z,.checkForArrow1
-	push af
-	ld a,[hFlags_0xFFF6]
-	bit 1,a ; is the menu double spaced?
-	jr z,.doubleSpaced1
-	ld bc,20
-	jr .getOldMenuItemScreenPosition
-.doubleSpaced1
-	ld bc,40
-.getOldMenuItemScreenPosition
-	pop af
-.oldMenuItemLoop
-	add hl,bc
-	dec a
-	jr nz,.oldMenuItemLoop
-.checkForArrow1
-	ld a,[hl]
-	cp a,"▶" ; was an arrow next to the previously selected menu item?
-	jr nz,.skipClearingArrow
-.clearArrow
-	ld a,[wTileBehindCursor]
-	ld [hl],a
-.skipClearingArrow
-	pop hl
-	ld a,[wCurrentMenuItem]
-	and a
-	jr z,.checkForArrow2
-	push af
-	ld a,[hFlags_0xFFF6]
-	bit 1,a ; is the menu double spaced?
-	jr z,.doubleSpaced2
-	ld bc,20
-	jr .getCurrentMenuItemScreenPosition
-.doubleSpaced2
-	ld bc,40
-.getCurrentMenuItemScreenPosition
-	pop af
-.currentMenuItemLoop
-	add hl,bc
-	dec a
-	jr nz,.currentMenuItemLoop
-.checkForArrow2
-	ld a,[hl]
-	cp a,"▶" ; has the right arrow already been placed?
-	jr z,.skipSavingTile ; if so, don't lose the saved tile
-	ld [wTileBehindCursor],a ; save tile before overwriting with right arrow
-.skipSavingTile
-	ld a,"▶" ; place right arrow
-	ld [hl],a
-	ld a,l
-	ld [wMenuCursorLocation],a
-	ld a,h
-	ld [wMenuCursorLocation + 1],a
-	ld a,[wCurrentMenuItem]
-	ld [wLastMenuItem],a
-	ret
+	jpba _PlaceMenuCursor
 
 ; This is used to mark a menu cursor other than the one currently being
 ; manipulated. In the case of submenus, this is used to show the location of
@@ -4147,11 +4046,11 @@ HandleDownArrowBlinkTiming:: ; 3c04 (0:3c04)
 	dec a
 	ld [H_DOWNARROWBLINKCNT2],a
 	ret nz
-	ld a," "
+	ld a,$7A
 	ld [hl],a
 	ld a,$ff
 	ld [H_DOWNARROWBLINKCNT1],a
-	ld a,$06
+	ld a,$02
 	ld [H_DOWNARROWBLINKCNT2],a
 	ret
 .downArrowOff
@@ -4167,7 +4066,7 @@ HandleDownArrowBlinkTiming:: ; 3c04 (0:3c04)
 	dec a
 	ld [H_DOWNARROWBLINKCNT2],a
 	ret nz
-	ld a,$06
+	ld a,$02
 	ld [H_DOWNARROWBLINKCNT2],a
 	ld a,$ee ; down arrow
 	ld [hl],a
@@ -4197,7 +4096,7 @@ PrintText:: ; 3c49 (0:3c49)
 	ld [wTextBoxID],a
 	call DisplayTextBoxID
 	call UpdateSprites
-	call Delay3
+        call Delay3
 	pop hl
 Func_3c59:: ; 3c59 (0:3c59)
 	bcCoord 1, 14
@@ -4540,24 +4439,11 @@ GetHealthBarColor::
 ; Copy the current map's sprites' tile patterns to VRAM again after they have
 ; been overwritten by other tile patterns.
 ReloadMapSpriteTilePatterns:: ; 3e08 (0:3e08)
-	ld hl, wFontLoaded
-	ld a, [hl]
-	push af
-	res 0, [hl]
-	push hl
-	xor a
-	ld [W_SPRITESETID], a
-	call DisableLCD
-	callba InitMapSprites
-	call EnableLCD
-	pop hl
-	pop af
-	ld [hl], a
-	call LoadPlayerSpriteGraphics
-	call LoadFontTilePatterns
-	jp UpdateSprites
+	jpba _ReloadMapSpriteTilePatterns
 
-
+GiveSingleItem:
+	ld b, a
+	ld c, 1
 GiveItem::
 ; Give player quantity c of item b,
 ; and copy the item's name to wcf4b.
@@ -4654,7 +4540,6 @@ PrintPredefTextID:: ; 3ef5 (0:3ef5)
 	ld hl, wcf11
 	set 0, [hl]
 	call DisplayTextID
-
 RestoreMapTextPointer:: ; 3f05 (0:3f05)
 	ld hl, W_MAPTEXTPTR
 	ld a, [$ffec]
@@ -4662,6 +4547,7 @@ RestoreMapTextPointer:: ; 3f05 (0:3f05)
 	ld a, [$ffec + 1]
 	ld [hl], a
 	ret
+	
 
 SetMapTextPointer:: ; 3f0f (0:3f0f)
 	ld a, [W_MAPTEXTPTR]
@@ -4673,7 +4559,7 @@ SetMapTextPointer:: ; 3f0f (0:3f0f)
 	ld a, h
 	ld [W_MAPTEXTPTR + 1], a
 	ret
-
+	
 TextPredefs::
 	add_tx_pre CardKeySuccessText                   ; 01
 	add_tx_pre CardKeyFailText                      ; 02
@@ -4741,3 +4627,11 @@ TextPredefs::
 	add_tx_pre BookOrSculptureText                  ; 40
 	add_tx_pre ElevatorText                         ; 41
 	add_tx_pre PokemonStuffText                     ; 42
+	add_tx_pre Func_GotItemText                     ; 43
+	add_tx_pre Func_BagFullText                     ; 44
+
+;INCLUDE	"yellow_pcm/play_pcm_sample.asm"
+INCLUDE	"yellow_pcm/jf/jf_pcm_sample.asm"
+DoMwahBattle:
+	TX_FAR MwahBattleText
+	db "@"

@@ -8,6 +8,7 @@ Route10Script: ; 59336 (16:5336)
 	ret
 
 Route10ScriptPointers: ; 59349 (16:5349)
+	dw Route10ExecuteSubScripts
 	dw CheckFightingMapTrainers
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
@@ -20,9 +21,14 @@ Route10TextPointers: ; 5934f (16:534f)
 	dw Route10Text5
 	dw Route10Text6
 	dw Route10Text7
-	dw PokeCenterSignText
+	dw Route10Text9
 	dw Route10Text9
 	dw Route10Text10
+	dw Route10Text11
+	dw Route10Text12
+	dw Route10Text13
+	dw Route10Text14
+	dw PokeCenterSignText
 
 Route10TrainerHeaders: ; 59363 (16:5363)
 Route10TrainerHeader0: ; 59363 (16:5363)
@@ -78,6 +84,15 @@ Route10TrainerHeader5: ; 5939f (16:539f)
 	dw Route10AfterBattleText6 ; 0x543d TextAfterBattle
 	dw Route10EndBattleText6 ; 0x5438 TextEndBattle
 	dw Route10EndBattleText6 ; 0x5438 TextEndBattle
+	
+Route10TrainerHeader6: ; 5939f (16:539f)
+	db $7 ; flag's bit
+	db ($4 << 5) ; trainer's view range
+	dw wd7d1 ; flag's byte
+	dw Route10BattleText7 ; 0x5433 TextBeforeBattle
+	dw Route10AfterBattleText7 ; 0x543d TextAfterBattle
+	dw Route10EndBattleText7 ; 0x5438 TextEndBattle
+	dw Route10EndBattleText7 ; 0x5438 TextEndBattle
 
 	db $ff
 
@@ -188,12 +203,211 @@ Route10EndBattleText6: ; 59438 (16:5438)
 Route10AfterBattleText6: ; 5943d (16:543d)
 	TX_FAR _Route10AfterBattleText6
 	db "@"
+	
+Route10Text7: ; 59429 (16:5429)
+	db $08 ; asm
+	ld hl, Route10TrainerHeader6
+	call TalkToTrainer
+	jp TextScriptEnd
+
+Route10BattleText7: ; 59433 (16:5433)
+	TX_FAR _Route10BattleText7
+	db "@"
+
+Route10EndBattleText7: ; 59438 (16:5438)
+	TX_FAR _Route10EndBattleText7
+	db "@"
+
+Route10AfterBattleText7: ; 5943d (16:543d)
+	TX_FAR _Route10AfterBattleText7
+	db "@"
+
 
 Route10Text9: ; 59442 (16:5442)
-Route10Text7: ; 59442 (16:5442)
+Route10Text14: ; 59442 (16:5442)
 	TX_FAR _Route10Text7 ; _Route10Text9
 	db "@"
 
 Route10Text10: ; 59447 (16:5447)
 	TX_FAR _Route10Text10
 	db "@"
+
+Route10Text11:
+	TX_FAR _Route10Text11
+	db "@"
+	
+Route10Text12:
+	TX_FAR _Route10Text12
+	db "@"
+
+TronSilvumiAfterBattle:
+	TX_FAR _Route10TronEndBattle
+	db "@"
+	
+Route10Text13:
+	TX_FAR _Route10Text13
+	db "@"
+	
+Route10ExecuteSubScripts:
+	ld a,[W_ROUTE10_SUBSCRIPT]
+	and a
+	jp z, .routine0
+	dec a
+	jp z, .routine1
+	inc a
+	cp 2
+	jp z, .routine2
+	cp 3
+	jp z, .routine3
+	cp 4
+	jp z, .routine4
+	cp 5
+	jp z, .routine5
+	changescript 1, W_CURMAPSCRIPT
+	ret
+.routine0		; move Lumi
+	call Route10HideTronSilvumi
+	testcoordsarray .scripttriggers
+	playmusicid Mus_MeetFemaleTrainer
+	messageid 11
+	showemote 0,0
+	call Route10ShowTronSilvumi
+	call Route10ReloadTronSprites
+	selectsprite 8
+	fetchcoordsindex
+	ld [wTempIndexNo], a
+	call .calldomovement
+	changescript 1, W_ROUTE10_SUBSCRIPT
+	ret
+.scripttriggers:
+	db $08, 00
+	db $09, 00
+	db $ff
+.lumientertop
+	db Left, Left, Left, Up, Left, Left
+	db End
+.lumienterbottom
+	db Left, Left, Left, Left, Left
+	db End
+.routine1		; move Tron
+	delay 8
+	selectsprite 9
+	fetchcoordsindex
+	call .calldomovement
+	changescript 2, W_ROUTE10_SUBSCRIPT
+	ret
+.routine2
+; control script
+	testflag 0, wd730
+	jr z, .continue
+	lock
+	ret
+.continue
+	release
+	call .callupdatespritedirections
+	call SetSpriteFacingDirectionAndDelay
+; initiate battle
+	messageid 12
+	call Route10HideTronSilvumi
+	setbattle TRON_SILVUMI, 1, TronSilvumiAfterBattle
+	changescript 3, W_ROUTE10_SUBSCRIPT
+	ret
+.routine3
+	ld a, [wBattleResult]
+	dec a
+	jr nz, .win
+	changescript 0, W_ROUTE10_SUBSCRIPT
+	ret
+.win
+	call Route10ReloadTronSprites
+	call Route10ShowTronSilvumi
+	call .callupdatespritedirections
+	messageid 13
+	call Route10ReloadTronSprites
+	selectsprite 8
+	ld a, [wTempIndexNo]
+	call .calldomovement2
+	changescript 4, W_ROUTE10_SUBSCRIPT
+	ret
+	
+.routine4
+	delay 8
+	selectsprite 9
+	ld a, [wTempIndexNo]
+	call .calldomovement2
+	changescript 5, W_ROUTE10_SUBSCRIPT
+	ret
+	
+.routine5
+; control script
+	testflag 0, wd730
+	jr z, .continue5
+	lock
+	ret
+.continue5
+	release
+	call Route10HideTronSilvumi
+	xor a
+	ld [W_SPRITESETID], a
+	call DisableLCD		; prevent glitches
+	callba InitMapSprites
+	call EnableLCD
+	changescript $FF, W_ROUTE10_SUBSCRIPT
+	ret
+	
+.lumiouttop
+	db Down, Left, Left, Left, Left, Left, Left, Left
+	db End
+.lumioutbottom
+	db Up, Left, Left, Left, Left, Left, Left, Left
+	db End
+	
+.calldomovement
+	dec a
+	jr z, .top
+	inc a
+	domovement .lumienterbottom
+	jr .done
+.top
+	domovement .lumientertop
+.done
+	ret
+	
+.calldomovement2
+	dec a
+	jr z, .top2
+	inc a
+	domovement .lumioutbottom
+	jr .done2
+.top2
+	domovement .lumiouttop
+.done2
+	ret
+	
+.callupdatespritedirections
+	selectsprite 0
+	facesprite SPRITE_FACING_RIGHT
+	selectsprite 8
+	facesprite SPRITE_FACING_LEFT
+	selectsprite 9
+	jp SetSpriteFacingDirectionAndDelay
+	
+Route10HideTronSilvumi:
+	hideobject HS_ROUTE10_LUMI
+	hideobject HS_ROUTE10_TRON
+	ret
+	
+Route10ShowTronSilvumi:
+	showobject HS_ROUTE10_LUMI
+	showobject HS_ROUTE10_TRON
+	ret
+	
+Route10ReloadTronSprites:
+; tron
+	loadsprite1 $18, JinxSprite
+	loadsprite2 $18, JinxSprite
+; lumi
+	loadsprite1 $60, LumiSprite
+	loadsprite2 $60, LumiSprite
+	ret
+	

@@ -332,20 +332,14 @@ Music_TitleScreen_Ch3:: ; 7e643 (1f:6643)
 	rest 3
 	G_ 1
 	rest 5
-	G_ 1
-	G_ 1
-	G_ 1
+	G_ 3
 	rest 3
 	G_ 1
 	rest 3
 	G_ 1
 	rest 3
 	notetype 8, 1, 0
-	F_ 2
-	F_ 2
-	F_ 2
-	F_ 2
-	F_ 2
+	F_ 10
 	A_ 2
 
 Music_TitleScreen_branch_7e65e::
@@ -382,35 +376,40 @@ Music_TitleScreen_branch_7e664::
 	octave 3
 	A_ 3
 	callchannel Music_TitleScreen_branch_7e6e5
+	stereopanning %10111111
 	octave 5
 	pitchbend 0, 66
 	D_ 4
 	rest 4
+	stereopanning %11111011
 	octave 6
 	pitchbend 0, 50
 	D_ 4
+	stereopanning %10111111
 	octave 5
 	pitchbend 0, 66
 	D_ 4
 	rest 2
 	notetype 8, 1, 0
+	stereopanning %11111111
 	octave 4
-	C_ 4
-	C_ 4
+	C_ 8
 	C# 4
 	callchannel Music_TitleScreen_branch_7e6e5
+	stereopanning %11111011
 	octave 6
 	pitchbend 0, 50
 	D_ 4
 	rest 4
+	stereopanning %10111111
 	octave 5
 	pitchbend 0, 66
 	D_ 4
 	rest 6
 	notetype 8, 1, 0
+	stereopanning %11111111
 	octave 4
-	C_ 4
-	C_ 4
+	C_ 8
 	octave 3
 	B_ 4
 	loopchannel 0, Music_TitleScreen_branch_7e65e

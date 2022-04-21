@@ -22,23 +22,23 @@ Route6TextPointers: ; 590c9 (16:50c9)
 	dw Route6Text7
 
 Route6TrainerHeaders: ; 590d7 (16:50d7)
-Route6TrainerHeader0: ; 590d7 (16:50d7)
+Route6TrainerHeader0: ; 590d7 (16:50d7)		Lumi
 	db $1 ; flag's bit
 	db ($0 << 4) ; trainer's view range
 	dw wd7c9 ; flag's byte
-	dw Route6BattleText1 ; 0x512a TextBeforeBattle
-	dw Route6AfterBattleText1 ; 0x5134 TextAfterBattle
-	dw Route6EndBattleText1 ; 0x512f TextEndBattle
-	dw Route6EndBattleText1 ; 0x512f TextEndBattle
+	dw Route6LumiYes ; 0x512a TextBeforeBattle
+	dw Route6LumiAlreadyBattled ; 0x5134 TextAfterBattle
+	dw Route6LumiEndBattle ; 0x512f TextEndBattle
+	dw Route6LumiEndBattle ; 0x512f TextEndBattle
 
-Route6TrainerHeader1: ; 590e3 (16:50e3)
+Route6TrainerHeader1: ; 590e3 (16:50e3)		Jinx
 	db $2 ; flag's bit
 	db ($0 << 4) ; trainer's view range
 	dw wd7c9 ; flag's byte
-	dw Route6BattleText2 ; 0x5143 TextBeforeBattle
-	dw Route6AfterBattleText1 ; 0x5134 TextAfterBattle
-	dw Route6EndBattleText2 ; 0x5148 TextEndBattle
-	dw Route6EndBattleText2 ; 0x5148 TextEndBattle
+	dw Route6JinxYes ; 0x5143 TextBeforeBattle
+	dw Route6JinxAlreadyBattled ; 0x5134 TextAfterBattle
+	dw Route6JinxEndBattle ; 0x5148 TextEndBattle
+	dw Route6JinxEndBattle ; 0x5148 TextEndBattle
 
 Route6TrainerHeader2: ; 590ef (16:50ef)
 	db $3 ; flag's bit
@@ -78,11 +78,41 @@ Route6TrainerHeader5: ; 59113 (16:5113)
 
 	db $ff
 
-Route6Text1: ; 59120 (16:5120)
-	db $8
+Route6Text1:
+	db $08 ; asm
 	ld hl, Route6TrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
+	
+Route6Text2:
+	db $08 ; asm
+	ld hl, Route6TrainerHeader1
+	call TalkToTrainer
+	jp TextScriptEnd
+	
+Route6JinxEndBattle:
+	TX_FAR _Route6JinxEndBattle
+	db "@"
+
+Route6JinxAlreadyBattled:
+	TX_FAR _Route6JinxAlreadyBattled
+	db "@"
+
+Route6JinxYes:
+	TX_FAR _Route6JinxYes
+	db "@"
+
+Route6LumiAlreadyBattled:
+	TX_FAR _Route6LumiAlreadyBattled
+	db "@"
+
+Route6LumiYes:
+	TX_FAR _Route6LumiYes
+	db "@"
+
+Route6LumiEndBattle:
+	TX_FAR _Route6LumiEndBattle
+	db "@"
 
 Route6BattleText1: ; 5912a (16:512a)
 	TX_FAR _Route6BattleText1
@@ -95,12 +125,6 @@ Route6EndBattleText1: ; 5912f (16:512f)
 Route6AfterBattleText1: ; 59134 (16:5134)
 	TX_FAR _Route6AfterBattleText1
 	db "@"
-
-Route6Text2: ; 59139 (16:5139)
-	db $08 ; asm
-	ld hl, Route6TrainerHeader1
-	call TalkToTrainer
-	jp TextScriptEnd
 
 Route6BattleText2: ; 59143 (16:5143)
 	TX_FAR _Route6BattleText2

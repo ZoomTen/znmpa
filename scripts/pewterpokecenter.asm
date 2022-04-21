@@ -37,9 +37,8 @@ PewterPokecenterText3: ; 5c59b (17:459b)
 	jr nz, .asm_5c5c3 ; 0x5c5c5 $fc
 	dec hl
 	push hl
-	ld c, BANK(Music_JigglypuffSong)
-	ld a, MUSIC_JIGGLYPUFF_SONG
-	call PlayMusic
+	ld a, Mus_JigglypuffSong
+	call PlayMusicEntry
 	pop hl
 .asm_5c5d1
 	ld a, [hl]

@@ -184,6 +184,8 @@ PewterCityTextPointers: ; 1938b (6:538b)
 	dw PewterCityText12
 	dw PewterCityText13
 	dw PewterCityText14
+	dw DoMwahBattle
+	dw PewterCityText6
 
 PewterCityText1: ; 193a7 (6:53a7)
 	TX_FAR _PewterCityText1

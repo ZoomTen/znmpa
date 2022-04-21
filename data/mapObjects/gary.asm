@@ -10,7 +10,7 @@ GaryObject: ; 0x7612f (size=48)
 	db $0 ; signs
 
 	db $2 ; people
-	db SPRITE_BLUE, $2 + 4, $4 + 4, $ff, $d0, $1 ; person
+	db SPRITE_THETA, $2 + 4, $4 + 4, $ff, $d0, $1 ; person
 	db SPRITE_OAK, $7 + 4, $3 + 4, $ff, $d1, $2 ; person
 
 	; warp-to

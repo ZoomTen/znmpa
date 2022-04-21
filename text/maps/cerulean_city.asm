@@ -1,31 +1,31 @@
 _CeruleanCityText_19668:: ; a4d2b (29:4d2b)
-	text $53, ": Yo!"
+	text $53, ": Hey,"
 	line $52, "!"
 
-	para "You're still"
-	line "struggling along"
-	cont "back here?"
+	para "How's your"
+	line "#DEX going?"
+;	      XXXXXXXXXXXXXXXXXX
+	para "I've caught like 20"
+	line "kinds of #MON"
+	cont "now!"
+	
+	para "Also, I caught a"
+	line "a bunch of strong"
+	cont "looking #MON!"
 
-	para "I'm doing great!"
-	line "I caught a bunch"
-	cont "of strong and"
-	cont "smart #MON!"
-
-	para "Here, let me see"
-	line "what you caught,"
-	cont $52, "!"
+	para "What do you"
+	line "have, ", $52, "?"
 	done
 
 _CeruleanCityText_1966d:: ; a4dbe (29:4dbe)
-	text "Hey!"
-	line "Take it easy!"
-	cont "You won already!"
+	text "Oh"
+	line "hey, you won"
+	cont "again!"
 	prompt
 
 _CeruleanCityText_19672:: ; a4de3 (29:4de3)
-	text "Heh!"
-	line "You're no match"
-	cont "for my genius!"
+	text "Yay!"
+	line "I won this time!"
 	prompt
 
 _CeruleanCityText_19677:: ; a4e07 (29:4e07)
@@ -48,14 +48,13 @@ _CeruleanCityText_19677:: ; a4e07 (29:4e07)
 	para "He invented the"
 	line "#MON Storage"
 	cont "System on PC!"
-
-	para "Since you're using"
-	line "his system, go"
-	cont "thank him!"
+;	      XXXXXXXXXXXXXXXXXX
+	para "Now that's a fun"
+	line "fact, isn't it?"
 
 	para "Well, I better"
-	line "get rolling!"
-	cont "Smell ya later!"
+	line "get going!"
+	cont "See ya later!"
 	done
 
 _CeruleanCityText_196d9:: ; a4f27 (29:4f27)
@@ -113,22 +112,21 @@ _CeruleanCityText4:: ; a506e (29:506e)
 	done
 
 _CeruleanCityText5:: ; a50ba (29:50ba)
-	text "You're making an"
-	line "encyclopedia on"
-	cont "#MON? That"
-	cont "sounds amusing."
+;	      XXXXXXXXXXXXXXXXX
+	text "Psst."
+	para "There's a special"
+	line "#MON hiding in"
+	cont "ROUTE 4 to the"
+	cont "left. Not a"
+	cont "legendary, mind"
+	cont "you."
+	para "Try looking for"
+	line "it in the 2nd"
+	cont "row of grass."
+	para "Good luck! ;)"
 	done
 
 _CeruleanCityText6:: ; a50f6 (29:50f6)
-IF DEF(_YELLOW)
-	text "These poor people"
-	line "here were robbed."
-
-	para "We're positive"
-	line "that TEAM ROCKET"
-	cont "is behind this"
-	cont "terrible deed."
-ELSE
 	text "The people here"
 	line "were robbed."
 
@@ -136,14 +134,9 @@ ELSE
 	line "TEAM ROCKET is"
 	cont "behind this most"
 	cont "heinous crime!"
-ENDC
 
 	para "Even our POLICE"
-IF DEF(_YELLOW)
 	line "FORCE has trouble"
-ELSE
-	line "force has trouble"
-ENDC
 	cont "with the ROCKETs!"
 	done
 

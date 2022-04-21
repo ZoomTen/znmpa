@@ -1,0 +1,7 @@
+;RLE compressor by Joe Pemberton
+;Compression: 100% of the original size
+;Compressed size in bytes: 15
+;Escape Character: $00
+
+	.dw 15			;Uncompressed data size in bytes
+	.db $9D,$77,$20,$B8,$C0,$79,$8A,$6B,$E0,$54,$79,$6F,$55,$F0,$69

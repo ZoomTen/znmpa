@@ -87,19 +87,15 @@ StatusScreen: ; 12953 (4:6953)
 	ld de, BattleHudTiles1  ; $6080 ; source
 	ld hl, vChars2 + $6d0 ; dest
 	ld bc, (BANK(BattleHudTiles1) << 8) + $03 ; bank bytes/8
-	call CopyVideoDataDouble ; ·│ :L and halfarrow line end
+	call CopyVideoData ; ·│ :L and halfarrow line end
 	ld de, BattleHudTiles2 ; $6098
 	ld hl, vChars2 + $780
 	ld bc, (BANK(BattleHudTiles2) << 8) + $01
-	call CopyVideoDataDouble ; │
+	call CopyVideoData ; │
 	ld de, BattleHudTiles3 ; $60b0
 	ld hl, vChars2 + $760
 	ld bc, (BANK(BattleHudTiles3) << 8) + $02
-	call CopyVideoDataDouble ; ─┘
-	ld de, PTile
-	ld hl, vChars2 + $720
-	ld bc,(BANK(PTile) << 8 | $01)
-	call CopyVideoDataDouble ; P (for PP), inline
+	call CopyVideoData ; ─┘
 	ld a, [hTilesetType]
 	push af
 	xor a
@@ -167,10 +163,12 @@ StatusScreen: ; 12953 (4:6953)
 	call PrintStatsBox
 	call Delay3
 	call GBPalNormal
+	
 	hlCoord 1, 0
 	call LoadFlippedFrontSpriteByMonIndex ; draw Pokémon picture
 	ld a, [wcf91]
 	call PlayCry ; play Pokémon cry
+	
 	call WaitForTextScrollButtonPress ; wait for button
 	pop af
 	ld [hTilesetType], a
@@ -237,9 +235,6 @@ DrawLineBox ; 0x12ac7
 	jr nz, .PrintHorizLine ; 0x12ad7 $fa
 	ld [hl], $6f ; ← (halfarrow ending)
 	ret
-
-PTile: ; 12adc (4:6adc) ; This is a single 1bpp "P" tile
-	INCBIN "gfx/p_tile.1bpp"
 
 PrintStatsBox: ; 12ae4 (4:6ae4)
 	ld a, d
@@ -324,7 +319,7 @@ StatusScreen2: ; 12b57 (4:6b57)
 	ld b, a ; Number of moves ?
 	hlCoord 11, 10
 	ld de, $0028
-	ld a, $72
+	ld a, "P"
 	call Func_12ccb ; Print "PP"
 	ld a, b
 	and a

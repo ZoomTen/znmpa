@@ -1,6 +1,6 @@
 SFX_1f_67_Ch1: ; 7c72d (1f:472d)
-	dutycycle 228
-	unknownsfx0x10 47
+	duty 2				; gemufuriku
+	unknownsfx0x10 95		; gemufuriku
 	unknownsfx0x20 4, 64, 224, 7
 	unknownsfx0x20 4, 96, 224, 7
 	unknownsfx0x20 4, 128, 224, 7
@@ -13,3 +13,4 @@ SFX_1f_67_Ch1: ; 7c72d (1f:472d)
 	unknownsfx0x10 8
 	endchannel
 ; 0x7c758
+

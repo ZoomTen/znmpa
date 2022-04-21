@@ -124,6 +124,11 @@ SAVBadCheckSum: ; 736f7 (1c:76f7)
 	scf
 
 SAVGoodChecksum: ; 736f8 (1c:76f8)
+	ld hl, $bfff
+	ld a, [hl]
+	ld hl, wBeatenChamp ; is this even a good fucking idea
+	ld [hl], a
+	
 	ld a, $0
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
@@ -150,13 +155,13 @@ SaveSAV: ;$770a
 	and a
 	ret nz
 .save        ;$772d
-	call SaveSAVtoSRAM      ;$7848
 	hlCoord 1, 13
 	ld bc,$0412
 	call ClearScreenArea ; clear area 4x12 starting at 13,1
 	hlCoord 1, 14
 	ld de,NowSavingString
 	call PlaceString
+	call SaveSAVtoSRAM
 	ld c,$78
 	call DelayFrames
 	ld hl,GameSavedText
@@ -168,7 +173,7 @@ SaveSAV: ;$770a
 	jp DelayFrames
 
 NowSavingString:
-	db "Now saving...@"
+	db   "Saving the game...@"
 
 SaveSAVConfirm: ; 73768 (1c:7768)
 	call PrintText
@@ -202,6 +207,12 @@ SaveSAVtoSRAM0: ; 7378c (1c:778c)
 	ld de, $a598
 	ld bc, $b
 	call CopyData
+	
+	ld hl, wBeatenChamp ; ???
+	ld a, [hl]
+	ld hl, $bfff
+	ld [hl], a
+	
 	ld hl, wPokedexOwned
 	ld de, $a5a3
 	ld bc, W_NUMINBOX - wPokedexOwned

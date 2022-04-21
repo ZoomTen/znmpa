@@ -35,27 +35,33 @@ LoadTitlescreenGraphics: ; 42dd (1:42dd)
 	call ClearScreen
 	call DisableLCD
 	call LoadFontTilePatterns
+
 	ld hl, NintendoCopyrightLogoGraphics ; $60c8
 	ld de, vTitleLogo2 + $100
 	ld bc, $50
 	ld a, BANK(NintendoCopyrightLogoGraphics)
 	call FarCopyData2
+
 	ld hl, GamefreakLogoGraphics ; $61f8
 	ld de, vTitleLogo2 + $100 + $50
 	ld bc, $90
 	ld a, BANK(GamefreakLogoGraphics)
 	call FarCopyData2
+
 	ld hl, PokemonLogoGraphics ; $5380
 	ld de, vTitleLogo
 	ld bc, $600
 	ld a, BANK(PokemonLogoGraphics)
 	call FarCopyData2          ; first chunk
+
 	ld hl, PokemonLogoGraphics+$600 ; $5980
 	ld de, vTitleLogo2
 	ld bc, $100
 	ld a, BANK(PokemonLogoGraphics)
 	call FarCopyData2          ; second chunk
+
 	ld hl, Version_GFX ; $402f
+
 IF DEF(_RED)
 	ld de,vChars2 + $600
 	ld bc,$50

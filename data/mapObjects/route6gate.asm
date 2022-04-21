@@ -2,10 +2,10 @@ Route6GateObject: ; 0x1e0be (size=42)
 	db $a ; border block
 
 	db $4 ; warps
-	db $5, $3, $2, $ff
-	db $5, $4, $2, $ff
-	db $0, $3, $1, $ff
-	db $0, $4, $1, $ff
+	db $5, $3, $2, $FF
+	db $5, $4, $2, $FF
+	db $0, $3, $1, $FF
+	db $0, $4, $1, $FF
 
 	db $0 ; signs
 

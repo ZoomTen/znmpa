@@ -186,6 +186,8 @@ SlidePlayerAndEnemySilhouettesOnScreen: ; 3c04c (f:404c)
 	call Delay3
 	ld b, $1
 	call GoPAL_SET
+	xor a
+	ld [wPaletteFlag],a
 	call HideSprites
 	ld hl, PrintBeginningBattleText
 	ld b, BANK(PrintBeginningBattleText)
@@ -892,7 +894,14 @@ FaintEnemyPokemon ; 0x3c567
 	ld a, d
 	and a
 	ret z
+	ld a, [W_CUROPPONENT]
+	cp HAIDEN + $C8
+	jr nz, .nothaiden
+	ld hl, EnemyMonRektText
+	jr .printtext
+.nothaiden
 	ld hl, EnemyMonFaintedText
+.printtext
 	call PrintText
 	call PrintEmptyString
 	call SaveScreenTilesToBuffer1
@@ -946,6 +955,10 @@ EnemyMonFaintedText: ; 0x3c63e
 	TX_FAR _EnemyMonFaintedText
 	db "@"
 
+EnemyMonRektText: ; 0x3c63e
+	TX_FAR _EnemyMonRektText
+	db "@"
+
 EndLowHealthAlarm: ; 3c643 (f:4643)
 	xor a
 	ld [wLowHealthAlarm], a ;disable low health alarm
@@ -996,6 +1009,8 @@ ReplaceFaintedEnemyMon: ; 3c664 (f:4664)
 	ret
 
 TrainerBattleVictory: ; 3c696 (f:4696)
+	ld a, 1
+	ld [wPaletteFlag], a
 	call EndLowHealthAlarm
 	ld b, MUSIC_DEFEATED_GYM_LEADER
 	ld a, [W_GYMLEADERNO]
@@ -1207,14 +1222,21 @@ ChooseNextMon: ; 3c7d8 (f:47d8)
 
 ; called when player is out of usable mons.
 ; prints approriate lose message, sets carry flag if player blacked out (special case for initial rival fight)
+;									-> and Haiden's fight
 HandlePlayerBlackOut: ; 3c837 (f:4837)
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jr z, .notSony1Battle
 	ld a, [W_CUROPPONENT]
+	cp $c8 + HAIDEN
+	jr z, .HaidenBattle
+	cp $c8 + MOCHA
+	jr z, .MochaScript
 	cp $c8 + SONY1
 	jr nz, .notSony1Battle
-	ld hl, wTileMap  ; sony 1 battle
+	ld a, 1
+	ld [wPaletteFlag], a
+	ld hl, wTileMap
 	ld bc, $815
 	call ClearScreenArea
 	call ScrollTrainerPicAfterBattle
@@ -1222,6 +1244,8 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 	call DelayFrames
 	ld hl, Sony1WinText
 	call PrintText
+	xor a
+	ld [wPaletteFlag], a
 	ld a, [W_CURMAP]
 	cp OAKS_LAB
 	ret z            ; starter battle in oak's lab: don't black out
@@ -1241,11 +1265,51 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 	call ClearScreen
 	scf
 	ret
-
+.HaidenBattle
+	ld a, 1
+	ld [wPaletteFlag], a
+	ld hl, wTileMap
+	ld bc, $815
+	call ClearScreenArea
+	call ScrollTrainerPicAfterBattle
+	ld c, $28
+	call DelayFrames
+	ld hl, HaidenWinText
+	call PrintText
+	xor a
+	ld [wPaletteFlag], a
+	callba SaveSAVtoSRAM		; the most evilest thing imaginable ;D
+	jp .notSony1Battle
+.MochaScript
+	ld a, [W_TRAINERNO]
+	dec a
+	jr nz, .notSony1Battle
+	ld a, 1
+	ld [wPaletteFlag], a
+	ld hl, wTileMap
+	ld bc, $815
+	call ClearScreenArea
+	call ScrollTrainerPicAfterBattle
+	ld c, $28
+	call DelayFrames
+	ld hl, MochaEndBattle1
+	call PrintText
+	xor a
+	ld [wPaletteFlag], a
+	ret
+	
 Sony1WinText: ; 3c884 (f:4884)
 	TX_FAR _Sony1WinText
 	db "@"
 
+HaidenWinText:
+	TX_FAR _HaidenWinText
+	db "@"
+	
+MochaEndBattle1:
+	TX_FAR _Route2MochaEndBattle2
+	db "@"
+	
 PlayerBlackedOutText2: ; 3c889 (f:4889)
 	TX_FAR _PlayerBlackedOutText2
 	db "@"
@@ -1291,8 +1355,7 @@ SlideDownFaintedMonPic: ; 3c893 (f:4893)
 	add hl, bc
 	ld de, SevenSpacesText
 	call PlaceString
-	ld c, 2
-	call DelayFrames
+	call Delay3
 	pop hl
 	pop de
 	pop bc
@@ -1488,6 +1551,39 @@ EnemySendOutFirstMon: ; 3c92a (f:492a)
 	call LoadHudTilePatterns
 	call LoadScreenTilesFromBuffer1
 .next4
+;	B/W/B2/W2 mechanic: gym leader's last pokemon theme
+;	Eventually I might wanna save it for Theta
+;	instead of it playing every time you battle a gym leader
+
+	ld a, [W_CUROPPONENT]	; extra check for elite 4 and champion
+				; who knows it'll be used instead of
+				; gym leaders.
+	cp LANCE + $C8
+	jr z, .dofinal
+	cp AGATHA + $C8
+	jr z, .dofinal
+	cp BRUNO + $C8
+	jr z, .dofinal
+	cp LORELEI + $C8
+	jr z, .dofinal
+	cp SONY3 + $C8		; it's probably gonna be only used in this
+	jr z, .dofinal
+	
+	
+	ld a, [W_GYMLEADERNO]
+	and a
+	jr z, .notGymBattle	; if we aren't battling a gym leader
+.dofinal
+	ld a, [wEnemyMonPartyPos]	; current enemy mon's party position
+	inc a				; index starts from 0, increment
+	ld b, a
+	ld a, [wEnemyPartyCount]	; get enemy party count (index starts from 1)
+	cp b				; are we at the last pokemon?
+	jr nz, .notGymBattle
+	ld a, Mus_Pinch			; play music
+	call PlayMusicEntry
+; fall through here	
+.notGymBattle
 	call ClearSprites
 	ld hl,wTileMap
 	ld bc,$040B
@@ -1495,7 +1591,7 @@ EnemySendOutFirstMon: ; 3c92a (f:492a)
 	ld b,1
 	call GoPAL_SET
 	call GBPalNormal
-	ld hl,TrainerSentOutText
+	ld hl, TrainerSentOutText
 	call PrintText
 	ld a,[wEnemyMonSpecies2]
 	ld [wcf91],a
@@ -1526,7 +1622,7 @@ TrainerAboutToUseText: ; 3ca79 (f:4a79)
 TrainerSentOutText: ; 3ca7e (f:4a7e)
 	TX_FAR _TrainerSentOutText
 	db "@"
-
+	
 ; tests if the player has any pokemon that are not fainted
 ; sets d = 0 if all fainted, d != 0 if some mons are still alive
 AnyPartyAlive: ; 3ca83 (f:4a83)
@@ -1909,15 +2005,16 @@ DrawPlayerHUDAndHPBar: ; 3cd60 (f:4d60)
 	ld de, wLoadedMonLevel
 	ld bc, $b
 	call CopyData
-	hlCoord 14, 8
+	hlCoord 11, 8
 	push hl
 	inc hl
 	ld de, wLoadedMonStatus
 	call PrintStatusConditionNotFainted
 	pop hl
-	jr nz, .asm_3cdae
+;	jr nz, .asm_3cdae
+	hlCoord 15, 8
 	call PrintLevel
-.asm_3cdae
+;.asm_3cdae
 	ld a, [wLoadedMonSpecies]
 	ld [wcf91], a
 	hlCoord 10, 9
@@ -1960,17 +2057,18 @@ DrawEnemyHUDAndHPBar: ; 3cdec (f:4dec)
 	hlCoord 1, 0
 	call CenterMonName
 	call PlaceString
-	hlCoord 4, 1
+	hlCoord 1, 1
 	push hl
 	inc hl
 	ld de, wEnemyMonStatus
 	call PrintStatusConditionNotFainted
 	pop hl
-	jr nz, .skipPrintLevel ; if the mon has a status condition, skip printing the level
+;	jr nz, .skipPrintLevel ; if the mon has a status condition, skip printing the level
 	ld a, [wEnemyMonLevel]
 	ld [wLoadedMonLevel], a
+	hlCoord 5, 1
 	call PrintLevel
-.skipPrintLevel
+;.skipPrintLevel
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	ld [H_MULTIPLICAND + 1], a
@@ -2377,12 +2475,12 @@ PartyMenuOrRockOrRun:
 	call SaveScreenTilesToBuffer2
 	ld a, [W_BATTLETYPE]
 	cp $2 ; is it a safari battle?
-	jr nz, .partyMenuWasSelected
+	jr nz, PartyMenuWasSelected
 ; safari battle
 	ld a, SAFARI_ROCK
 	ld [wcf91], a
 	jp UseBagItem
-.partyMenuWasSelected
+PartyMenuWasSelected:
 	call LoadScreenTilesFromBuffer1
 	xor a
 	ld [wd07d], a
@@ -2464,7 +2562,7 @@ PartyMenuOrRockOrRun:
 	ld b, BANK(AnimationSubstitute) ; BANK(AnimationMinimizeMon)
 	call Bankswitch
 .enemyMonPicReloaded ; enemy mon pic has been reloaded, so return to the party menu
-	jp .partyMenuWasSelected
+	jp PartyMenuWasSelected
 .switchMon
 	ld a, [wPlayerMonNumber]
 	ld d, a
@@ -6306,8 +6404,12 @@ LoadEnemyMonData: ; 3eb01 (f:6b01)
 	ld [de], a
 	ld a, [wEnemyMonSpecies2]
 	ld [wd11e], a
+	ld a, [W_CUROPPONENT]		; check
+	cp HAIDEN + $C8			; if vs. haiden
+	jr z, .doHaiden			; then do overwrite pokemon names
 	call GetMonName
 	ld hl, wcd6d
+.loadnick
 	ld de, wEnemyMonNick
 	ld bc, $b
 	call CopyData
@@ -6332,6 +6434,54 @@ LoadEnemyMonData: ; 3eb01 (f:6b01)
 	dec b
 	jr nz, .statModLoop
 	ret
+.doHaiden
+	ld a, [wEnemyMonPartyPos]	; uses a table
+	cp 0
+	jr z, .haidenload1
+	cp 1
+	jr z, .haidenload2
+	cp 2
+	jr z, .haidenload3
+	cp 3
+	jr z, .haidenload4
+	cp 4
+	jr z, .haidenload5
+	cp 5
+	jr z, .haidenload6
+.haidenload1
+	ld hl, HaidenMonName1
+	jp .loadnick
+.haidenload2
+	ld hl, HaidenMonName2
+	jp .loadnick
+.haidenload3
+	ld hl, HaidenMonName3
+	jp .loadnick
+.haidenload4
+	ld hl, HaidenMonName4
+	jp .loadnick
+.haidenload5
+	ld hl, HaidenMonName5
+	jp .loadnick
+.haidenload6				; last pokemon, set all of your mon to level 1
+					; I'm really playing by the script here
+	ld hl, HaidenUsedHaxText
+	call PrintText
+	callba SetAllPokestoLv1
+	call PartyMenuWasSelected
+	ld hl, HaidenMonName6
+	jp .loadnick
+
+HaidenMonName1: db "GET@"
+HaidenMonName2: db "REKT@"
+HaidenMonName3: db "YOU@"
+HaidenMonName4: db "FOCKIN@"
+HaidenMonName5: db "SKRUB@"
+HaidenMonName6: db "FAZECHU@"
+
+HaidenUsedHaxText:
+	TX_FAR _HaidenUsedHaxText
+	db "@"
 
 ; calls BattleTransition to show the battle transition animation and initializes some battle variables
 DoBattleTransitionAndInitBattleVariables: ; 3ec32 (f:6c32)
@@ -6704,21 +6854,29 @@ LoadHudTilePatterns: ; 3ee5b (f:6e5b)
 	ld de, vChars2 + $6d0
 	ld bc, $18
 	ld a, BANK(BattleHudTiles1)
-	call FarCopyDataDouble
+	call FarCopyData
 	ld hl, BattleHudTiles2
 	ld de, vChars2 + $730
 	ld bc, $30
 	ld a, BANK(BattleHudTiles2)
-	jp FarCopyDataDouble
+	jp FarCopyData
+	ld de, BattleHudTiles3
+	ld hl, vChars2 + $760
+	ld bc, (BANK(BattleHudTiles3) << 8) + $02
+	call FarCopyData
 .lcdEnabled
 	ld de, BattleHudTiles1
 	ld hl, vChars2 + $6d0
 	ld bc, (BANK(BattleHudTiles1) << 8) + $03
-	call CopyVideoDataDouble
+	call CopyVideoData
 	ld de, BattleHudTiles2
 	ld hl, vChars2 + $730
 	ld bc, (BANK(BattleHudTiles2) << 8) + $06
-	jp CopyVideoDataDouble
+	jp CopyVideoData
+	ld de, BattleHudTiles3
+	ld hl, vChars2 + $760
+	ld bc, (BANK(BattleHudTiles3) << 8) + $02
+	call CopyVideoData
 
 PrintEmptyString: ; 3ee94 (f:6e94)
 	ld hl, .emptyString
@@ -6825,6 +6983,7 @@ InitOpponent: ; 3ef18 (f:6f18)
 	ld [wcf91], a
 	ld [wEnemyMonSpecies2], a
 	jr asm_3ef3d
+	
 asm_3ef23: ; 3ef23 (f:6f23)
 	ld a, [wd732]
 	bit 1, a
@@ -6838,6 +6997,7 @@ asm_3ef23: ; 3ef23 (f:6f23)
 	ret nz
 	callab TryDoWildEncounter
 	ret nz
+	
 asm_3ef3d: ; 3ef3d (f:6f3d)
 	ld a, [wMapPalOffset]
 	push af
@@ -6847,9 +7007,19 @@ asm_3ef3d: ; 3ef3d (f:6f3d)
 	res 1, [hl]
 	callab InitBattleVariables
 	ld a, [wEnemyMonSpecies2]
+	cp $FF				; are we full?
+	jr z, .loadsecondindex
 	sub $c8
 	jp c, InitWildBattle
 	ld [W_TRAINERCLASS], a
+	jr .continue
+.loadsecondindex
+	ld a, [wSecondTrainerIndex]
+	add $37
+	ld [W_TRAINERCLASS], a
+.continue
+	ld a, 1
+	ld [wPaletteFlag], a
 	call GetTrainerInformation
 	callab ReadTrainer
 	call DoBattleTransitionAndInitBattleVariables
@@ -6868,6 +7038,8 @@ asm_3ef3d: ; 3ef3d (f:6f3d)
 	jp InitBattle_Common
 
 InitWildBattle: ; 3ef8b (f:6f8b)
+	xor a
+	ld [wPaletteFlag], a	; make sure it loads pokemon's palette
 	ld a, $1
 	ld [W_ISINBATTLE], a
 	call LoadEnemyMonData
@@ -6967,14 +7139,27 @@ _LoadTrainerPic: ; 3f04b (f:704b)
 	ld a, [wLinkState]
 	and a
 	ld a, Bank(TrainerPics) ; this is where all the trainer pics are (not counting Red's)
-	jr z, .loadSprite
+	jr z, .checkAboveLance
 	ld a, Bank(RedPicFront)
+.checkAboveLance
+	ld a, [W_TRAINERCLASS]
+	cp JONIC + $37
+	jr nc, .load30
+	cp LUMI
+	jr nc, .load2B
+	ld a, Bank(TrainerPics)
 .loadSprite
 	call UncompressSpriteFromDE
 	ld de, vFrontPic
 	ld a, $77
 	ld c, a
 	jp LoadUncompressedSpriteData
+.load2B
+	ld a, Bank(LumiPic)
+	jr .loadSprite
+.load30
+	ld a, Bank(JonicPic)
+	jr .loadSprite
 
 ; unreferenced
 Func_3f069: ; 3f069 (f:7069)

@@ -26,6 +26,7 @@ FuchsiaCityTextPointers: ; 19a2e (6:5a2e)
 	dw FuchsiaCityText22
 	dw FuchsiaCityText23
 	dw FuchsiaCityText24
+	dw DoMwahBattle
 
 FuchsiaCityText1: ; 19a5e (6:5a5e)
 	TX_FAR _FuchsiaCityText1

@@ -268,7 +268,20 @@ OverworldLoopLessDelay::
 	bit 6,a ; jumping a ledge?
 	jr nz,.normalPlayerSpriteAdvancement
 	call BikeSpeedup ; if riding a bike and not jumping a ledge
+	call BikeSpeedup ; bikes are twice as fast as running shoes
+	call BikeSpeedup ; because numbers have to be even :p
 .normalPlayerSpriteAdvancement
+	ld a, [wda32]			; check if running shoes
+	bit 0, a
+	jr z, .normalspeed		; if we don't have running shoes
+	ld a, [wWalkBikeSurfState]
+	dec a				; are we on a bike (01)?
+	jr z, .normalspeed		; if we are, don't execute running shoes
+	ld a, [hJoyHeld]
+	bit 1, a		; check whether B is pressed!!
+	jr z, .normalspeed	; if we ain't, don't make the player run, poop weave!!
+	call BikeSpeedup	; RUN BITCH RUN
+.normalspeed
 	call AdvancePlayerSprite
 	ld a,[wWalkCounter]
 	and a
@@ -330,6 +343,8 @@ OverworldLoopLessDelay::
 	ld a,[W_CURMAP]
 	cp a,OAKS_LAB
 	jp z,.noFaintCheck ; no blacking out if the player lost to the rival in Oak's lab
+	cp a,ROUTE_2
+	jp z,.noFaintCheck ; same goes to the Mocha script in Route 2
 	callab AnyPartyAlive
 	ld a,d
 	and a
@@ -2284,6 +2299,7 @@ LoadMapHeader:: ; 107c (0:107c)
 	ld [wd35b],a ; music 1
 	ld a,[hl]
 	ld [wd35c],a ; music 2
+.cont
 	pop af
 	ld [H_LOADEDROMBANK],a
 	ld [$2000],a

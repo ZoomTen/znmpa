@@ -1,0 +1,75 @@
+messageid [text ID]
+
+changescript [script number], [script byte in RAM]
+
+setflag [bit], [RAM address]
+
+setflag2 [bit], [RAM address]
+
+resetflag [bit], [RAM address]
+
+resetflag2 [bit], [RAM address]
+
+testflag [bit], [RAM address]
+
+testflag2 [bit], [RAM address]
+
+enabletextscripts
+
+runscripts [script byte in RAM], [script pointers offset]
+
+giveitem [item ID], [quantity]
+
+givesingleitem [item ID]
+
+giveitem2 [item ID], [quantity]
+
+givesingleitem2 [item ID]
+
+givepokemon [pokemon ID], [level]
+
+playmusicid [music ID]
+
+playmusic [music ID], [bank]
+
+playsound [sound ID]
+
+showobject [hidden object ID]
+
+hideobject [hidden object ID]
+
+showemote [sprite ID], [emote]
+
+selectsprite [sprite ID]
+
+selectsprite2 [sprite ID]
+
+movesprite [screen X], [screen Y], [map X], [map Y]
+
+testcoordsarray [array offset]
+
+fetchcoordsindex
+
+release
+
+lock
+
+lockcontrols [controls to lock]
+
+domovement [movement table offset]
+
+facesprite [facing byte]
+
+setbattle [trainer ID], [trainer instance], [defeat text offset]
+
+setbattle2 [trainer ID], [trainer instance]
+
+setbattle3 [pokemon / trainer ID]
+
+playmapmusic
+
+testcoordinates [x], [y]
+
+loadsprite1 [begin tile ID], [sprite offset]
+
+loadsprite2 [begin tile ID], [sprite offset]

@@ -1962,32 +1962,32 @@ Func_79652: ; 79652 (1e:5652)
 AnimationWavyScreen: ; 79666 (1e:5666)
 ; used in Psywave/Psychic etc.
 	ld hl, vBGMap0
-	call Func_79e0d
-	call Delay3
+	call Anim_SetBGTransfer
+	call Delay3				; Transfer current screen buffer
 	xor a
-	ld [H_AUTOBGTRANSFERENABLED], a
+	ld [H_AUTOBGTRANSFERENABLED], a		; Disable BG transferring for now
 	ld a, $90
-	ld [hWY], a
-	ld d, $80
-	ld e, $8f
-	ld c, $ff
+	ld [hWY], a				; Move the window away
+	ld d, $80				; terminator byte
+	ld e, $7f				; speed of effect?
+	ld c, $ff				; frames to perform the effect
 	ld hl, WavyScreenLineOffsets
-.asm_7967f
+.distortbegin
 	push hl
-.asm_79680
-	call Func_796ae
-	ld a, [$ff44]
-	cp e
-	jr nz, .asm_79680
+.distortscanline
+	call WavyDistortScreen
+	ld a, [rLY]			; current scanline
+	cp e				; if at scanline end
+	jr nz, .distortscanline		; keep looping
 	pop hl
 	inc hl
 	ld a, [hl]
-	cp d
-	jr nz, .asm_79691
+	cp d				; wave table terminated?
+	jr nz, .finished
 	ld hl, WavyScreenLineOffsets
-.asm_79691
+.finished
 	dec c
-	jr nz, .asm_7967f
+	jr nz, .distortbegin
 	xor a
 	ld [hWY], a
 	call SaveScreenTilesToBuffer2
@@ -1997,27 +1997,28 @@ AnimationWavyScreen: ; 79666 (1e:5666)
 	call Delay3
 	call LoadScreenTilesFromBuffer2
 	ld hl, vBGMap1
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	ret
 
-Func_796ae: ; 796ae (1e:56ae)
-	ld a, [$ff41]
-	and $3
-	jr nz, Func_796ae
+WavyDistortScreen: ; 796ae (1e:56ae) used in wavy screen effect
+	ld a, [rSTAT]
+	and %0000011
+	jr nz, WavyDistortScreen	; keep checking if it isn't safe to
+				; mess with LCD yet
+; if LCD reports it isn't being accessed
 	ld a, [hl]
-	ld [$ff43], a
-	inc hl
+	ld [rSCX], a		; load scroll value
+	inc hl			; load next value from table
 	ld a, [hl]
-	cp d
+	cp d			; table end?
 	ret nz
-	ld hl, WavyScreenLineOffsets
+	ld hl, WavyScreenLineOffsets	; reload wave table
 	ret
 
 WavyScreenLineOffsets: ; 796bf (1e:56bf)
 ; Sequence of horizontal line pixel offsets for the wavy screen animation.
-; This sequence vaguely resembles a sine wave.
-	db 0, 0, 0, 0, 0,  1,  1,  1,  2,  2,  2,  2,  2,  1,  1,  1
-	db 0, 0, 0, 0, 0, -1, -1, -1, -2, -2, -2, -2, -2, -1, -1, -1
+	db 0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1,0
+	db 0, 0,-1,-1,-1,-2,-2,-2,-2,-2,-2,-2,-1,-1,-1,0
 	db $80 ; terminator
 
 AnimationSubstitute: ; 796e0 (1e:56e0)
@@ -2804,16 +2805,16 @@ AnimationShakeEnemyHUD: ; 79d77 (1e:5d77)
 	xor a
 	ld [hSCX], a
 	ld hl, vBGMap0
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	ld a, $90
 	ld [hWY], a
 	ld hl, vBGMap0 + $320
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	ld a, $38
 	ld [hWY], a
 	call Func_792fd
 	ld hl, vBGMap0
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	call AnimationHideMonPic
 	call Delay3
 	ld de, $0208
@@ -2823,17 +2824,17 @@ AnimationShakeEnemyHUD: ; 79d77 (1e:5d77)
 	ld a, $90
 	ld [hWY], a
 	ld hl, vBGMap1
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	xor a
 	ld [hWY], a
 	call SaveScreenTilesToBuffer1
 	ld hl, vBGMap0
-	call Func_79e0d
+	call Anim_SetBGTransfer
 	call ClearScreen
 	call Delay3
 	call LoadScreenTilesFromBuffer1
 	ld hl, vBGMap1
-	jp Func_79e0d
+	jp Anim_SetBGTransfer
 
 ; b = tile ID list index
 ; c = base tile ID
@@ -2867,9 +2868,9 @@ Func_79de9: ; 79de9 (1e:5de9)
 	ld [hSCX], a
 	ret
 
-Func_79e0d: ; 79e0d (1e:5e0d)
+Anim_SetBGTransfer: ; 79e0d (1e:5e0d)
 	ld a, h
-	ld [$ffbd], a
+	ld [H_AUTOBGTRANSFERDEST+1], a
 	ld a, l
 	ld [H_AUTOBGTRANSFERDEST], a
 	jp Delay3

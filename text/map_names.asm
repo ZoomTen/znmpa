@@ -1,4 +1,5 @@
 MapNames: ; 71473 (1c:5473)
+	db "MAP 0@"
 PalletTownName: ; 71473 (1c:5473)
 	db "PALLET TOWN@"
 ViridianCityName: ; 7147f (1c:547f)
@@ -21,6 +22,9 @@ IndigoPlateauName: ; 714ee (1c:54ee)
 	db "INDIGO PLATEAU@"
 SaffronCityName: ; 714fd (1c:54fd)
 	db "SAFFRON CITY@"
+
+db "ROUTE 6@"	; route 6 link
+
 Route1Name: ; 7150a (1c:550a)
 	db "ROUTE 1@"
 Route2Name: ; 71512 (1c:5512)
@@ -73,35 +77,54 @@ Route25Name: ; 715e5 (1c:55e5)
 	db "ROUTE 25@"
 ViridianForestName: ; 715ee (1c:55ee)
 	db "VIRIDIAN FOREST@"
+	; 25
 MountMoonName: ; 715fe (1c:55fe)
 	db "MT.MOON@"
+	; 26
 RockTunnelName: ; 71606 (1c:5606)
 	db "ROCK TUNNEL@"
+	; 27
 SeaCottageName: ; 71612 (1c:5612)
 	db "SEA COTTAGE@"
+	; 28
 SSAnneName: ; 7161e (1c:561e)
 	db "S.S.ANNE@"
+	; 29
 PokemonLeagueName: ; 71627 (1c:5627)
 	db "#MON LEAGUE@"
+	; 2A
 UndergroundPathName: ; 71633 (1c:5633)
-	db "UNDERGROUND PATH@"
+	db "UNDERGROUND@"
+	; 2B
 PokemonTowerName: ; 71644 (1c:5644)
 	db "#MON TOWER@"
+	; 2C
 SeafoamIslandsName: ; 7164f (1c:564f)
 	db "SEAFOAM ISLANDS@"
+	; 2D
 VictoryRoadName: ; 7165f (1c:565f)
 	db "VICTORY ROAD@"
+	; 2E
 DiglettsCaveName: ; 7166c (1c:566c)
 	db "DIGLETT's CAVE@"
+	; 2F
 RocketHQName: ; 7167a (1c:567a)
 	db "ROCKET HQ@"
+	; 30
 SilphCoName: ; 71684 (1c:5684)
 	db "SILPH CO.@"
+	; 31
 PokemonMansionName: ; 7168e (1c:568e)
 	db $4a," MANSION@"
+	; 32
 SafariZoneName: ; 71698 (1c:5698)
 	db "SAFARI ZONE@"
+	; 33
 CeruleanCaveName: ; 716a4 (1c:56a4)
 	db "CERULEAN CAVE@"
+	; 34
 PowerPlantName: ; 716b2 (1c:56b2)
 	db "POWER PLANT@"
+	; 35
+	db "???@"
+	; 36

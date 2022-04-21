@@ -1,10 +1,12 @@
-
 AUDIO_1 EQU $2
 AUDIO_2 EQU $8
 AUDIO_3 EQU $1f
+AUDIO_4 EQU $2e
+AUDIO_5 EQU $2f
+PCM_1	EQU $30
+AUDIO_6 EQU $31
 
 INCLUDE "constants.asm"
-
 
 SECTION "Sound Effect Headers 1", ROMX, BANK[AUDIO_1]
 INCLUDE "audio/headers/sfxheaders02.asm"
@@ -15,7 +17,8 @@ INCLUDE "audio/headers/sfxheaders08.asm"
 SECTION "Sound Effect Headers 3", ROMX, BANK[AUDIO_3]
 INCLUDE "audio/headers/sfxheaders1f.asm"
 
-
+SECTION "SFX Headers 31", ROMX, BANK[AUDIO_6]
+INCLUDE "audio/headers/sfxheaders31.asm"
 
 SECTION "Music Headers 1", ROMX, BANK[AUDIO_1]
 INCLUDE "audio/headers/musicheaders02.asm"
@@ -26,10 +29,10 @@ INCLUDE "audio/headers/musicheaders08.asm"
 SECTION "Music Headers 3", ROMX, BANK[AUDIO_3]
 INCLUDE "audio/headers/musicheaders1f.asm"
 
-
+SECTION "Music Headers 31", ROMX, BANK[AUDIO_6]
+INCLUDE "audio/headers/musicheaders31.asm"
 
 SECTION "Sound Effects 1", ROMX, BANK[AUDIO_1]
-
 INCLUDE "audio/sfx/sfx_02_01.asm"
 INCLUDE "audio/sfx/sfx_02_02.asm"
 INCLUDE "audio/sfx/sfx_02_03.asm"
@@ -49,9 +52,7 @@ INCLUDE "audio/sfx/sfx_02_10.asm"
 INCLUDE "audio/sfx/sfx_02_11.asm"
 INCLUDE "audio/sfx/sfx_02_12.asm"
 INCLUDE "audio/sfx/sfx_02_13.asm"
-
 Music2_WavePointers: INCLUDE "audio/wave_instruments.asm"
-
 INCLUDE "audio/sfx/sfx_02_3f.asm"
 INCLUDE "audio/sfx/sfx_02_5e.asm"
 INCLUDE "audio/sfx/sfx_02_56.asm"
@@ -86,7 +87,6 @@ INCLUDE "audio/sfx/sfx_02_53.asm"
 INCLUDE "audio/sfx/sfx_02_54.asm"
 INCLUDE "audio/sfx/sfx_02_55.asm"
 INCLUDE "audio/sfx/sfx_02_5f.asm"
-INCLUDE "audio/sfx/sfx_02_unused.asm"
 INCLUDE "audio/sfx/sfx_02_1d.asm"
 INCLUDE "audio/sfx/sfx_02_37.asm"
 INCLUDE "audio/sfx/sfx_02_38.asm"
@@ -128,7 +128,6 @@ INCLUDE "audio/sfx/sfx_02_36.asm"
 
 
 SECTION "Sound Effects 2", ROMX, BANK[AUDIO_2]
-
 INCLUDE "audio/sfx/sfx_08_01.asm"
 INCLUDE "audio/sfx/sfx_08_02.asm"
 INCLUDE "audio/sfx/sfx_08_03.asm"
@@ -148,9 +147,7 @@ INCLUDE "audio/sfx/sfx_08_10.asm"
 INCLUDE "audio/sfx/sfx_08_11.asm"
 INCLUDE "audio/sfx/sfx_08_12.asm"
 INCLUDE "audio/sfx/sfx_08_13.asm"
-
 Music8_WavePointers: INCLUDE "audio/wave_instruments.asm"
-
 INCLUDE "audio/sfx/sfx_08_40.asm"
 INCLUDE "audio/sfx/sfx_08_3f.asm"
 INCLUDE "audio/sfx/sfx_08_3c.asm"
@@ -253,7 +250,6 @@ INCLUDE "audio/sfx/sfx_08_36.asm"
 
 
 SECTION "Sound Effects 3", ROMX, BANK[AUDIO_3]
-
 INCLUDE "audio/sfx/sfx_1f_01.asm"
 INCLUDE "audio/sfx/sfx_1f_02.asm"
 INCLUDE "audio/sfx/sfx_1f_03.asm"
@@ -273,9 +269,7 @@ INCLUDE "audio/sfx/sfx_1f_10.asm"
 INCLUDE "audio/sfx/sfx_1f_11.asm"
 INCLUDE "audio/sfx/sfx_1f_12.asm"
 INCLUDE "audio/sfx/sfx_1f_13.asm"
-
 Music1f_WavePointers: INCLUDE "audio/wave_instruments.asm"
-
 INCLUDE "audio/sfx/sfx_1f_3f.asm"
 INCLUDE "audio/sfx/sfx_1f_56.asm"
 INCLUDE "audio/sfx/sfx_1f_57.asm"
@@ -358,10 +352,44 @@ INCLUDE "audio/sfx/sfx_1f_34.asm"
 INCLUDE "audio/sfx/sfx_1f_35.asm"
 INCLUDE "audio/sfx/sfx_1f_36.asm"
 
+SECTION "SFX 31", ROMX, BANK[AUDIO_6]
+INCLUDE "audio/sfx/sfx_31_drumset.asm"
+Music31_WavePointers:
+	dw .wave0
+	dw .wave1
+	dw .wave2
+	dw .wave3
+	dw .wave4
+	dw .wave5 ; used in the Lavender Town and Pokemon Tower themes
+	dw .wave5 ; unused
+	dw .wave5 ; unused
+	dw .wave5 ; unused
+
+; these are the definitions for the channel 3 instruments
+; each instrument definition is made up of 32 points (nibbles) that form
+; the graph of the wave
+; the current instrument is copied to $FF30
+.wave0
+	db $02,$46,$8A,$CE,$FF,$FE,$ED,$DC,$CB,$A9,$87,$65,$44,$33,$22,$11
+
+.wave1
+	db $02,$46,$8A,$CE,$EF,$FF,$FE,$EE,$DD,$CB,$A9,$87,$65,$43,$22,$11
+
+.wave2
+	db $13,$69,$BD,$EE,$EE,$FF,$FF,$ED,$DE,$FF,$FF,$EE,$EE,$DB,$96,$31
+
+.wave3
+	db $35,$BE,$FE,$DA,$85,$32,$20,$88,$01,$12,$34,$56,$67,$8A,$AC,$D7
+
+.wave4
+	db $00,$00,$05,$55,$55,$5d,$dd,$dd,$d0,$11,$11,$11,$09,$99,$99,$90
+
+; duty 5 reads from sfx data
+.wave5
+
 
 
 SECTION "Audio Engine 1", ROMX, BANK[AUDIO_1]
-
 PlayBattleMusic:: ; 0x90c6
 	xor a
 	ld [wMusicHeaderPointer], a
@@ -370,32 +398,76 @@ PlayBattleMusic:: ; 0x90c6
 	ld [wc0ee], a
 	call PlaySound ; stop music
 	call DelayFrame
-	ld c, BANK(Music_GymLeaderBattle)
 	ld a, [W_GYMLEADERNO]
 	and a
 	jr z, .notGymLeaderBattle
-	ld a, MUSIC_GYM_LEADER_BATTLE
+	ld a, Mus_GymLeaderBattle
 	jr .playSong
 .notGymLeaderBattle
 	ld a, [W_CUROPPONENT]
 	cp $c8
 	jr c, .wildBattle
+	cp LUMI + $c8
+	jr z, .LumiBattle
+	cp MASKEDLUMI + $c8
+	jr z, .MaskedBattle
+	cp TRON_SILVUMI + $c8
+	jr z, .TronBattle
 	cp SONY3 + $c8
 	jr z, .finalBattle
+	cp HAIDEN + $c8
+	jr z, .HaidenBattle
 	cp LANCE + $c8
-	jr nz, .normalTrainerBattle
-	ld a, MUSIC_GYM_LEADER_BATTLE ; lance also plays gym leader theme
+	jr z, .LanceBattle
+	cp LORELEI + $c8	; elite 4 now plays gym leader battle theme
+	jr z, .gymBattle
+	cp AGATHA + $c8
+	jr z, .gymBattle
+	cp BRUNO + $c8
+	jr z, .gymBattle
+	ld a, [W_GYMLEADERNO]
+	and a
+	jr z, .normalTrainerBattle
+.gymBattle
+	ld a, Mus_GymLeaderBattle
+	jr .playSong
+.TronBattle
+	ld a, Mus_SpecialBattle
+	jr .playSong
+.MaskedBattle
+	ld a, Mus_MaskedBattle
 	jr .playSong
 .normalTrainerBattle
-	ld a, MUSIC_TRAINER_BATTLE
+	ld a, Mus_TrainerBattle
+	jr .playSong
+.specialBattle
+	ld a, Mus_SpecialBattle
+	jr .playSong
+.HaidenBattle
+	ld a, Mus_HaidenBattle
+	jr .playSong
+.LumiBattle
+	ld a, [W_TRAINERNO]
+	cp 1				; is Lumi's rematch?
+	jr z, .normalTrainerBattle	; normal music if yes
+	ld a, Mus_ClubLeaderBattle
 	jr .playSong
 .finalBattle
-	ld a, MUSIC_FINAL_BATTLE
+	ld a, [wBeatenChamp]	; did we beat the game yet? (rematch)
+	bit 0, a
+	jr z, .normalfinal
+	ld a, Mus_WCS
+	jr .playSong
+.normalfinal
+	ld a, Mus_FinalBattle
 	jr .playSong
 .wildBattle
-	ld a, MUSIC_WILD_BATTLE
+	ld a, Mus_WildBattle
+	jr .playSong
+.LanceBattle
+	ld a, Mus_LanceBattle ; this ain't just Red's theme ya know
 .playSong
-	jp PlayMusic
+	jp PlayMusicEntry
 
 
 INCLUDE "audio/engine_1.asm"
@@ -445,16 +517,15 @@ Music_Cities1AlternateTempo:: ; 0x9b81
 	ld [wMusicHeaderPointer], a
 	ld c, $64
 	call DelayFrames
-	ld c, BANK(Music_Cities1)
-	ld a, MUSIC_CITIES1
+	ld c, BANK(Music_PalletTown)
+	ld a, MUSIC_PALLET_TOWN
 	call PlayMusic
 	ld hl, wc006
-	ld de, Music_Cities1_branch_aa6f
+	ld de, Music_PalletTown_Changetempo
 	jp Music2_OverwriteChannelPointer
 
 
 SECTION "Audio Engine 2", ROMX, BANK[AUDIO_2]
-
 Music_DoLowHealthAlarm:: ; 2136e (8:536e)
 	ld a, [wLowHealthAlarm]
 	cp $ff
@@ -532,7 +603,7 @@ Music_DoLowHealthAlarm:: ; 2136e (8:536e)
 	db $00,$00,$00,$80
 
 
-INCLUDE "engine/menu/bills_pc.asm"
+;INCLUDE "engine/menu/bills_pc.asm"
 
 INCLUDE "audio/engine_2.asm"
 
@@ -556,7 +627,6 @@ Music8_OverwriteChannelPointer: ; 2231d (8:631d)
 
 
 SECTION "Audio Engine 3", ROMX, BANK[AUDIO_3]
-
 Func_7d13b:: ; 7d13b (1f:513b)
 	ld a, [$ffdc]
 	ld c, $0
@@ -597,10 +667,10 @@ OwnedMonValues: ; 7d170 (1f:5170)
 
 INCLUDE "audio/engine_3.asm"
 
-
+SECTION "Audio Engine 31", ROMX, BANK[AUDIO_6]
+INCLUDE "audio/engine.asm"
 
 SECTION "Music 1", ROMX, BANK[AUDIO_1]
-
 INCLUDE "audio/music/pkmnhealed.asm"
 INCLUDE "audio/music/routes1.asm"
 INCLUDE "audio/music/routes2.asm"
@@ -608,7 +678,6 @@ INCLUDE "audio/music/routes3.asm"
 INCLUDE "audio/music/routes4.asm"
 INCLUDE "audio/music/indigoplateau.asm"
 INCLUDE "audio/music/pallettown.asm"
-INCLUDE "audio/music/unusedsong.asm"
 INCLUDE "audio/music/cities1.asm"
 INCLUDE "audio/sfx/sfx_02_3a.asm"
 INCLUDE "audio/music/museumguy.asm"
@@ -623,18 +692,17 @@ INCLUDE "audio/music/celadon.asm"
 INCLUDE "audio/music/cinnabar.asm"
 INCLUDE "audio/music/vermilion.asm"
 INCLUDE "audio/music/lavender.asm"
-INCLUDE "audio/music/safarizone.asm"
+INCLUDE "audio/music/evolution_gsc.asm"
 INCLUDE "audio/music/gym.asm"
 INCLUDE "audio/music/pokecenter.asm"
 
 
 SECTION "Music 2", ROMX, BANK[AUDIO_2]
-
 INCLUDE "audio/sfx/sfx_08_pokeflute.asm"
 INCLUDE "audio/sfx/sfx_08_unused2.asm"
 INCLUDE "audio/music/gymleaderbattle.asm"
 INCLUDE "audio/music/trainerbattle.asm"
-INCLUDE "audio/music/wildbattle.asm"
+INCLUDE "audio/music/wildbattlekanto.asm"
 INCLUDE "audio/music/finalbattle.asm"
 INCLUDE "audio/sfx/sfx_08_3a.asm"
 INCLUDE "audio/sfx/sfx_08_3b.asm"
@@ -645,7 +713,6 @@ INCLUDE "audio/music/defeatedgymleader.asm"
 
 
 SECTION "Music 3", ROMX, BANK[AUDIO_3]
-
 INCLUDE "audio/music/bikeriding.asm"
 INCLUDE "audio/music/dungeon1.asm"
 INCLUDE "audio/music/gamecorner.asm"
@@ -669,3 +736,48 @@ INCLUDE "audio/music/jigglypuffsong.asm"
 INCLUDE "audio/music/halloffame.asm"
 INCLUDE "audio/music/credits.asm"
 
+SECTION "Music 31", ROMX, BANK[AUDIO_6]
+INCLUDE "audio/music/touhou3_select.asm"
+INCLUDE "audio/music/oceandriesup.asm"
+
+SECTION "Bank2ESFXpointers", ROMX, BANK[AUDIO_4]
+INCBIN	"audio/BANK08_DUPLICATE_SFXPOINTERS.hex"
+INCLUDE "audio/headers/musicheaders2e.asm"
+
+SECTION "Bank2ESFXdata1", DATA[$42FD], BANK[AUDIO_4]
+INCBIN	"audio/BANK08_DUPLICATE_ENGINEANDSFX1.hex"
+INCLUDE "audio/music/finalbattle_gsc.asm"
+INCLUDE "audio/music/haidenbattle.asm"
+INCLUDE "audio/music/unusedsong_redux.asm"
+INCLUDE "audio/music/specialbattle.asm"
+INCLUDE "audio/music/hoennchamp.asm"
+INCLUDE "audio/music/halloffame_gsc.asm"
+
+SECTION "Bank2ESFXdata2", DATA[$7479], BANK[AUDIO_4]
+INCBIN	"audio/BANK08_DUPLICATE_ENGINEANDSFX2.hex"
+
+SECTION "Bank2FSFXpointers", ROMX, BANK[AUDIO_5]
+INCBIN	"audio/BANK08_DUPLICATE_SFXPOINTERS.hex"
+INCLUDE "audio/headers/musicheaders2f.asm"
+
+SECTION "Bank2FSFXdata1", DATA[$42FD], BANK[AUDIO_5]
+INCBIN	"audio/BANK08_DUPLICATE_ENGINEANDSFX1.hex"
+INCLUDE "audio/music/wcs.asm"
+INCLUDE "audio/music/gymleaderpinch.asm"
+INCLUDE "audio/music/ToyWarrior.asm"
+INCLUDE "audio/music/masked.asm"
+
+SECTION "Bank2FSFXdata2", DATA[$7479], BANK[AUDIO_5]
+INCBIN	"audio/BANK08_DUPLICATE_ENGINEANDSFX2.hex"
+INCLUDE "audio/music/ptcg_clubbattle.asm"
+
+SECTION "PCM Data 1", ROMX, BANK[PCM_1]
+HmmHmm_PCM::
+	dw (HmmHmm_PCM_End - HmmHmm_PCM) / 16 
+	INCBIN "yellow_pcm/jf/HMMHMM.gbw"
+HmmHmm_PCM_End:
+
+Ou_PCM::
+	dw (Ou_PCM_End - Ou_PCM) / 16 
+	INCBIN "yellow_pcm/jf/OU.gbw"
+Ou_PCM_End:

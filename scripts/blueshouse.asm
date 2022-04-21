@@ -47,6 +47,18 @@ BluesHouseText1: ; 19b5d (6:5b5d)
 	predef HideObject ; hide table map object
 	ld hl,GotMapText
 	call PrintText
+	
+	ld hl, DaisyRunningShoes1Text
+	call PrintText
+	
+	ld hl, GotRunningShoesText
+	call PrintText
+	ld hl,wda32
+	set 0,[hl]
+	
+	ld hl, DaisyRunningShoes2Text
+	call PrintText
+	
 	ld hl,wd74a
 	set 0,[hl]
 	jr .done
@@ -87,3 +99,15 @@ BluesHouseText2: ; 0x19bc4 Daisy, walking around
 BluesHouseText3: ; 0x19bc9 map on table
 	TX_FAR _BluesHouseText3
 	db "@"
+
+DaisyRunningShoes1Text:
+	TX_FAR _DaisyRunningShoes1Text
+	db "@"
+	
+DaisyRunningShoes2Text:
+	TX_FAR _DaisyRunningShoes2Text
+	db "@"
+	
+GotRunningShoesText:
+	TX_FAR _GotRunningShoesText
+	db $11,"@"

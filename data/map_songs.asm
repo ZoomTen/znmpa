@@ -10,7 +10,7 @@ MapSongBanks: ; c04d (3:404d)
 	db MUSIC_CINNABAR, BANK(Music_Cinnabar) ; CINNABAR_ISLAND
 	db MUSIC_INDIGO_PLATEAU, BANK(Music_IndigoPlateau) ; INDIGO_PLATEAU
 	db MUSIC_CITIES1, BANK(Music_Cities1) ; SAFFRON_CITY
-	db MUSIC_CITIES1, BANK(Music_Cities1) ; unused
+	db MUSIC_CITIES1, BANK(Music_Cities1) ; SAFFRON_CITY
 	db MUSIC_ROUTES1, BANK(Music_Routes1) ; ROUTE_1
 	db MUSIC_ROUTES1, BANK(Music_Routes1) ; ROUTE_2
 	db MUSIC_ROUTES3, BANK(Music_Routes3) ; ROUTE_3
@@ -247,6 +247,4 @@ MapSongBanks: ; c04d (3:404d)
 	db MUSIC_GYM, BANK(Music_Gym) ; Lorelei
 	db MUSIC_DUNGEON1, BANK(Music_Dungeon1) ; Bruno
 	db MUSIC_POKEMON_TOWER, BANK(Music_PokemonTower) ; Agatha
-IF DEF(_OPTION_BEACH_HOUSE)
-	db MUSIC_ROUTES3, BANK(Music_Routes3) ; BeachHouse
-ENDC
+	db MUSIC_CITIES1, BANK(Music_Cities1) ; Route6Gate_2

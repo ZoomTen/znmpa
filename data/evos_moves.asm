@@ -29,8 +29,8 @@ EvosMovesPointerTable: ; 3b05c (e:705c)
 	dw Mon009_EvosMoves
 	dw Mon127_EvosMoves
 	dw Mon114_EvosMoves
-	dw Mon152_EvosMoves	;MissingNo
-	dw Mon153_EvosMoves	;MissingNo
+	dw Mon152_EvosMoves	; Glaceon
+	dw Mon153_EvosMoves	; Kitsarushi
 	dw Mon058_EvosMoves
 	dw Mon095_EvosMoves
 	dw Mon022_EvosMoves
@@ -48,13 +48,13 @@ EvosMovesPointerTable: ; 3b05c (e:705c)
 	dw Mon054_EvosMoves
 	dw Mon096_EvosMoves
 	dw Mon076_EvosMoves
-	dw Mon154_EvosMoves	;MissingNo
+	dw Mon154_EvosMoves	;Kitsuto
 	dw Mon126_EvosMoves
-	dw Mon155_EvosMoves	;MissingNo
+	dw Mon155_EvosMoves	;Rex Mask
 	dw Mon125_EvosMoves
 	dw Mon082_EvosMoves
 	dw Mon109_EvosMoves
-	dw Mon156_EvosMoves	;MissingNo
+	dw Mon156_EvosMoves	;Rex Pumkin
 	dw Mon056_EvosMoves
 	dw Mon086_EvosMoves
 	dw Mon050_EvosMoves
@@ -537,18 +537,32 @@ Mon114_EvosMoves: ; 3b362 (e:7362)
 	db 0
 
 Mon152_EvosMoves: ; 3b370 (e:7370)
-;MISSINGNO
+;GLACEON
 ;Evolutions
 	db 0
 ;Learnset
+	db 5,SAND_ATTACK
+	db 13,QUICK_ATTACK
+	db 17,BITE
+	db 29,BARRIER
+	db 36,ICE_PUNCH
+	db 45,BLIZZARD
 	db 0
 
 Mon153_EvosMoves: ; 3b372 (e:7372)
-;MISSINGNO
+;Kitsarushi
 ;Evolutions
+	db EV_TRADE,1,KITSUTO
 	db 0
 ;Learnset
-	db 0
+	db 5,FOCUS_ENERGY
+	db 8,BITE
+	db 15,TAKE_DOWN
+	db 19,CONFUSE_RAY
+	db 26,ROAR
+	db 33,JUMP_KICK
+	db 40,HYPER_BEAM
+	
 Mon058_EvosMoves: ; 3b374 (e:7374)
 ;GROWLITHE
 ;Evolutions
@@ -753,11 +767,16 @@ Mon076_EvosMoves: ; 3b459 (e:7459)
 	db 0
 
 Mon154_EvosMoves: ; 3b467 (e:7467)
-;MISSINGNO
+;Kitsuto
 ;Evolutions
 	db 0
 ;Learnset
-	db 0
+	db 6,QUICK_ATTACK
+	db 11,WING_ATTACK
+	db 19,TAKE_DOWN
+	db 29,ROAR
+	db 42,AGILITY
+	
 Mon126_EvosMoves: ; 3b469 (e:7469)
 ;MAGMAR
 ;Evolutions
@@ -772,11 +791,12 @@ Mon126_EvosMoves: ; 3b469 (e:7469)
 	db 0
 
 Mon155_EvosMoves: ; 3b477 (e:7477)
-;MISSINGNO
+;REX MASK
 ;Evolutions
-	db 0
+	db EV_LEVEL,50,REX_PUMKIN
 ;Learnset
 	db 0
+	
 Mon125_EvosMoves: ; 3b479 (e:7479)
 ;ELECTABUZZ
 ;Evolutions
@@ -814,7 +834,7 @@ Mon109_EvosMoves: ; 3b493 (e:7493)
 	db 0
 
 Mon156_EvosMoves: ; 3b4a2 (e:74a2)
-;MISSINGNO
+;REX PUMKIN
 ;Evolutions
 	db 0
 ;Learnset

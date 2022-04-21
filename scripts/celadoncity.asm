@@ -26,6 +26,7 @@ CeladonCityTextPointers: ; 19966 (6:5966)
 	dw CeladonCityText16
 	dw CeladonCityText17
 	dw CeladonCityText18
+	dw DoMwahBattle
 
 CeladonCityText1: ; 1998a (6:598a)
 	TX_FAR _CeladonCityText1

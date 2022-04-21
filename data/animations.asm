@@ -752,7 +752,9 @@ TeleportAnim: ; 7a4d4 (1e:64d4)
 
 NightShadeAnim: ; 7a4d9 (1e:64d9)
 	db SE_FLASH_SCREEN_LONG, $5C
+	db SE_DARK_SCREEN_PALETTE, $FF
 	db SE_WAVY_SCREEN, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
 	db $FF
 
 MimicAnim: ; 7a4de (1e:64de)

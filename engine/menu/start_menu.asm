@@ -12,8 +12,10 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
 	callba PrintSafariZoneSteps ; print Safari Zone info, if in Safari Zone
 	call UpdateSprites ; move sprites
 .loop
+	callba RefreshInfoBox
 	call HandleMenuInput
 	ld b,a
+
 .checkIfUpPressed
 	bit 6,a ; was Up pressed?
 	jr z,.checkIfDownPressed
@@ -33,6 +35,7 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
 	ld [wCurrentMenuItem],a
 	call EraseMenuCursor
 	jr .loop
+
 .checkIfDownPressed
 	bit 7,a
 	jr z,.buttonPressed
@@ -46,11 +49,13 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
 .checkIfPastBottom
 	cp c
 	jr nz,.loop
+
 ; the player went past the bottom, so wrap to the top
 	xor a
 	ld [wCurrentMenuItem],a
 	call EraseMenuCursor
 	jr .loop
+
 .buttonPressed ; A, B, or Start button pressed
 	call PlaceUnfilledArrowMenuCursor
 	ld a,[wCurrentMenuItem]
@@ -64,6 +69,7 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
 	ld a,[wCurrentMenuItem]
 	jr nz,.displayMenuItem
 	inc a ; adjust position to account for missing pokedex menu item
+
 .displayMenuItem
 	cp a,0
 	jp z,StartMenu_Pokedex

@@ -3,22 +3,27 @@ LoadShootingStarGraphics: ; 70000 (1c:4000)
 	ld [rOBP0], a ; $ff48
 	ld a, $a4
 	ld [rOBP1], a ; $ff49
+	
 	ld de, AnimationTileset2 + $30 ; $471e ; star tile (top left quadrant)
 	ld hl, vChars1 + $200
 	ld bc, (BANK(AnimationTileset2) << 8) + $01
 	call CopyVideoData
+	
 	ld de, AnimationTileset2 + $130 ; $481e ; star tile (bottom left quadrant)
 	ld hl, vChars1 + $210
 	ld bc, (BANK(AnimationTileset2) << 8) + $01
 	call CopyVideoData
+	
 	ld de, FallingStar ; $4190
 	ld hl, vChars1 + $220
 	ld bc, (BANK(FallingStar) << 8) + $01
 	call CopyVideoData
+	
 	ld hl, GameFreakLogoOAMData ; $4140
 	ld de, wOAMBuffer + $60
 	ld bc, $40
 	call CopyData
+	
 	ld hl, GameFreakShootingStarOAMData ; $4180
 	ld de, wOAMBuffer
 	ld bc, $10
@@ -33,17 +38,17 @@ AnimateShootingStar: ; 70044 (1c:4044)
 .asm_70052
 	push hl
 	push bc
-.asm_70054
-	ld a, [hl]
-	add $4
+.movestar
+	ld a, [hl]	; y position
+	add 4
 	ld [hli], a
-	ld a, [hl]
-	add $fc
+	ld a, [hl]	; x position
+	add -4
 	ld [hli], a
 	inc hl
-	inc hl
-	dec c
-	jr nz, .asm_70054
+	inc hl		; next oam entry
+	dec c			; 4 tiles?
+	jr nz, .movestar	; keep moving if not
 	ld c, $1
 	call CheckForUserInterruption
 	pop bc

@@ -51,11 +51,18 @@ DATA_SND: MACRO
 	db \3 ; length (1-11)
 ENDM
 
+PACKET: MACRO
+	db \1		; screen area
+	db \2, \3	; x1y1
+	db \4, \5	; x2y2
+	db \6		; which palette to use?
+ENDM
+
 BlkPacket_WholeScreen: ; 7219e (1c:619e)
 	ATTR_BLK 1
 	ATTR_BLK_DATA %011, 0,0,0, 00,00, 19,17
 	ds 8
-
+	
 	db $03,$00,$00,$13,$11,$00,$00
 
 BlkPacket_Battle: ; 721b5 (1c:61b5)
@@ -112,14 +119,14 @@ BlkPacket_Slots: ; 7224f (1c:624f)
 
 BlkPacket_Titlescreen: ; 7228e (1c:628e)
 	ATTR_BLK 3
-	ATTR_BLK_DATA %011, 0,0,0, 00,00, 19,07
-	ATTR_BLK_DATA %010, 1,1,0, 00,08, 19,09
-	ATTR_BLK_DATA %011, 2,2,0, 00,10, 19,17
+	ATTR_BLK_DATA %011, 0,0,0, 03,02, 08,09
+	ATTR_BLK_DATA %011, 1,1,0, 11,02, 16,08
+	ATTR_BLK_DATA %011, 2,2,0, 02,10, 17,16
 	ds 12
 
-	db $03,$00,$00,$13,$07,$00
-	db $03,$00,$08,$13,$09,$01
-	db $03,$00,$0a,$13,$11,$02
+	db $03,$03,$02,$08,$09,$01
+	db $03,$0B,$02,$0F,$08,$01
+	db $03,$02,$0a,$11,$0F,$02
 	db $00
 
 BlkPacket_NidorinoIntro: ; 722c1 (1c:62c1)
@@ -197,6 +204,20 @@ BlkPacket_GameFreakIntro: ; 723dd (1c:63dd)
 	db $03,$08,$0b,$09,$0d,$02
 	db $03,$0c,$0b,$0e,$0d,$03
 	db $00
+	
+BlkPacket_NewIntro: ; 723dd (1c:63dd)
+	ATTR_BLK 4
+	ATTR_BLK_DATA %011, 2,2,0, 00,00, 19,03
+	ATTR_BLK_DATA %011, 0,0,0, 00,04, 19,05
+	ATTR_BLK_DATA %011, 1,1,0, 00,06, 19,13
+	ATTR_BLK_DATA %011, 2,2,0, 00,14, 19,17
+	ds 12
+
+	db $03,$00,$00,$13,$03,$02
+	db $03,$00,$04,$13,$05,$00
+	db $03,$00,$06,$13,$0d,$01
+	db $03,$00,$0e,$13,$11,$02
+	db $00
 
 
 PalPacket_Empty:          PAL_SET 0, 0, 0, 0
@@ -205,11 +226,15 @@ PalPacket_Black:          PAL_SET PAL_BLACK, PAL_BLACK, PAL_BLACK, PAL_BLACK
 PalPacket_TownMap:        PAL_SET PAL_TOWNMAP, 0, 0, 0
 PalPacket_Pokedex:        PAL_SET PAL_BROWNMON, 0, 0, 0
 PalPacket_Slots:          PAL_SET PAL_SLOTS1, PAL_SLOTS2, PAL_SLOTS3, PAL_SLOTS4
-PalPacket_Titlescreen:    PAL_SET PAL_LOGO2, PAL_LOGO1, PAL_MEWMON, PAL_PURPLEMON
-PalPacket_TrainerCard:    PAL_SET PAL_MEWMON, PAL_BADGE, PAL_REDMON, PAL_YELLOWMON
+PalPacket_Titlescreen:    PAL_SET PAL_ZILO, PAL_GREYMON, PAL_BLUEMON, 0
+PalPacket_TrainerCard:    PAL_SET PAL_ZILO, PAL_BADGE, PAL_REDMON, PAL_YELLOWMON
 PalPacket_Generic:        PAL_SET PAL_MEWMON, 0, 0, 0
 PalPacket_NidorinoIntro:  PAL_SET PAL_PURPLEMON, PAL_BLACK, 0, 0
 PalPacket_GameFreakIntro: PAL_SET PAL_GAMEFREAK, PAL_REDMON, PAL_VIRIDIAN, PAL_BLUEMON
+PalPacket_ZiloIntro: PAL_SET PAL_GAMEFREAK, PAL_ZILO, PAL_BLACK, 0
+PalPacket_MontyIntro: PAL_SET PAL_GAMEFREAK, PAL_MEWMON, PAL_BLACK, 0
+PalPacket_C64:        PAL_SET PAL_C64, 0, 0, 0
+PalPacket_SHULK:      PAL_SET PAL_SHULK, 0, 0, 0
 
 PalTrnPacket:  PAL_TRN
 MltReq1Packet: MLT_REQ 1

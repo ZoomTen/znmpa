@@ -71,22 +71,26 @@ SPRITE_AGATHA                    EQU $39
 SPRITE_BRUNO                     EQU $3a
 SPRITE_LORELEI                   EQU $3b
 SPRITE_SEEL                      EQU $3c
-SPRITE_BALL                      EQU $3d
-SPRITE_OMANYTE                   EQU $3e
-SPRITE_BOULDER                   EQU $3f
-SPRITE_PAPER_SHEET               EQU $40
-SPRITE_BOOK_MAP_DEX              EQU $41
-SPRITE_CLIPBOARD                 EQU $42
-SPRITE_SNORLAX                   EQU $43
-SPRITE_OLD_AMBER_COPY            EQU $44
-SPRITE_OLD_AMBER                 EQU $45
-SPRITE_LYING_OLD_MAN_UNUSED_1    EQU $46
-SPRITE_LYING_OLD_MAN_UNUSED_2    EQU $47
-SPRITE_LYING_OLD_MAN             EQU $48
-
+SPRITE_LUMI		         EQU $3d
+SPRITE_JINX		         EQU $3e
+SPRITE_THETA		         EQU $3f
+SPRITE_MOCHA		         EQU $40
+SPRITE_BALL                      EQU $41
+SPRITE_OMANYTE                   EQU $42
+SPRITE_BOULDER                   EQU $43
+SPRITE_PAPER_SHEET               EQU $44
+SPRITE_BOOK_MAP_DEX              EQU $45
+SPRITE_CLIPBOARD                 EQU $46
+SPRITE_SNORLAX                   EQU $47
+SPRITE_OLD_AMBER_COPY            EQU $48
+SPRITE_OLD_AMBER                 EQU $49
+SPRITE_LYING_OLD_MAN_UNUSED_1    EQU $4A
+SPRITE_LYING_OLD_MAN_UNUSED_2    EQU $4B
+SPRITE_LYING_OLD_MAN             EQU $4C
 ; different kinds of people events
 ITEM    EQU $80
 TRAINER EQU $40
+PERSON  EQU $00
 
 BOULDER_MOVEMENT_BYTE_2 EQU $10
 
@@ -95,3 +99,5 @@ SPRITE_FACING_DOWN  EQU $00
 SPRITE_FACING_UP    EQU $04
 SPRITE_FACING_LEFT  EQU $08
 SPRITE_FACING_RIGHT EQU $0C
+
+SPR_NOMOVE	    EQU $FF

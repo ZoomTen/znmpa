@@ -16,6 +16,26 @@ _GotMapText::
 	line "@"
 	TX_RAM wcf4b
 	text "!@@"
+	prompt
+	
+_DaisyRunningShoes1Text::
+	;     XXXXXXXXXXXXXXXXXX
+	text "Also, have this!"
+	prompt
+	
+_GotRunningShoesText::
+	;     XXXXXXXXXXXXXXXXXX
+	text $52, " received the"
+	line "RUNNING SHOES!@@"
+	
+_DaisyRunningShoes2Text::
+	;     XXXXXXXXXXXXXXXXXX
+	text "Those are RUNNING"
+	line "SHOES!"
+	cont "The instructions"
+	cont "are simple:"
+	para "'Hold B to run!'"
+	done
 
 _DaisyBagFullText::
 	text "You have too much"

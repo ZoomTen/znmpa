@@ -1,3 +1,4 @@
+INCLUDE "rbscript.asm"	; easy scripting
 
 text   EQUS "db $00," ; Start writing text.
 next   EQUS "db $4e," ; Move a line down.
@@ -9,6 +10,7 @@ prompt EQUS "db $58"  ; Prompt the player to end a text box (initiating some oth
 
 page   EQUS "db $49,"     ; Start a new Pokedex page.
 dex    EQUS "db $5f, $50" ; End a Pokedex entry.
+finish EQUS "db $50"
 
 
 percent EQUS "* $ff / 100"
@@ -24,6 +26,21 @@ const: MACRO
 const_value = const_value + 1
 ENDM
 
+; \1 = Which sprite?
+; \2 = Y
+; \3 = X
+; \4 = Walking movement
+; \5 = Facing movement
+; \6 = Event type
+; \7 = Sub-event
+map_spr_event: MACRO
+	db \1
+	db \2 + 4
+	db \3 + 4
+	db \4
+	db \5
+	db (\6 | \7)
+	ENDM
 
 homecall: MACRO
 	ld a, [H_LOADEDROMBANK]
@@ -47,6 +64,12 @@ callab: MACRO
 	ld hl, \1
 	ld b, BANK(\1)
 	call Bankswitch
+	ENDM
+	
+jpba: MACRO
+	ld b, BANK(\1)
+	ld hl, \1
+	jp Bankswitch
 	ENDM
 
 bcd2: MACRO
@@ -263,6 +286,10 @@ unknownsfx0x20: MACRO
 ENDM
 
 unknownnoise0x20: MACRO
+; \1 = length (up to 15)
+; \2 = envelope type
+; \3 = noise type	(1st nybble = hi-pitch)
+;			(2nd nybble = lopitch, 0-7 = duty 0, 7-F = duty 1)				
 	db $20 | \1
 	db \2
 	db \3
@@ -569,3 +596,20 @@ WEST_MAP_CONNECTION: MACRO
 	db (\2 * 2) - 1 ; x alignment
 	dw wOverworldMap + 6 + (2 * \2) ; window (position of the upper left block after entring the map)
 ENDM
+
+; \1 = X tiles
+; \2 = Y tiles
+; \3 = Tile no.
+; \4 = Flags
+oam_def: MACRO
+	db \2 * 8 + 8
+	db \1 * 8 + 8
+	db \3
+	db \4
+ENDM
+
+; Three-byte pointer.
+pointer: MACRO
+	db BANK(\1)
+	dw \1
+	ENDM

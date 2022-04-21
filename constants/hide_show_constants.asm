@@ -33,6 +33,7 @@ const_value = 0
 	const HS_SAFFRON_CITY_F               ; 18
 	const HS_ROUTE_2_ITEM_1               ; 19 X
 	const HS_ROUTE_2_ITEM_2               ; 1A X
+	const HS_ROUTE_2_MOCHA		      ; 1B, \/ + 1
 	const HS_ROUTE_4_ITEM                 ; 1B X
 	const HS_ROUTE_9_ITEM                 ; 1C X
 	const HS_ROUTE_12_SNORLAX             ; 1D
@@ -234,3 +235,10 @@ const_value = 0
 	const HS_SEAFOAM_ISLANDS_5_BOULDER_1  ; E1
 	const HS_SEAFOAM_ISLANDS_5_BOULDER_2  ; E2
 	const HS_ARTICUNO                     ; E3 X
+	const HS_REDSHOUSE1F_1		      ; E4	(Lumi event)
+	const HS_REDSHOUSE1F_2		      ; E5	(Jay event)
+	const HS_ROUTE6_LUMI		      ; E6
+	const HS_MTMOON2_MOCHA		      ; E8
+	const HS_ROUTE10_LUMI		      ; E9
+	const HS_ROUTE10_TRON		      ; EA
+

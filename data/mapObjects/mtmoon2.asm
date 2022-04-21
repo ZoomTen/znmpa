@@ -13,7 +13,8 @@ MtMoon2Object: ; 0x51a4d (size=68)
 
 	db $0 ; signs
 
-	db $0 ; people
+	db $1 ; people
+	map_spr_event SPRITE_MOCHA, 13, 5, SPR_NOMOVE, SPRITE_FACING_UP, PERSON, 1
 
 	; warp-to
 	EVENT_DISP MT_MOON_2_WIDTH, $5, $5 ; MT_MOON_1

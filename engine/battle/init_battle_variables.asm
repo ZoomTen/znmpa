@@ -16,9 +16,12 @@ InitBattleVariables: ; 525af (14:65af)
 	ld [wPlayerMonNumber], a 
 	ld [wEscapedFromBattle], a
 	ld [wMapPalOffset], a
+	ld a, $02			; this one line makes
+					; the pokeballs have correct colors
 	ld hl, wcf1d
 	ld [hli], a
 	ld [hl], a
+	xor a				; prevents "pay day" effect
 	ld hl, wccd3
 	ld b, $3c
 .loop
@@ -35,6 +38,4 @@ InitBattleVariables: ; 525af (14:65af)
 	ld a, $2 ; safari battle
 	ld [W_BATTLETYPE], a
 .notSafariBattle
-	ld hl, PlayBattleMusic
-	ld b, BANK(PlayBattleMusic)
-	jp Bankswitch
+	jpba PlayBattleMusic

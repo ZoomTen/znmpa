@@ -132,9 +132,8 @@ SilphCo7Script0: ; 51c23 (14:5c23)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld c, BANK(Music_MeetRival)
-	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
+	ld a, Mus_MeetRival
+	call PlayMusicEntry
 	ld a, $9
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID

@@ -23,23 +23,20 @@ _ViridianCityText_19127:: ; a4474 (29:4474)
 	done
 
 _ViridianCityText_1914d:: ; a4494 (29:4494)
-	text "You want to know"
-	line "about the 2 kinds"
-	cont "of caterpillar"
-	cont "#MON?"
+	;     XXXXXXXXXXXXXXXXX
+	text "Do you know what"
+	line "happened to RED?"
 	done
 
 _ViridianCityText_19152:: ; a44cd (29:44cd)
-	text "Oh, OK then!"
+	text "Yeah, me neither."
 	done
 
 _ViridianCityText_19157:: ; a44db (29:44db)
-	text "CATERPIE has no"
-	line "poison, but"
-	cont "WEEDLE does."
-
-	para "Watch out for its"
-	line "POISON STING!"
+	text "..."
+	para "Oh, so he's on a"
+	line "mountain? I hope"
+	cont "he's fine..."
 	done
 
 _ViridianCityText_19175:: ; a4525 (29:4525)

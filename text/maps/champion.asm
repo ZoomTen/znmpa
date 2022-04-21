@@ -1,53 +1,17 @@
 _GaryText_760f4:: ; 860e1 (21:60e1)
-	text $53, ": Hey!"
-
-	para "I was looking"
-	line "forward to seeing"
-	cont "you, ", $52, "!"
-
-	para "My rival should"
-	line "be strong to keep"
-	cont "me sharp!"
-
-	para "While working on"
-	line "#DEX, I looked"
-	cont "all over for"
-	cont "powerful #MON!"
-
-	para "Not only that, I"
-	line "assembled teams"
-	cont "that would beat"
-	cont "any #MON type!"
-
-	para "And now!"
-
-	para "I'm the #MON"
-	line "LEAGUE champion!"
-
-	para $52, "! Do you"
-	line "know what that"
-	cont "means?"
-
-	para "I'll tell you!"
-
-	para "I am the most"
-	line "powerful trainer"
-	cont "in the world!"
+	text "THETA: I'll kick"
+	line "your asymptote!"
 	done
 
 _GaryText_760f9:: ; 8623b (21:623b)
-	text "NO!"
-	line "That can't be!"
-	cont "You beat my best!"
-
-	para "After all that"
-	line "work to become"
-	cont "LEAGUE champ?"
-
-	para "My reign is over"
-	line "already?"
-	cont "It's not fair!"
+	text "Well,"
+	line "snort!"
 	prompt
+	
+_ThetaText_REMATCH::
+	text "THETA: Haha!"
+	line "XDDDDDD"
+	done
 
 _GaryText_760fe:: ; 862b4 (21:62b4)
 	text "Hahaha!"
@@ -66,19 +30,11 @@ _GaryText_760fe:: ; 862b4 (21:62b4)
 	prompt
 
 _GaryText_76103:: ; 8632f (21:632f)
-	text "Why?"
-	line "Why did I lose?"
-
-	para "I never made any"
-	line "mistakes raising"
-	cont "my #MON..."
-
-	para "Darn it! You're"
-	line "the new #MON"
-	cont "LEAGUE champion!"
-
-	para "Although I don't"
-	line "like to admit it."
+	text "THETA: Congrats"		; WOW THIS IS OFF CHARACTER
+	line "lil oh, you"		; IDGAF LOL
+	cont "and ur mme are"
+	cont "in the hall of"
+	cont "fame 8)))))))"
 	done
 
 _GaryText2:: ; 863c1 (21:63c1)

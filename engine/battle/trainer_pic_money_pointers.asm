@@ -141,3 +141,27 @@ TrainerPicAndMoneyPointers: ; 39914 (e:5914)
 
 	dw LancePic
 	money 9900
+
+	dw LumiPic
+	money 3500
+
+	dw JinxPic
+	money 3500
+	
+	dw HaidenPic
+	money 5555
+
+	dw MochaPic
+	money 2500
+	
+	dw TronSilvumiPic
+	money 4000
+	
+	dw MwahPic
+	money 3915
+	
+	dw MaskedLumiPic
+	money 5500
+	
+	dw JonicPic
+	money 7500

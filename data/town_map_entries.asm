@@ -10,7 +10,7 @@ ExternalMapEntries: ; 71313 (1c:5313)
 	EMAP $2,$F,CinnabarIslandName
 	EMAP $0,$2,IndigoPlateauName
 	EMAP $A,$5,SaffronCityName
-	EMAP $0,$0,PalletTownName ; unused
+	EMAP $A,$8,Route6Name
 	EMAP $2,$A,Route1Name
 	EMAP $2,$6,Route2Name
 	EMAP $4,$3,Route3Name

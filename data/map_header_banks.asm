@@ -11,7 +11,7 @@ MapHeaderBanks: ; c23d (3:423d)
 	db BANK(CinnabarIsland_h) ; CINNABAR_ISLAND
 	db BANK(IndigoPlateau_h) ; INDIGO_PLATEAU
 	db BANK(SaffronCity_h) ; SAFFRON_CITY
-	db $1 ; unused
+	db BANK(Route6_Link_h)
 	db BANK(Route1_h) ; ROUTE_1
 	db BANK(Route2_h) ; ROUTE_2
 	db BANK(Route3_h) ; ROUTE_3
@@ -248,6 +248,4 @@ MapHeaderBanks: ; c23d (3:423d)
 	db BANK(Lorelei_h)
 	db BANK(Bruno_h)
 	db BANK(Agatha_h)
-IF DEF(_OPTION_BEACH_HOUSE)
-	db BANK(BeachHouse_h)
-ENDC
+	db BANK(Route6_Gate2_h)

@@ -154,15 +154,10 @@ _SilphCo7Text_51ebe:: ; 8488d (21:488d)
 	done
 
 _SilphCo7Text_51ec3:: ; 848a2 (21:48a2)
-	text $53, ": Hahaha!"
+	text $53, ": Aha!"
 	line "I thought you'd"
 	cont "turn up if I"
 	cont "waited here!"
-
-	para "I guess TEAM"
-	line "ROCKET slowed you"
-	cont "down! Not that I"
-	cont "care!"
 
 	para "I saw you in"
 	line "SAFFRON, so I"
@@ -174,19 +169,14 @@ _SilphCo7Text_51ec8:: ; 8494a (21:494a)
 IF DEF(_YELLOW)
 	text "Oh-oh!"
 ELSE
-	text "Oh ho!"
+	text "Oho!"
 ENDC
 	line "So, you are ready"
 	cont "for BOSS ROCKET!"
 	prompt
 
 _SilphCo7Text_51ecd:: ; 84975 (21:4975)
-	text $53, ": How can"
-	line "I put this?"
-
-	para "You're not good"
-	line "enough to play"
-	cont "with us big boys!"
+	text $53, ": Oh? Oh."
 	prompt
 
 _SilphCo7Text_51ed2:: ; 849bd (21:49bd)
@@ -203,16 +193,12 @@ _SilphCo7Text_51ed2:: ; 849bd (21:49bd)
 
 	para "I'm going to the"
 	line "#MON LEAGUE"
-	cont "to boot out the"
+	cont "and beat the"
 	cont "ELITE FOUR!"
-
-	para "I'll become the"
-	line "world's most"
-	cont "powerful trainer!"
 
 	para $52, ", well"
 	line "good luck to you!"
 	cont "Don't sweat it!"
-	cont "Smell ya!"
+	cont "See ya!"
 	done
 

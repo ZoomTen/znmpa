@@ -509,7 +509,7 @@ StartMenu_TrainerInfo: ; 13460 (4:7460)
 	ld b,$0d
 	call GoPAL_SET
 	call GBPalNormal
-	call WaitForTextScrollButtonPress ; wait for button press
+	call TrainerInfo_WaitForPress
 	call GBPalWhiteOut
 	call LoadFontTilePatterns
 	call LoadScreenTilesFromBuffer2 ; restore saved screen
@@ -520,6 +520,27 @@ StartMenu_TrainerInfo: ; 13460 (4:7460)
 	ld [hTilesetType],a
 	jp RedisplayStartMenu
 
+TrainerInfo_WaitForPress:
+	hlCoord 6, 6
+	ld de,W_PLAYTIMEHOURS + 1 ; hours
+	ld bc,$0103
+	call PrintNumber
+	ld [hl],$d6 ; colon tile ID
+	inc hl
+	ld de,W_PLAYTIMEMINUTES + 1 ; minutes
+	ld bc,$8102
+	call PrintNumber
+	ld [hl],$F2 ; colon tile ID
+	inc hl
+	ld de,W_PLAYTIMESECONDS ; seconds
+	ld bc,$8102
+	call PrintNumber
+	call JoypadLowSensitivity
+	ld a, [hJoy5]
+	and A_BUTTON | B_BUTTON
+	jr z, TrainerInfo_WaitForPress
+	ret
+	
 ; loads tile patterns and draws everything except for gym leader faces / badges
 DrawTrainerInfo: ; 1349a (4:749a)
 	ld de,RedPicFront
@@ -590,25 +611,17 @@ DrawTrainerInfo: ; 1349a (4:749a)
 	hlCoord 6, 9
 	ld de,TrainerInfo_BadgesText
 	call PlaceString
-	hlCoord 2, 2
+	hlCoord 1, 2
 	ld de,TrainerInfo_NameMoneyTimeText
 	call PlaceString
-	hlCoord 7, 2
+	hlCoord 8, 2
 	ld de,wPlayerName
 	call PlaceString
 	hlCoord 8, 4
 	ld de,wPlayerMoney
 	ld c,$e3
 	call PrintBCDNumber
-	hlCoord 9, 6
-	ld de,W_PLAYTIMEHOURS + 1 ; hours
-	ld bc,$4103
-	call PrintNumber
-	ld [hl],$d6 ; colon tile ID
-	inc hl
-	ld de,W_PLAYTIMEMINUTES + 1 ; minutes
-	ld bc,$8102
-	jp PrintNumber
+	ret
 
 TrainerInfo_FarCopyData: ; 1357f (4:757f)
 	ld a,$0b

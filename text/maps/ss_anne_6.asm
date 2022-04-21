@@ -47,12 +47,7 @@ _SSAnne6Text_61807:: ; 81203 (20:5203)
 	prompt
 
 _SSAnne6Text_6180c:: ; 81233 (20:5233)
-IF DEF(_YELLOW)
 	text "Salade de Salmon!"
-ELSE
-	text "Salmon du Salad!"
-ENDC
-
 	para "Les guests may"
 	line "gripe it's fish"
 	cont "again, however!"
@@ -60,14 +55,12 @@ ENDC
 
 _SSAnne6Text_61811:: ; 81273 (20:5273)
 	text "Eels au Barbecue!"
-
 	para "Les guests will"
 	line "mutiny, I fear."
 	done
 
 _SSAnne6Text_61816:: ; 812a6 (20:52a6)
 	text "Prime Beef Steak!"
-
 	para "But, have I enough"
 	line "fillets du beef?"
 	done

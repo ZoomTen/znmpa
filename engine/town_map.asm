@@ -1,3 +1,38 @@
+GetInsideMapName:
+	push hl
+	ld a, [W_CURMAP]
+	sub REDS_HOUSE_1F
+	inc a
+	ld hl, InsideMapsLink
+.getmaplink
+	inc hl
+	dec a
+	jr nz, .getmaplink
+	ld a, [hl]
+	ld d, a
+	pop hl
+; fallthrough
+GetMapName:
+	push hl
+	ld hl, MapNames
+	inc d
+.seek
+	ld a, [hli]
+	cp "@"
+	jr nz, .seek
+	dec d
+	jr nz, .seek
+	ld de, wcd6d
+.copy
+	ld a, [hli]
+	cp "@"
+	ld [de], a
+	inc de
+	jr nz, .copy
+	pop hl
+	ret
+	
+	
 DisplayTownMap: ; 70e3e (1c:4e3e)
 	call LoadTownMap
 	ld hl, wUpdateSpritesEnabled
@@ -603,3 +638,5 @@ TownMapSpriteBlinkingAnimation: ; 716c6 (1c:56c6)
 .done
 	ld [wTownMapSpriteBlinkingCounter], a
 	jp DelayFrame
+	
+INCLUDE "data/inside_map_links.asm"

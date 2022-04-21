@@ -326,9 +326,8 @@ OaksLabScript10: ; 1cd6d (7:4d6d)
 	call SetSpriteFacingDirectionAndDelay
 	ld a, $8
 	ld [wd528], a
-	ld c, BANK(Music_MeetRival)
-	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic ; play music
+	ld a, Mus_MeetRival
+	call PlayMusicEntry
 	ld a, $f
 	ld [$ff8c], a
 	call DisplayTextID
@@ -576,6 +575,12 @@ OaksLabScript16: ; 1cf12 (7:4f12)
 	ld a, HS_OLD_MAN
 	ld [wcc4d], a
 	predef ShowObject
+	ld a, HS_REDSHOUSE1F_1	;!
+	ld [wcc4d], a		;!
+	predef HideObject	;!
+	ld a, HS_REDSHOUSE1F_2	;!
+	ld [wcc4d], a		;!
+	predef HideObject	;!
 	ld a, [wd157]
 	ld b, $0
 	ld c, a
@@ -829,11 +834,13 @@ OaksLabScript_1d157: ; 1d157 (7:5157)
 	ld [$ff8b], a
 	call GetPointerWithinSpriteStateData1
 	ld [hl], $c
-	ld hl, wd730
-	set 6, [hl]
-	predef StarterDex  ; StarterDex
-	ld hl, wd730
-	res 6, [hl]
+	;ld hl, wd730
+	;set 6, [hl]
+	ld a, [wd11e]
+	ld [wcf91], a
+	callba DisplayMonFrontSpriteInBox2
+	;ld hl, wd730
+	;res 6, [hl]
 	call ReloadMapData
 	ld c, $a
 	call DelayFrames

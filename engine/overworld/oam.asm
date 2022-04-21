@@ -123,6 +123,7 @@ PrepareOAMData:
 	or [hl]
 .fg
 	inc hl
+;	set 4, a
 	ld [de], a
 	inc e
 	bit 0, a ; OAMFLAG_ENDOFDATA

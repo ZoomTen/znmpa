@@ -1,67 +1,147 @@
-_ProgrammerText:: ; 9cfa4 (27:4fa4)
-	text "Me? I'm the"
-	line "programmer!"
+_PC1Text::
+	text "It's a PC. A lot"
+	line "of programs can"
+	cont "be seen running."
 	done
-
-_GraphicArtistText:: ; 9cfbc (27:4fbc)
-	text "I'm the graphic"
-	line "artist!"
-	cont "I drew you!"
+	
+_PC2Text::
+	;     XXXXXXXXXXXXXXXX
+	text "...?"
+	para "It's all code!"
+	line "Better not mess"
+	cont "around with them!"
 	done
-
-_WriterText:: ; 9cfe0 (27:4fe0)
-	text "I wrote the story!"
-	line "Isn't ERIKA cute?"
-
-	para "I like MISTY a"
-	line "lot too!"
-
-	para "Oh, and SABRINA,"
-	line "I like her!"
+	
+_ZoomyText1::
+	;     XXXXXXXXXXXXXXXX
+	text "Hm?"
+	para "Oh, hi ", $52, "!"
+	line "I'm ZoomTen!"
+	
+	para "I'd like to let"
+	line "you know that"
+	cont "I'm gonna give"
+	cont "you a few things"
+	cont "once you beat"
+	cont "the game!"
+	
+	para "So get to it XD!"
+	
 	done
-
-_GameDesignerText:: ; 9d03a (27:503a)
-	text "Is that right?"
-
-	para "I'm the game"
-	line "designer!"
-
-	para "Filling up your"
-	line "#DEX is tough,"
-	cont "but don't quit!"
-
-	para "When you finish,"
-	line "come tell me!"
+	
+_ZoomyText2::
+	;     XXXXXXXXXXXXXXXX
+	text "What's that?"
+	para "8 badges..."
+	line "check!"
+	para "HALL OF FAME..."
+	line "check!"
+	para "Ur mm... check-"
+	line "wait, what?"
+	para "So, you beat the"
+	line "game! Yay! Here's"
+	cont "your delectable"
+	cont "reward!"
+	prompt
+	
+_PlayerreceivedSoundTest::
+	;     XXXXXXXXXXXXXXXX
+	text $52, " received"
+	line "SONG PLAYER!@@"
+	
+_PlayerreceivedBattem::
+	;     XXXXXXXXXXXXXXXX
+	text $52, " received"
+	line "BATTEM!@@"
+	
+_PlayerreceivedJunk::
+	;     XXXXXXXXXXXXXXXX
+	text $52, " received"
+	line "a bunch of stuff"
+	cont "that has no use!@@"
+	
+_ZoomyText3::
+	;     XXXXXXXXXXXXXXXX
+	text "That's a music"
+	line "player! It lets"
+	cont "you play all the"
+	cont "songs in this"
+	cont "game!"
+	prompt
+	
+_ZoomyText2c::
+	;     XXXXXXXXXXXXXXXXx
+	text "Oh yeah, try this"
+	line "thing out, too!"
+	prompt
+	
+_ZoomyText2d::
+	;     xxxxxxxxxxxxxxxxxx
+	text "BATTEM, or,"
+	line "'BATTle EMulator',"
+	cont "is a sort of a"
+	cont "battle system."
+	para "It uses simple"
+	line "codes to determine"
+	cont "a trainer or wild"
+	cont "#MON battle."
+	para "Play around with"
+	line "it, but beware of"
+	cont "glitches!"
+	para "For example, here's"
+	line "the code to battle"
+	cont "PROF.OAK:"
+	para "IOCA"
+	para "Or a code to have"
+	line "a rematch with a"
+	cont "youngster:"
+	para "IMJF"
+	para "Only the codes"
+	line "starting with an"
+	cont "'I' works at the"
+	cont "moment."
+	para "There are also"
+	line "forbidden codes as"
+	cont "well. This applies"
+	cont "to key trainers,"
+	cont "i.e. gym leaders"
+	cont "and THETA."
+	para "That also applies"
+	line "to glitch trainers"
+	cont "and glitch #MON"
+	cont ", too."
+	para "It's getting too"
+	line "long, isn't it?"
+	para "Anyways, have fun!"
+	;     xxxxxxxxxxxxxxxxxx
 	done
-
-_CompletedDexText:: ; 9d0ad (27:50ad)
-	text "Wow! Excellent!"
-	line "You completed"
-	cont "your #DEX!"
-	cont "Congratulations!"
-	cont "...@@"
-
-_CeladonMansion3Text5:: ; 9d0ed (27:50ed)
-	text "It's the game"
-	line "program! Messing"
-	cont "with it could bug"
-	cont "out the game!"
-	done
-
-_CeladonMansion3Text6:: ; 9d12c (27:512c)
-	text "Someone's playing"
-	line "a game instead of"
-	cont "working!"
-	done
-
-_CeladonMansion3Text7:: ; 9d159 (27:5159)
-	text "It's the script!"
-	line "Better not look"
-	cont "at the ending!"
+	
+_ZoomyText7::
+	text "Oh, have these"
+	line "too. THETA told"
+	cont "me to give them"
+	cont "to you."
+	
+	para "You can't even"
+	line "use them so LOL"
+	prompt
+	
+_ZoomyTextFull::
+	;     XXXXXXXXXXXXXXXX
+	text "Or wait, I see"
+	line "your bag's full."
+	
+	para "Try cleaning it"
+	line "out, will ya?"
+	cont "Store stuff in a"
+	cont "PC or something!"
 	done
 
 _CeladonMansion3Text8:: ; 9d189 (27:5189)
-	text "GAME FREAK"
-	line "Development Room"
+	text "CELADON MANSION"
+	line "3F"
 	done
-
+	
+_ZoomyText4::
+	text "we become 17."
+	done

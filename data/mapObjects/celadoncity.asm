@@ -27,7 +27,7 @@ CeladonCityObject: ; 0x18022 (size=189)
 	db $15, $21, $11 ; CeladonCityText17
 	db $15, $1b, $12 ; CeladonCityText18
 
-	db $9 ; people
+	db $a ; people
 	db SPRITE_LITTLE_GIRL, $11 + 4, $8 + 4, $fe, $0, $1 ; person
 	db SPRITE_OLD_PERSON, $1c + 4, $b + 4, $ff, $d1, $2 ; person
 	db SPRITE_GIRL, $13 + 4, $e + 4, $fe, $1, $3 ; person
@@ -37,6 +37,7 @@ CeladonCityObject: ; 0x18022 (size=189)
 	db SPRITE_SLOWBRO, $c + 4, $1e + 4, $ff, $d3, $7 ; person
 	db SPRITE_ROCKET, $1d + 4, $20 + 4, $fe, $2, $8 ; person
 	db SPRITE_ROCKET, $e + 4, $2a + 4, $fe, $2, $9 ; person
+	db SPRITE_OLD_PERSON, $c + 4, $11 + 4, $fe, $d0, 19 ; person
 
 	; warp-to
 	EVENT_DISP CELADON_CITY_WIDTH, $d, $8 ; CELADON_MART_1

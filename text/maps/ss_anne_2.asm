@@ -9,12 +9,9 @@ _SSAnne2Text1:: ; 80d34 (20:4d34)
 	done
 
 _SSAnneRivalBeforeBattleText:: ; 80d9a (20:4d9a)
-	text $53, ": Bonjour!"
+	text $53, ": Hey,"
 	line $52, "!"
-
-	para "Imagine seeing"
-	line "you here!"
-
+	
 	para $52, ", were you"
 	line "really invited?"
 
@@ -32,11 +29,7 @@ _SSAnneRivalBeforeBattleText:: ; 80d9a (20:4d9a)
 	done
 
 _SSAnneRivalDefeatedText:: ; 80e57 (20:4e57)
-	text "Humph!"
-
-	para "At least you're"
-	line "raising your"
-	cont "#MON!"
+	text "Nice work!"
 	prompt
 
 _SSAnneRivalWonText:: ; 80e81 (20:4e81)
@@ -59,6 +52,6 @@ _SSAnneRivalCaptainText:: ; 80eb6 (20:4eb6)
 	line "really useful!"
 
 	para "You should go see"
-	line "him! Smell ya!"
+	line "him! See ya!"
 	done
 

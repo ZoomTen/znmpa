@@ -74,4 +74,6 @@ MonPartyData: ; 7190d (1c:590d)
 	dn SPRITE_BIRD_M, SPRITE_BIRD_M			;Zapdos/Moltres
 	dn SPRITE_SNAKE, SPRITE_SNAKE			;Dratini/Dragonair
 	dn SPRITE_SNAKE, SPRITE_MON				;Dragonite/Mewtwo
-	dn SPRITE_MON, 0						;Mew/Padding
+	dn SPRITE_MON, SPRITE_QUADRUPED				;Mew/Glaceon
+	dn SPRITE_MON, SPRITE_QUADRUPED				;Kitsarushi/Kitsuto
+	dn SPRITE_MON, SPRITE_MON				;Rex Mask/Rex Pumkin

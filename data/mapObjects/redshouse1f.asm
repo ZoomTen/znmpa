@@ -7,10 +7,11 @@ RedsHouse1FObject: ; 481e4 (12:41e4)
 	db $1, $7, $0, REDS_HOUSE_2F ; staircase
 
 	db $1 ; signs
-	db $1, $3, $2 ; TV
+	db $1, $3, $3 ; TV
 
-	db $1 ; people
-	db $33, $4 + 4, $5 + 4, $FF, $D2, $1 ; Mom
+	db $2 ; people
+	map_spr_event SPRITE_LUMI, 4, 5, SPR_NOMOVE, $D2, 0, 1
+	map_spr_event SPRITE_JINX, 5, 5, SPR_NOMOVE, $D2, 0, 2
 
 	; warp-to
 	EVENT_DISP REDS_HOUSE_1F_WIDTH, $7, $2

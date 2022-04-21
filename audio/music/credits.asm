@@ -1,7 +1,7 @@
 Music_Credits_Ch1:: ; 7fc1f (1f:7c1f)
 	tempo 140
 	volume 7, 7
-	duty 3
+	duty 2
 	vibrato 8, 3, 4
 	toggleperfectpitch
 	notetype 12, 11, 5

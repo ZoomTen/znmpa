@@ -1,14 +1,19 @@
 SaveTrainerName: ; 27e4a (9:7e4a)
-	ld hl,TrainerNamePointers
-	ld a,[W_TRAINERCLASS]
-	dec a
-	ld c,a
-	ld b,0
-	add hl,bc
-	add hl,bc
-	ld a,[hli]
-	ld h,[hl]
-	ld l,a
+	ld a, [W_TRAINERCLASS]
+	cp TRON_SILVUMI
+	ld hl,LumiName
+	jr z, .continue
+	ld hl,W_TRAINERNAME
+;	ld a,[W_TRAINERCLASS]
+;	dec a
+;	ld c,a
+;	ld b,0
+;	add hl,bc
+;	add hl,bc
+;	ld a,[hli]
+;	ld h,[hl]
+;	ld l,a
+.continue
 	ld de,wcd6d
 .CopyCharacter
 	ld a,[hli]
@@ -67,15 +72,17 @@ TrainerNamePointers: ; 27e64 (9:7e64)
 	dw W_TRAINERNAME
 	dw W_TRAINERNAME
 	dw W_TRAINERNAME
+	dw W_TRAINERNAME
+	dw W_TRAINERNAME
 
 YoungsterName: ; 27ec2 (9:7ec2)
-	db "YOUNGSTER@"
+	db "the youngster@"
 BugCatcherName: ; 27ecc (9:7ecc)
-	db "BUG CATCHER@"
+	db "the bug catcher@"
 LassName: ; 27ed8 (9:7ed8)
-	db "LASS@"
+	db "the lass@"
 JrTrainerMName: ; 27edd (9:7edd)
-	db "JR.TRAINER♂@"
+	db "the JR.TRAINER♂@"
 JrTrainerFName: ; 27ee9 (9:7ee9)
 	db "JR.TRAINER♀@"
 PokemaniacName: ; 27ef5 (9:7ef5)
@@ -110,3 +117,6 @@ CooltrainerMName: ; 27f6c (9:7f6c)
 	db "COOLTRAINER♂@"
 CooltrainerFName: ; 27f79 (9:7f79)
 	db "COOLTRAINER♀@"
+
+LumiName:
+	db "LUMI@"

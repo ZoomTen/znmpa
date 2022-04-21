@@ -533,14 +533,17 @@ _NewBicycleText:: ; 886e6 (22:46e6)
 	done
 
 _PushStartText:: ; 886fc (22:46fc)
-	text "Push START to"
-	line "open the MENU!"
+; LIPPIES
+;	      XXXXXXXXXXXXXXXXXX
+	text "Yeah, I watched"
+	line "you a few times!"
 	done
 
 _SaveOptionText:: ; 8871a (22:471a)
-	text "The SAVE option is"
-	line "on the MENU"
-	cont "screen."
+; http://www.pixton.com/ca/comic/4t1s35wm
+;	      XXXXXXXXXXXXXXXXXX
+	text "Are you a boy or"
+	line "a girl?"
 	done
 
 _StrengthsAndWeaknessesText:: ; 88742 (22:4742)
@@ -1077,7 +1080,7 @@ _OutOfSafariBallsText:: ; 89639 (22:5639)
 	prompt
 
 _WildRanText:: ; 89666 (22:5666)
-	text "Wild @"
+	text "The wild @"
 	TX_RAM wEnemyMonNick
 	db $0
 	line "ran!"
@@ -1112,6 +1115,13 @@ _EnemyMonFaintedText:: ; 0x896c7
 	line "fainted!"
 	prompt
 
+_EnemyMonRektText:: ; 0x896c7
+	text "Enemy @"
+	TX_RAM wEnemyMonNick
+	db $0
+	line "has been rekt!"
+	prompt
+	
 _MoneyForWinningText:: ; 896dd (22:56dd)
 	text $52, " got ¥@"
 	TX_BCD wAmountMoneyWon, $c3
@@ -1136,9 +1146,14 @@ _UseNextMonText:: ; 8971a (22:571a)
 	text "Use next #MON?"
 	done
 
-_Sony1WinText:: ; 8972a (22:572a)
-	text $53, ": Yeah! Am"
-	line "I great or what?"
+_Sony1WinText:: ; 8972a (22:572a)	this is real
+	text $53, ": You can"
+	line "do better!"
+	prompt
+	
+_HaidenWinText:: ; 8972a (22:572a)
+	text "HAIDEN: I WARNED"
+	line "U FOKIN SKRUB"
 	prompt
 
 _PlayerBlackedOutText2:: ; 89748 (22:5748)
@@ -1479,10 +1494,10 @@ _GrewLevelText:: ; 89c01 (22:5c01)
 	text "!@@"
 
 _WildMonAppearedText:: ; 89c1d (22:5c1d)
-	text "Wild @"
+	text "A wild @"
 	TX_RAM wEnemyMonNick
 	db $0
-	line "appeared!"
+	line "appears!"
 	prompt
 
 _HookedMonAttackedText:: ; 89c33 (22:5c33)
@@ -1490,19 +1505,19 @@ _HookedMonAttackedText:: ; 89c33 (22:5c33)
 	line "@"
 	TX_RAM wEnemyMonNick
 	db $0
-	cont "attacked!"
+	cont "attacks!"
 	prompt
 
 _EnemyAppearedText:: ; 89c4f (22:5c4f)
 	TX_RAM wEnemyMonNick
 	db $0
-	line "appeared!"
+	line "appears!"
 	prompt
 
 _TrainerWantsToFightText:: ; 89c5e (22:5c5e)
 	TX_RAM W_TRAINERNAME
 	text " wants"
-	line "to fight!"
+	line "to battle!"
 	prompt
 
 _UnveiledGhostText:: ; 89c73 (22:5c73)
@@ -1512,8 +1527,10 @@ _UnveiledGhostText:: ; 89c73 (22:5c73)
 	prompt
 
 _GhostCantBeIDdText:: ; 89c9e (22:5c9e)
+	;     XXXXXXXXXXXXXXXXX
 	text "Darn! The GHOST"
-	line "can't be ID'd!"
+	line "can't be"
+	cont "identified!"
 	prompt
 
 _GoText:: ; 89cbc (22:5cbc)
@@ -1531,21 +1548,21 @@ _EnemysWeakText:: ; 89cd6 (22:5cd6)
 
 _PlayerMon1Text:: ; 89cf0 (22:5cf0)
 	TX_RAM wBattleMonNick
-	text "!"
+	text "! "
 	done
 
 _PlayerMon2Text:: ; 89cf6 (22:5cf6)
 	TX_RAM wBattleMonNick
-	text " @@"
+	text "! @@"
 
 _EnoughText:: ; 89cfd (22:5cfd)
-	text "enough!@@"
+	text "Enough!@@"
 
 _OKExclamationText:: ; 89d07 (22:5d07)
 	text "OK!@@"
 
 _GoodText:: ; 89d0d (22:5d0d)
-	text "good!@@"
+	text "Good!@@"
 
 _ComeBackText:: ; 89d15 (22:5d15)
 	db $0
@@ -1563,14 +1580,14 @@ _NotVeryEffectiveText:: ; 89d38 (22:5d38)
 	prompt
 
 _SafariZoneEatingText:: ; 89d53 (22:5d53)
-	text "Wild @"
+	text "The wild @"
 	TX_RAM wEnemyMonNick
 	db $0
 	line "is eating!"
 	prompt
 
 _SafariZoneAngryText:: ; 89d6a (22:5d6a)
-	text "Wild @"
+	text "The wild @"
 	TX_RAM wEnemyMonNick
 	db $0
 	line "is angry!"
@@ -1920,20 +1937,19 @@ _OhFineThenText:: ; 8a34c (22:634c)
 	text "Oh, fine then.@@"
 
 _GetDexRatedText:: ; 8a35d (22:635d)
-	text "Want to get your"
-	line "#DEX rated?"
+	text "Would you like to"
+	line "have your #DEX"
+	cont "rated?"
 	done
 
 _ClosedOaksPCText:: ; 8a37b (22:637b)
-	text "Closed link to"
-	line "PROF.OAK's PC.@@"
+	text "Disconnected from"
+	line "the server.@@"
 
 _AccessedOaksPCText:: ; 8a39a (22:639a)
-	text "Accessed PROF."
-	line "OAK's PC."
-
-	para "Accessed #DEX"
-	line "Rating System."
+	text "Connected to the"
+	line "#DEX Rating"
+	cont "Server."
 	prompt
 
 _WhereWouldYouLikeText:: ; 8a3d0 (22:63d0)
@@ -2495,11 +2511,11 @@ _DreamWasEatenText:: ; 94aec (25:4aec)
 	prompt
 
 _BattleCenterMText1:: ; 94b01 (25:4b01)
-	text "!"
+	text "Battle me already!"	; DATE ME ALREADY
 	done
 
 _TradeCenterMText1:: ; 94b04 (25:4b04)
-	text "!"
+	text "Just trade already!"
 	done
 
 INCLUDE "text/maps/reds_house_1f.asm"
@@ -3124,14 +3140,14 @@ _MonCannotLearnMachineMoveText:: ; a6a6e (29:6a6e)
 	prompt
 
 _ItemUseNotTimeText:: ; a6aa6 (29:6aa6)
-	text "OAK: ", $52, "!"
-	line "This isn't the"
-	cont "time to use that! "
+	text $52, ": Hmm..."
+	line "I can't use this"
+	cont "item here."
 	prompt
 
 _ItemUseNotYoursToUseText:: ; a6ad0 (29:6ad0)
-	text "This isn't yours"
-	line "to use!"
+	text "I better deliver"
+	line "this."
 	prompt
 
 _ItemUseNoEffectText:: ; a6ae9 (29:6ae9)
@@ -3378,6 +3394,24 @@ _UsedCutText:: ; a8315 (2a:4315)
 	line "away with CUT!"
 	prompt
 
+_SoundTestInstructions::
+;	         XXXXXXXXXXXXXXXXXX
+	text	"Welcome to SONG"
+	line	"PLAYER!"
+	para	"Press A to play a"
+	line	"song."
+	para	"Press B to stop a"
+	line	"song."
+	para	"Press START to"
+	line	"exit."
+	para	"Press SELECT to"
+	line	"switch between"
+	cont	"info and descrip-"
+	cont	"tion mode."
+	para	"Use the joypad to"
+	line	"scroll through"
+	cont	"the songs."
+	prompt
 
 SECTION "Pokedex Text", ROMX, BANK[POKEDEX_TEXT]
 

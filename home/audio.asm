@@ -51,8 +51,8 @@ asm_2324:: ; 2324 (0:2324)
 	ld a, b
 	ld [wcfca], a
 	ld [wc0ee], a
-	jp PlaySound
-
+	jp PlaySound	
+	
 Func_235f:: ; 235f (0:235f)
 	ld a, [wc0ef]
 	ld b, a
@@ -62,13 +62,22 @@ Func_235f:: ; 235f (0:235f)
 	ld hl, Music2_UpdateMusic
 	jr .asm_2378
 .checkForBank08
+	cp BANK(Music31_UpdateMusic)
+	jr z, .music31
 	cp BANK(Music8_UpdateMusic)
-	jr nz, .bank1F
-.bank08
+	jr nz, .bank8duplicate
 	ld hl, Music8_UpdateMusic
+	jr .asm_2378
+.bank8duplicate				; !!!
+	cp $2e
+	jr c, .bank1F
+	ld hl, $53D1	;hard-coded Music8_UpdateMusic
 	jr .asm_2378
 .bank1F
 	ld hl, Music1f_UpdateMusic
+	jr .asm_2378
+.music31
+	ld hl, Music31_UpdateMusic
 .asm_2378
 	ld c, $6
 .asm_237a
@@ -147,22 +156,36 @@ PlaySound:: ; 23b1 (0:23b1)
 	ld a, [wc0ef]
 	ld [H_LOADEDROMBANK], a
 	ld [$2000], a
+
 	cp BANK(Func_9876)
 	jr nz, .checkForBank08
-.bank02
 	ld a, b
 	call Func_9876
 	jr .asm_240b
+
 .checkForBank08
+	cp BANK(Func2_9876)
+	jr z, .bank31ye
 	cp BANK(Func_22035)
-	jr nz, .bank1F
-.bank08
+	jr nz, .bank8dup
 	ld a, b
 	call Func_22035
 	jr .asm_240b
+.bank8dup				; !!!
+	cp $2e
+	jr c, .bank1F
+	ld a, b
+	call $5B8D	;hard-coded Func_22035
+	jr .asm_240b
 .bank1F
+	cp BANK(Func_7d8ea)
 	ld a, b
 	call Func_7d8ea
+	jr .asm_240b
+.bank31ye
+	ld a, b
+	call Func2_9876
+
 .asm_240b
 	ld a, [$ffb9]
 	ld [H_LOADEDROMBANK], a

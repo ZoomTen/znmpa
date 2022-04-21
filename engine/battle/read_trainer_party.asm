@@ -15,9 +15,22 @@ ReadTrainer: ; 39c53 (e:5c53)
 	ld [hl],a
 
 ; get the pointer to trainer data for this class
-	ld a,[W_CUROPPONENT]
-	sub $C9 ; convert value from pokemon to trainer
-	add a,a
+;	ld a,[W_CUROPPONENT]
+;	cp $FF	; are we at the limit?
+;	jr z, .secondtable
+;.firsttable
+;	sub $C9 ; convert value from pokemon to trainer
+;	add a,a
+;	ld hl,TrainerDataPointers
+;	jr .continue
+;.secondtable
+;	ld a, [wSecondTrainerIndex]
+;	add a, a
+;	ld hl,TrainerDataPointers2
+;.continue
+	ld a,[W_TRAINERCLASS]
+	dec a
+	add a, a
 	ld hl,TrainerDataPointers
 	ld c,a
 	ld b,0
@@ -100,11 +113,17 @@ ReadTrainer: ; 39c53 (e:5c53)
 ; check if our trainer's team has special moves
 
 ; get trainer class number
-	ld a,[W_CUROPPONENT]
-	sub $C8
+	ld a,[W_TRAINERCLASS]
+;	cp $FF
+;	jr z, .secondindex
+;	sub $C8
 	ld b,a
 	ld hl,TeamMoves
-
+;	jr .IterateTeamMoves
+;.secondindex
+;	ld a,[wSecondTrainerIndex]
+;	ld b,a
+;	ld hl,TeamMoves
 ; iterate through entries in TeamMoves, checking each for our trainer class
 .IterateTeamMoves
 	ld a,[hli]

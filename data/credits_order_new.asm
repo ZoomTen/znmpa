@@ -1,0 +1,60 @@
+CreditsOrder: ; 74243 (1d:4243)
+; subsequent credits elements will be displayed on separate lines.
+; to go to the next set of credits texts.
+	db $41, $42, $52, $43, $FF			; Zilo & Mixel credits...
+	db $FB					; (Event: Show "CREDITS")
+	db $47, $48, $49, $FF			; Pokered disasm: IIMarckus & co...
+	db $44, $40, $FF			; ASM mods: ZoomTen...
+	db $45, $40, $FF			; Sprites: ZoomTen...
+	db $4C, $40, $5A, $FF			; Script: ZoomTen...
+	db $46, $40, $5B, $FF			; Music: ZoomTen...
+	
+	db $53, $54, $52			; Lumi
+	db $55, $56				; and Jinx
+	db $FF
+
+	db $57, $58, $52			; Theta
+	db $59, $5A				; and Haiden
+	db $FF
+	
+	db $FA					; (Event: Hide "CREDITS")
+	db $4A, $4B, $FF			; Original game staff roll...
+	db CRED_MON, CRED_VERSION, $FF
+	db $FB					; (Event: Show "CREDITS")
+	db CRED_DIRECTOR, CRED_TAJIRI, $FF
+
+	db CRED_PROGRAMMERS, CRED_TA_OOTA, CRED_MORIMOTO, CRED_MURAKAWA, $FF
+	db CRED_FUKUI, CRED_WATANABE, CRED_MASUDE, CRED_TAMADA, $FF
+
+	db CRED_CHAR_DESIGN, CRED_SUGIMORI, CRED_NISHIDA, $FF
+
+	db CRED_MUSIC, CRED_MASUDE, $FF
+
+	db CRED_GAME_DESIGN, CRED_TAJIRI, $FF
+
+	db CRED_MONSTER_DESIGN, CRED_SUGIMORI, CRED_NISHIDA, CRED_FUZIWARA, CRED_MORIMOTO, CRED_SA_OOTA, CRED_YOSHIKAWA, $FF
+
+	db CRED_GAME_SCENE, CRED_TAJIRI, CRED_TANIGUCHI, CRED_NONOMURA, CRED_ZINNAI, $FF
+
+	db CRED_PARAM, CRED_NISINO, CRED_TA_NAKAMURA, $FF
+
+	db CRED_MAP, CRED_TAJIRI, CRED_NISINO, CRED_MATSUSIMA, CRED_NONOMURA, CRED_TANIGUCHI, $FF
+
+	db CRED_TEST, CRED_KAKEI, CRED_TSUCHIYA, CRED_TA_NAKAMURA, CRED_YUDA, $FF
+
+	db CRED_SPECIAL, CRED_HISHIDA, CRED_SAKAI, CRED_YAMAGUCHI, CRED_YAMAMOTO, CRED_IWATA, CRED_HARADA, $FF
+
+	db CRED_TOMISAWA, CRED_KAWAMOTO, CRED_TO_OOTA, $FF
+
+	db CRED_PRODUCERS, CRED_MIYAMOTO, CRED_KAWAGUCHI, CRED_ISHIHARA, CRED_IZUSHI, $FF
+
+	db CRED_US_COORD, CRED_TILDEN, CRED_KAWAKAMI, CRED_HI_NAKAMURA, CRED_GIESE, CRED_OSBORNE, $FF
+
+	db CRED_TRANS, CRED_OGASAWARA, $FF
+
+	db CRED_TEST, CRED_PAAD, CRED_CLUB, $FF
+
+	db CRED_EXECUTIVE, CRED_YAMAUCHI, $FF
+	db $FA					; (Event: Hide "CREDITS")
+	db $FE, $FC, $FD
+	db $50, $51, $52, $4D, $4E, $4F, $F9

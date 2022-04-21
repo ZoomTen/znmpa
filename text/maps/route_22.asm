@@ -1,16 +1,18 @@
 _Route22RivalBeforeBattleText1:: ; 922cd (24:62cd)
 	text $53, ": Hey!"
 	line $52, "!"
-
-	para "You're going to"
-	line "#MON LEAGUE?"
-
-	para "Forget it! You"
+;	      XXXXXXXXXXXXXXXXXX
+	para "Are you going to"
+	line "the #MON"
+	cont "LEAGUE?"
+;	      XXXXXXXXXXXXXXXXXX
+	para "Forget it! We"
 	line "probably don't"
-	cont "have any BADGEs!"
+	cont "have a single"
+	cont "BADGE!"
 
 	para "The guard won't"
-	line "let you through!"
+	line "let us through!"
 
 	para "By the way, did"
 	line "your #MON"
@@ -25,16 +27,14 @@ _Route22RivalAfterBattleText1:: ; 9236f (24:636f)
 	para "I have to figure"
 	line "out how to get"
 	cont "past them!"
-
-	para "You should quit"
-	line "dawdling and get"
-	cont "a move on!"
+;	      XXXXXXXXXXXXXXXXXX
+	para "Wish ourselves"
+	line "luck!"
 	done
 
 _Route22RivalDefeatedText1:: ; 923f4 (24:63f4)
-	text "Awww!"
-	line "You just lucked"
-	cont "out!"
+;	      XXXXXXXXXXXXXXXXXX
+	text "Well then!"
 	prompt
 
 _Route22Text_511bc:: ; 92410 (24:6410)
@@ -59,21 +59,17 @@ _Route22RivalBeforeBattleText2:: ; 92450 (24:6450)
 	line "the BADGEs too?"
 	cont "That's cool!"
 
-IF DEF(_YELLOW)
-	para "Then I'll whip"
-	line "you, ", $52, ", as"
-	cont "a warmup for"
-ELSE
-	para "Then I'll whip you"
-	line $52, " as a"
-	cont "warm up for"
-ENDC
-	cont "#MON LEAGUE!"
+;	      XXXXXXXXXXXXXXXXXX
+	para "I'll challenge you"
+	line "as a warm-up for"
+	cont "the #MON"
+	cont "LEAGUE!"
 
 	para "Come on!"
 	done
 
 _Route22RivalAfterBattleText2:: ; 92506 (24:6506)
+;	      XXXXXXXXXXXXXXXXXX
 	text "That loosened me"
 	line "up! I'm ready for"
 	cont "#MON LEAGUE!"
@@ -83,25 +79,23 @@ _Route22RivalAfterBattleText2:: ; 92506 (24:6506)
 
 	para "But hey, you know"
 	line "that! I'm out of"
-	cont "here. Smell ya!"
+	cont "here. See ya!"
 	done
 
 _Route22RivalDefeatedText2:: ; 92583 (24:6583)
-	text "What!?"
-
-	para "I was just"
-	line "careless!"
+;	      XXXXXXXXXXXXXXXXXX
+	text "Looks like"
+	line "you're worthy,"
+	cont "then!"
 	prompt
 
 _Route22Text_511d0:: ; 925a0 (24:65a0)
-	text $53, ": Hahaha!"
-	line $52, "! That's"
-	cont "your best? You're"
-	cont "nowhere near as"
-	cont "good as me, pal!"
-
-	para "Go train some"
-	line "more! You loser!"
+;	      XXXXXXXXXXXXXXXXXX
+	text $53, "Hey pal,"
+	line "you'd better train"
+	cont "some more before"
+	cont "challenging the"
+	cont "#MON LEAGUE!"
 	prompt
 
 _Route22FrontGateText:: ; 92606 (24:6606)

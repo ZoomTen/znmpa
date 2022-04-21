@@ -21,13 +21,14 @@ VermilionCityObject: ; 0x189ba (size=133)
 	db $13, $7, $c ; VermilionCityText12
 	db $f, $1d, $d ; VermilionCityText13
 
-	db $6 ; people
+	db $7 ; people
 	db SPRITE_FOULARD_WOMAN, $7 + 4, $13 + 4, $fe, $2, $1 ; person
 	db SPRITE_GAMBLER, $6 + 4, $e + 4, $ff, $ff, $2 ; person
 	db SPRITE_SAILOR, $1e + 4, $13 + 4, $ff, $d1, $3 ; person
 	db SPRITE_GAMBLER, $7 + 4, $1e + 4, $ff, $ff, $4 ; person
 	db SPRITE_SLOWBRO, $9 + 4, $1d + 4, $fe, $1, $5 ; person
 	db SPRITE_SAILOR, $1b + 4, $19 + 4, $fe, $2, $6 ; person
+	db SPRITE_GAMBLER, $f + 4, $13 + 4, $fe, $02, 14 ; person
 
 	; warp-to
 	EVENT_DISP VERMILION_CITY_WIDTH, $3, $b ; VERMILION_POKECENTER

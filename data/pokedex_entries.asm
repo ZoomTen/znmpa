@@ -29,8 +29,8 @@ PokedexEntryPointers: ; 4047e (10:447e)
 	dw BlastoiseDexEntry
 	dw PinsirDexEntry
 	dw TangelaDexEntry
-	dw MissingNoDexEntry
-	dw MissingNoDexEntry
+	dw GlaceonDexEntry
+	dw KitsarushiDexEntry
 	dw GrowlitheDexEntry
 	dw OnixDexEntry
 	dw FearowDexEntry
@@ -48,13 +48,13 @@ PokedexEntryPointers: ; 4047e (10:447e)
 	dw PsyduckDexEntry
 	dw DrowzeeDexEntry
 	dw GolemDexEntry
-	dw MissingNoDexEntry
+	dw KitsutoDexEntry
 	dw MagmarDexEntry
-	dw MissingNoDexEntry
+	dw RexMaskDexEntry
 	dw ElectabuzzDexEntry
 	dw MagnetonDexEntry
 	dw KoffingDexEntry
-	dw MissingNoDexEntry
+	dw RexPumkinDexEntry
 	dw MankeyDexEntry
 	dw SeelDexEntry
 	dw DiglettDexEntry
@@ -403,6 +403,41 @@ TangelaDexEntry: ; 407e8 (10:47e8)
 	db 3,3
 	dw 770
 	TX_FAR _TangelaDexEntry
+	db "@"
+
+GlaceonDexEntry:
+	db "ICE@"
+	db 2,7			; height
+	dw 571			; weight
+	TX_FAR _GlaceonDexEntry
+	db "@"
+	
+KitsarushiDexEntry:
+	db "FOX@"
+	db 1, 8
+	dw 1010
+	TX_FAR _KitsarushiDexEntry
+	db "@"
+	
+RexMaskDexEntry:
+	db "MASK@"
+	db 0, 0
+	dw 0
+	TX_FAR _RexMaskDexEntry
+	db "@"
+	
+RexPumkinDexEntry:
+	db "PUMPKIN@"
+	db 0, 0
+	dw 0
+	TX_FAR _RexPumkinDexEntry
+	db "@"
+	
+KitsutoDexEntry:
+	db "CLOUD@"
+	db 4, 7
+	dw 2326
+	TX_FAR _KitsutoDexEntry
 	db "@"
 
 GrowlitheDexEntry: ; 407f6 (10:47f6)

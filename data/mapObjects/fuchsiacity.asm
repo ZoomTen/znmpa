@@ -28,7 +28,7 @@ FuchsiaCityObject: ; 0x18bd4 (size=178)
 	db $f, $d, $17 ; FuchsiaCityText23
 	db $7, $7, $18 ; FuchsiaCityText24
 
-	db $a ; people
+	db $b ; people
 	db SPRITE_BUG_CATCHER, $c + 4, $a + 4, $fe, $2, $1 ; person
 	db SPRITE_GAMBLER, $11 + 4, $1c + 4, $fe, $2, $2 ; person
 	db SPRITE_FISHER2, $e + 4, $1e + 4, $ff, $d0, $3 ; person
@@ -39,6 +39,7 @@ FuchsiaCityObject: ; 0x18bd4 (size=178)
 	db SPRITE_SLOWBRO, $c + 4, $1e + 4, $fe, $2, $8 ; person
 	db SPRITE_SEEL, $11 + 4, $8 + 4, $fe, $0, $9 ; person
 	db SPRITE_OMANYTE, $5 + 4, $6 + 4, $ff, $ff, $a ; person
+	db SPRITE_BUG_CATCHER, $12 + 4, $15 + 4, $fe, $2, 25 ; person
 
 	; warp-to
 	EVENT_DISP FUCHSIA_CITY_WIDTH, $d, $5 ; FUCHSIA_MART

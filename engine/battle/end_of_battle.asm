@@ -26,8 +26,8 @@ EndOfBattle: ; 137aa (4:77aa)
 	jr .evolution
 .notLinkBattle
 	ld a, [wBattleResult]
-	and a
-	jr nz, .resetVariables
+	and a				; did we win?
+	jr nz, .resetVariables		; go straight to resetting variables if not
 	ld hl, wTotalPayDayMoney
 	ld a, [hli]
 	or [hl]

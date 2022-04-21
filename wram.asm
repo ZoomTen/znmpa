@@ -95,9 +95,9 @@ wc096:: ds 8
 wc09e:: ds 8
 wc0a6:: ds 8
 wc0ae:: ds 8
-wc0b6:: ds 8
+wc0b6:: ds 8	;time until next note
 wc0be:: ds 8
-wc0c6:: ds 8
+wc0c6:: ds 8	;speed
 wc0ce:: ds 1
 wc0cf:: ds 1
 wc0d0:: ds 1
@@ -106,8 +106,8 @@ wc0d2:: ds 1
 wc0d3:: ds 1
 wc0d4:: ds 1
 wc0d5:: ds 1
-wc0d6:: ds 8
-wc0de:: ds 8
+wc0d6:: ds 8	;octave
+wc0de:: ds 8	;envelope type
 wc0e6:: ds 1
 wc0e7:: ds 1
 wc0e8:: ds 1
@@ -600,6 +600,8 @@ wSubtrahend:: ; cd3d
 
 wWhichTrade:: ; cd3d
 ; which entry from TradeMons to select
+
+wcd3d:
 
 wTrainerSpriteOffset:: ; cd3d
 	ds 1
@@ -1732,13 +1734,16 @@ W_BLUESHOUSECURSCRIPT:: ; d5f3
 	ds 1
 W_VIRIDIANCITYCURSCRIPT:: ; d5f4
 	ds 1
-	ds 2
+W_ROUTE2CURSCRIPT::
+	ds 1
+	ds 1
 W_PEWTERCITYCURSCRIPT:: ; d5f7
 	ds 1
 W_ROUTE3CURSCRIPT:: ; d5f8
 	ds 1
 W_ROUTE4CURSCRIPT:: ; d5f9
 	ds 1
+W_ROUTE10_SUBSCRIPT::	; d5fa
 	ds 1
 W_VIRIDIANGYMCURSCRIPT:: ; d5fb
 	ds 1
@@ -1772,6 +1777,7 @@ W_SSANNE9CURSCRIPT:: ; d609
 	ds 1
 W_ROUTE22CURSCRIPT:: ; d60a
 	ds 1
+W_MTMOON2CURSCRIPT:: ; d60b
 	ds 1
 W_REDSHOUSE2CURSCRIPT:: ; d60c
 	ds 1
@@ -1782,6 +1788,7 @@ W_ROUTE22GATECURSCRIPT:: ; d60e
 W_CERULEANCITYCURSCRIPT:: ; d60f
 	ds 1
 	ds 7
+	
 W_SSANNE5CURSCRIPT:: ; d617
 	ds 1
 W_VIRIDIANFORESTCURSCRIPT:: ; d618
@@ -1932,7 +1939,6 @@ W_SEAFOAMISLANDS5CURSCRIPT:: ; d668
 	ds 1
 W_ROUTE18GATECURSCRIPT:: ; d669
 	ds 1
-
 	ds 134
 
 wd6f0:: ds 14 ; flags for hidden items?
@@ -1943,7 +1949,7 @@ wWalkBikeSurfState:: ; d700
 ; $01 = biking
 ; $02 = surfing
 	ds 1
-
+	
 	ds 10
 
 W_TOWNVISITEDFLAG:: ; d70b
@@ -2241,7 +2247,10 @@ wEnemyMonNicks:: ds 11 * PARTY_LENGTH ; d9ee
 W_TRAINERHEADERPTR:: ; da30
 	ds 2
 
-	ds 6
+wda32::
+	ds 1
+	
+	ds 5
 
 wda38:: ds 1 ; used with cinnabar gym questions and pokemon tower 7F?
 
@@ -2290,7 +2299,42 @@ wBoxMonOT::    ds 11 * MONS_PER_BOX ; dd2a
 wBoxMonNicks:: ds 11 * MONS_PER_BOX ; de06
 wBoxMonNicksEnd:: ; dee2
 
+wIntroPalFlag::
+wSoundTestMode::
+wCreditsScroll1::
+wCreditsIndex::		ds 1	; de02 New credits index / Sound test mode (00=song info, 01=comments) / Intro palette flag
 
+wIntroOAMEntries::
+wCreditsScroll2::
+wCreditsLineNo::	ds 1	; de03 Credits - rendered line number / intro, OAM entries to scroll
+
+wTempBattleSplitCounter::
+wSoundTestNo::
+wTitlescreenCounter::
+wTempIndexNo::
+wPicSavedTiles::	ds 1	; de04 Battle transition pic tile # / Title screen (press start counter) / Sound test number / fffff
+
+wSecondTrainerIndex::	ds 1	; de05  Secondary trainer index, W_CUROPPONENT is just full as hell, therefore
+				;	giving the possibility to add more trainers
+				
+wPaletteFlag::		ds 1	; de06  render trainer (01) or pokemon palette (00)? GOD I'M SUCH A NOOB.
+
+wBeatenChamp::		ds 1	; de07  did you beat THETA? (bit 0 set = yes), Celadon script (bit 1 set, already talked)
+
+wTempStack::
+wSoundTestTemp::	ds 2	; de08  temporary register, used for sound test. We can't fuck around with the stack since it's gonna mess up everything.
+
+wBattemVars::		ds 4	; de09
+
+;wWaveBackup::
+;			ds 16
+wROMBANKBACKUP::
+			ds 1
+wCreditsCurrentTextPtr::
+			ds 2
+wPalSelect::
+			ds 1
+			
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff
 	ds -$100

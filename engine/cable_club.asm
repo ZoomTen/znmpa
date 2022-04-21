@@ -284,9 +284,8 @@ CableClub_DoBattleOrTradeAgain: ; 5345
 	predef HealParty
 	jp ReturnToCableClubRoom
 .asm_5506
-	ld c, BANK(Music_GameCorner)
-	ld a, MUSIC_GAME_CORNER
-	call PlayMusic
+	ld a, Mus_GameCorner
+	call PlayMusicEntry
 	jr CallCurrentTradeCenterFunction
 
 PleaseWaitString: ; 550f (1:550f)

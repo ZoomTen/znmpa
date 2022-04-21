@@ -49,6 +49,14 @@ BattleTransition: ; 7096d (1c:496d)
 	call GetBattleTransitionID_WildOrTrainer
 	call GetBattleTransitionID_CompareLevels
 	call GetBattleTransitionID_IsDungeonMap
+	ld a, [W_CUROPPONENT]
+	cp SONY3 + $C8
+	jr z, .othertransition		; if trainer is theta
+	cp MASKEDLUMI + $C8
+	jr z, .othertransition		; if trainer is masked lumi
+	jr .linkBattle
+.othertransition
+	jpba BattleTransition_ShowPic
 .linkBattle
 	ld hl, BattleTransitions
 	add hl, bc
@@ -65,15 +73,15 @@ BattleTransition: ; 7096d (1c:496d)
 ; bit 1: set if enemy is at least 3 levels higher than player
 ; bit 2: set if dungeon map
 BattleTransitions: ; 709d2 (1c:49d2)
-	dw BattleTransition_DoubleCircle      ; %000
+	dw BattleTransition_Shift             ; %000
 	dw BattleTransition_Spiral            ; %001
-	dw BattleTransition_Circle            ; %010
+	dw BattleTransition_WhiteOut          ; %010
 	dw BattleTransition_Spiral            ; %011
-	dw BattleTransition_HorizontalStripes ; %100
+	dw BattleTransition_Circle	      ; %100
 	dw BattleTransition_Shrink            ; %101
-	dw BattleTransition_VerticalStripes   ; %110
+	dw BattleTransition_Circle	      ; %110 this should be changed to a per-tile spiral transition
 	dw BattleTransition_Split             ; %111
-
+	
 GetBattleTransitionID_WildOrTrainer: ; 709e2 (1c:49e2)
 	ld a, [W_CUROPPONENT]
 	cp $c8
@@ -177,12 +185,14 @@ DungeonMaps2: ; 70a44 (1c:4a44)
 
 LoadBattleTransitionTile: ; 70a4d (1c:4a4d)
 	ld hl, vChars1 + $7f0
-	ld de, BattleTransitionTile
 	ld bc, (BANK(BattleTransitionTile) << 8) + $01
+	ld de, BattleTransitionTile
 	jp CopyVideoData
 
-BattleTransitionTile: ; 70a59 (1c:4a59)
-	INCBIN "gfx/battle_transition.2bpp"
+BattleTransitionTile:
+	REPT 16
+	db $ff
+	ENDR
 
 BattleTransition_BlackScreen: ; 70a69 (1c:4a69)
 	ld a, $ff
@@ -191,6 +201,14 @@ BattleTransition_BlackScreen: ; 70a69 (1c:4a69)
 	ld [rOBP1], a
 	ret
 
+BattleTransition_Shift:
+	call BattleTransition_FlashScreen
+	jpba BattleTransition_ShiftScreen		; actual code goes here
+
+BattleTransition_WhiteOut:
+	call BattleTransition_FlashScreen
+	jpba _BattleTransition_WhiteOut
+	
 ; for non-dungeon trainer battles
 ; called regardless of mon levels, but does an
 ; outward spiral if enemy is at least 3 levels
@@ -230,10 +248,10 @@ BattleTransition_Spiral: ; 70a72 (1c:4a72)
 
 BattleTransition_InwardSpiral: ; 70aaa (1c:4aaa)
 	ld a, $7
-	ld [wWhichTrade], a
+	ld [wWhichTrade], a			; transfer 7 tiles at once
 	ld hl, wTileMap
-	ld c, $11
-	ld de, $14
+	ld c, $11				; how many tiles should be transferred before the next routine?
+	ld de, $14				; move down
 	call BattleTransition_InwardSpiral_
 	inc c
 	jr .skip
@@ -264,9 +282,9 @@ BattleTransition_InwardSpiral_: ; 70ae0 (1c:4ae0)
 	ld [hl], $ff
 	add hl, de
 	push bc
-	ld a, [wWhichTrade]
+	ld a, [wWhichTrade]		; did 7 black tiles move down the screen?
 	dec a
-	jr nz, .skip
+	jr nz, .skip			; continue
 	call BattleTransition_TransferDelay3
 	ld a, $7
 .skip

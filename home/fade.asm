@@ -1,3 +1,5 @@
+GLOBAL_FADE_TIMER	EQU 8
+
 ; These routines manage gradual fading
 ; (e.g., entering a doorway)
 LoadGBPal::
@@ -34,7 +36,7 @@ GBFadeIncCommon:
 	ld [rOBP0], a
 	ld a, [hli]
 	ld [rOBP1], a
-	ld c, 8
+	ld c, GLOBAL_FADE_TIMER
 	call DelayFrames
 	dec b
 	jr nz, GBFadeIncCommon
@@ -56,7 +58,7 @@ GBFadeDecCommon:
 	ld [rOBP0], a
 	ld a, [hld]
 	ld [rBGP], a
-	ld c, 8
+	ld c, GLOBAL_FADE_TIMER
 	call DelayFrames
 	dec b
 	jr nz, GBFadeDecCommon

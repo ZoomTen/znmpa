@@ -3,20 +3,20 @@ MapSpriteSets: ; 17a64 (5:7a64)
 	db $01 ; VIRIDIAN_CITY
 	db $02 ; PEWTER_CITY
 	db $02 ; CERULEAN_CITY
-	db $03 ; LAVENDER_TOWN
+	db $0C ; LAVENDER_TOWN
 	db $04 ; VERMILION_CITY
 	db $05 ; CELADON_CITY
 	db $0a ; FUCHSIA_CITY
 	db $01 ; CINNABAR_ISLAND
 	db $06 ; INDIGO_PLATEAU
 	db $07 ; SAFFRON_CITY
-	db $01 ; unused map ID
+	db $04 ; unused map ID
 	db $01 ; ROUTE_1
 	db $f1 ; ROUTE_2
 	db $02 ; ROUTE_3
 	db $02 ; ROUTE_4
 	db $f9 ; ROUTE_5
-	db $fa ; ROUTE_6
+	db $0b ; ROUTE_6
 	db $fb ; ROUTE_7
 	db $fc ; ROUTE_8
 	db $02 ; ROUTE_9
@@ -46,7 +46,7 @@ MapSpriteSets: ; 17a64 (5:7a64)
 ; 03: sprite set ID if in the East or South side
 SplitMapSpriteSets: ; 17a89 (5:7a89)
 	db $02,$25,$02,$01 ; $f1
-	db $02,$32,$02,$03 ; $f2
+	db $02,$32,$02,$0c ; $f2
 	db $01,$39,$04,$08 ; $f3
 	db $02,$15,$03,$08 ; $f4
 	db $01,$08,$0A,$08 ; $f5
@@ -54,11 +54,14 @@ SplitMapSpriteSets: ; 17a89 (5:7a89)
 	db $01,$22,$09,$0A ; $f7
 	db $01,$35,$01,$0A ; $f8
 	db $02,$21,$02,$07 ; $f9
-	db $02,$02,$07,$04 ; $fa
+	db $02,$02,$07,$0b ; $fa
 	db $01,$11,$05,$07 ; $fb
-	db $01,$03,$07,$03 ; $fc
+	db $01,$03,$07,$0c ; $fc
 
 SpriteSets: ; 17ab9 (5:7ab9)
+; each sprite set must have
+; 11 entries
+
 ; sprite set $01
 	db SPRITE_BLUE
 	db SPRITE_BUG_CATCHER
@@ -188,6 +191,34 @@ SpriteSets: ; 17ab9 (5:7ab9)
 	db SPRITE_BUG_CATCHER
 	db SPRITE_BALL
 	db SPRITE_OMANYTE
+
+; sprite set $0B
+	db SPRITE_LUMI
+	db SPRITE_BUG_CATCHER
+	db SPRITE_JINX
+	db SPRITE_LASS
+	db SPRITE_BLACK_HAIR_BOY_1
+	db SPRITE_MOCHA
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	
+; sprite set $0C
+; lavender, route 8, route 10
+	db SPRITE_LITTLE_GIRL
+	db SPRITE_BLACK_HAIR_BOY_1
+	db SPRITE_BLACK_HAIR_BOY_2
+	db SPRITE_GAMBLER
+	db SPRITE_LASS
+	db SPRITE_HIKER
+	db SPRITE_ROCKET
+	db SPRITE_MOCHA
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+	db SPRITE_LYING_OLD_MAN_UNUSED_2
+
 
 SpriteSheetPointerTable: ; 17b27 (5:7b27)
 	; SPRITE_RED
@@ -490,6 +521,26 @@ SpriteSheetPointerTable: ; 17b27 (5:7b27)
 	db $c0 ; byte count
 	db BANK(SeelSprite)
 
+	; SPRITE_LUMI
+	dw LumiSprite
+	db $C0 ; byte count
+	db BANK(LumiSprite)
+
+	; SPRITE_JINX
+	dw JinxSprite
+	db $C0 ; byte count
+	db BANK(JinxSprite)
+	
+	; SPRITE_THETA
+	dw ThetaSprite
+	db $C0 ; byte count
+	db BANK(ThetaSprite)
+	
+	; SPRITE_MOCHA
+	dw MochaSprite
+	db $C0 ; byte count
+	db BANK(MochaSprite)
+
 	; SPRITE_BALL
 	dw BallSprite
 	db $40 ; byte count
@@ -549,3 +600,4 @@ SpriteSheetPointerTable: ; 17b27 (5:7b27)
 	dw LyingOldManSprite
 	db $40 ; byte count
 	db BANK(LyingOldManSprite)
+

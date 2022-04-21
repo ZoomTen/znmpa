@@ -1,5 +1,10 @@
+Music_PalletTown_Changetempo::
+	tempo 232
+	loopchannel 0, Music_PalletTown_instruments
+
 Music_PalletTown_Ch1:: ; a7c5 (2:67c5)
 	tempo 160
+Music_PalletTown_instruments::
 	volume 7, 7
 	duty 2
 	notetype 12, 12, 3

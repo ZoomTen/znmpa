@@ -90,9 +90,8 @@ Route22Script0: ; 50f00 (14:4f00)
 	ld [wc0ee], a
 	call PlaySound
 .asm_50f4e
-	ld c, BANK(Music_MeetRival)
-	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
+	ld a, Mus_MeetRival
+	call PlayMusicEntry
 	ld a, $1
 	ld [$ff8c], a
 	call Route22MoveRivalSprite

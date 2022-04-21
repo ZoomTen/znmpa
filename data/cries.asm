@@ -30,8 +30,8 @@ CryData: ; 39446 (e:5446)
 	db $13, $00, $80; Blastoise
 	db $14, $00, $80; Pinsir
 	db $12, $00, $80; Tangela
-	db $00, $00, $00; MissingNo.
-	db $00, $00, $00; MissingNo.
+	db $1A, $AA, $FF; Glaceon
+	db $1B, $90, $20; Kitsarushi
 	db $1F, $20, $40; Growlithe
 	db $17, $FF, $C0; Onix
 	db $18, $40, $A0; Fearow
@@ -49,13 +49,13 @@ CryData: ; 39446 (e:5446)
 	db $21, $20, $60; Psyduck
 	db $0D, $88, $20; Drowzee
 	db $12, $E0, $40; Golem
-	db $00, $00, $00; MissingNo.
+	db $1B, $32, $50; Kitsuto
 	db $04, $FF, $30; Magmar
-	db $00, $00, $00; MissingNo.
+	db $03, $09, $15; Rex Mask
 	db $06, $8F, $FF; Electabuzz
 	db $1C, $20, $C0; Magneton
 	db $12, $E6, $DD; Koffing
-	db $00, $00, $00; MissingNo.
+	db $15, $01, $17; MissingNo.
 	db $0A, $DD, $60; Mankey
 	db $0C, $88, $C0; Seel
 	db $0B, $AA, $01; Diglett

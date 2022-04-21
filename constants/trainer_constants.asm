@@ -41,8 +41,21 @@ BLAINE        EQU $27
 SABRINA       EQU $28
 GENTLEMAN     EQU $29
 SONY2         EQU $2A
-SONY3         EQU $2B
+SONY3         EQU $2B	; Theta
 LORELEI       EQU $2C
 CHANNELER     EQU $2D
 AGATHA        EQU $2E
 LANCE         EQU $2F
+LUMI          EQU $30
+JINX          EQU $31
+HAIDEN        EQU $32
+MOCHA	      EQU $33
+TRON_SILVUMI  EQU $34
+MWAH	      EQU $35
+MASKEDLUMI    EQU $36
+INDEX2	      EQU $37	; FF, used to call second index
+
+; to battle these trainers $FF needs to be set in W_CUROPPONENT
+; these values need to be written in wSecondTrainerIndex
+; actual trainer ID is (constant + $37)
+JONIC	      EQU $00

@@ -71,9 +71,8 @@ CeruleanCityScript0: ; 194c8 (6:54c8)
 	ld [wc0ee], a
 	call PlaySound
 .asm_19512
-	ld c, BANK(Music_MeetRival)
-	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
+	ld a, Mus_MeetRival
+	call PlayMusicEntry
 	xor a
 	ld [hJoyHeld], a
 	ld a, $f0
@@ -232,6 +231,7 @@ CeruleanCityTextPointers: ; 1962d (6:562d)
 	dw PokeCenterSignText
 	dw CeruleanCityText16
 	dw CeruleanCityText17
+	dw DoMwahBattle
 
 CeruleanCityText1: ; 1964f (6:564f)
 	db $08 ; asm

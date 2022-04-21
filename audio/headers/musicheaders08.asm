@@ -29,7 +29,7 @@ Music_FinalBattle:: ; 202d9 (8:42d9)
 	dw Music_FinalBattle_Ch2
 	db CH2
 	dw Music_FinalBattle_Ch3
-
+	
 Music_DefeatedTrainer:: ; 202e2 (8:42e2)
 	db ( $80 | CH0 )
 	dw Music_DefeatedTrainer_Ch1

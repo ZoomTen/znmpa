@@ -22,11 +22,11 @@ MapHSPointers: ; c8f5 (3:48f5)
 	dw MapHSXX
 	dw MapHS0F
 	dw MapHSXX
-	dw MapHSXX
+	dw MapHS11
 	dw MapHSXX
 	dw MapHSXX
 	dw MapHS14
-	dw MapHSXX
+	dw MapHS15
 	dw MapHSXX
 	dw MapHS17
 	dw MapHSXX
@@ -42,7 +42,7 @@ MapHSPointers: ; c8f5 (3:48f5)
 	dw MapHSXX
 	dw MapHS23
 	dw MapHS24
-	dw MapHSXX
+	dw MapHS25
 	dw MapHSXX
 	dw MapHS27
 	dw MapHS28
@@ -65,7 +65,7 @@ MapHSPointers: ; c8f5 (3:48f5)
 	dw MapHSXX
 	dw MapHSXX
 	dw MapHS3B
-	dw MapHSXX
+	dw MapHS3C
 	dw MapHS3D
 	dw MapHSXX
 	dw MapHSXX
@@ -304,6 +304,7 @@ MapHS0A: ; cb08 (3:4b08)
 MapHS0D: ; cb35 (3:4b35)
 	db ROUTE_2,$01,Show
 	db ROUTE_2,$02,Show
+	db ROUTE_2,$03,Show
 MapHS0F: ; cb3b (3:4b3b)
 	db ROUTE_4,$03,Show
 MapHS14: ; cb3e (3:4b3e)
@@ -573,5 +574,18 @@ MapHSA2: ; cd8d (3:4d8d)
 	db SEAFOAM_ISLANDS_5,$01,Hide
 	db SEAFOAM_ISLANDS_5,$02,Hide
 	db SEAFOAM_ISLANDS_5,$03,Show
+MapHS25:
+	db REDS_HOUSE_1F, $01, Show
+	db REDS_HOUSE_1F, $02, Show
 
+MapHS11:
+	db ROUTE_6, $02, Show
+
+MapHS3C:
+	db MT_MOON_2, $01, Show
+	
+MapHS15:
+	db ROUTE_10, $08, Hide
+	db ROUTE_10, $09, Hide
+	
 	db $FF,$01,Show

@@ -32,10 +32,8 @@ PalletTownScript0: ; 18e81 (6:4e81)
 	ld [wd528],a
 	ld a,$FF
 	call PlaySound ; stop music
-	ld a, BANK(Music_MeetProfOak)
-	ld c,a ; song bank
-	ld a, MUSIC_MEET_PROF_OAK ; “oak appears” music
-	call PlayMusic ; plays music
+	ld a, Mus_MeetProfOak
+	call PlayMusicEntry
 	ld a,$FC
 	ld [wJoyIgnore],a
 	ld hl,wd74b
@@ -183,14 +181,14 @@ PalletTownText1: ; 18f96 (6:4f96)
 OakAppearsText: ; 18fb0 (6:4fb0)
 	TX_FAR _OakAppearsText
 	db 8
-	ld c,10
-	call DelayFrames
+	;ld c,10
+	;call DelayFrames
 	xor a
 	ld [wcd4f],a
 	ld [wcd50],a
 	predef EmotionBubble ; display ! over head
 	ld a,4
-	ld [wd528],a
+	ld [wd528],a		; face down
 	jp TextScriptEnd
 
 OakWalksUpText: ; 18fce (6:4fce)

@@ -129,6 +129,7 @@ VermilionCityTextPointers: ; 1986f (6:586f)
 	dw VermilionCityText11
 	dw VermilionCityText12
 	dw VermilionCityText13
+	dw DoMwahBattle
 
 VermilionCityText1: ; 19889 (6:5889)
 	TX_FAR _VermilionCityText1

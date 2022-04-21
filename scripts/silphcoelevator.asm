@@ -42,7 +42,17 @@ SilphCoElevatorScript_457f1: ; 457f1 (11:57f1)
 
 SilphCoElavatorFloors: ; 45804 (11:45804)
 	db $0B ; num elements in list
-	db $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F, $60 ; "1F", "2F", "3F", "4F", ... , "11F"
+	db _1F
+	db _2F
+	db _3F
+	db _4F
+	db _5F
+	db _6F
+	db _7F
+	db _8F
+	db _9F
+	db _10F
+	db _11F
 	db $FF ; terminator
 
 SilphCoElevatorWarpMaps: ; 45811 (11:45811)

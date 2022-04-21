@@ -43,9 +43,8 @@ VermilionDock_1db9b: ; 1db9b (7:5b9b)
 	ld [wJoyIgnore], a
 	ld [wc0ee], a
 	call PlaySound
-	ld c, BANK(Music_Surfing)
-	ld a, MUSIC_SURFING
-	call PlayMusic
+	ld a, Mus_Surfing
+	call PlayMusicEntry
 	callba LoadSmokeTileFourTimes
 	xor a
 	ld [wSpriteStateData1 + 2], a

@@ -3,7 +3,7 @@ _LanceBeforeBattleText:: ; 85d3c (21:5d3c)
 IF DEF(_YELLOW)
 	line "you, ", $52, "!"
 ELSE
-	line "you ", $52, "!"
+	line "you, ", $52, "!"
 ENDC
 
 	para "I lead the ELITE"
@@ -51,16 +51,15 @@ _LanceAfterBattleText:: ; 85e9e (21:5e9e)
 
 	para "...Or, you would"
 	line "have been, but"
-	cont "you have one more"
-	cont "challenge ahead."
+	cont "you have one last"
+	cont "challenge."
 
 	para "You have to face"
 	line "another trainer!"
-	cont "His name is..."
 
-	para $53, "!"
-	line "He beat the ELITE"
-	cont "FOUR before you!"
+	para "THETA's his name,"
+	line "he beat us before"
+	cont "you!"
 
 	para "He is the real"
 	line "#MON LEAGUE"

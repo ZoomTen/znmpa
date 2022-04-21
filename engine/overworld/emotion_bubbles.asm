@@ -1,5 +1,5 @@
 EmotionBubble: ; 17c47 (5:7c47)
-	ld a, [wcd50]
+	ld a, [wcd50]			; emote to use?
 	ld c, a
 	ld b, $0
 	ld hl, EmotionBubblesPointerTable ; $7caf
@@ -34,7 +34,7 @@ EmotionBubble: ; 17c47 (5:7c47)
 	or b
 	jr nz, .asm_17c7d
 	ld hl, wSpriteStateData1 + 4
-	ld a, [wcd4f]
+	ld a, [wcd4f]			; sprite no.
 	swap a
 	ld c, a
 	ld b, $0

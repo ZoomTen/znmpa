@@ -33,7 +33,7 @@ VBlank::
 	call PrepareOAMData
 
 	; VBlank-sensitive operations end.
-
+	
 	call Random
 
 	ld a, [H_VBLANKOCCURRED]
@@ -62,14 +62,27 @@ VBlank::
 	call Music2_UpdateMusic
 	jr .afterMusic
 .notbank2
+	cp BANK(Music31_UpdateMusic)
+	jr z, .music31
 	cp BANK(Music8_UpdateMusic)
-	jr nz, .bank1F
+	jr nz, .bank8duplicate
 .bank8
 	call Music_DoLowHealthAlarm
 	call Music8_UpdateMusic
 	jr .afterMusic
+.bank8duplicate				;!!!
+	cp $2e
+	jr c, .bank1F
+	call $5377	;hard-coded Music_DoLowHealthAlarm
+	call $53D1	;hard-coded Music8_UpdateMusic
+	jr .afterMusic
 .bank1F
 	call Music1f_UpdateMusic
+	jr .afterMusic
+	
+.music31
+	call Music31_UpdateMusic
+	
 .afterMusic
 
 	callba TrackPlayTime ; keep track of time played

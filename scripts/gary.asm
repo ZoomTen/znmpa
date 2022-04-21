@@ -66,20 +66,16 @@ GaryScript2: ; 75f6a (1d:5f6a)
 	call SaveEndBattleTextPointers
 	ld a, SONY3 + $c8
 	ld [W_CUROPPONENT], a
-
-	; select which team to use during the encounter
-	ld a, [W_RIVALSTARTER]
-	cp STARTER2
-	jr nz, .NotSquirtle ; 0x75f9f $4
-	ld a, $1
-	jr .done
-.NotSquirtle
-	cp STARTER3
-	jr nz, .Charmander ; 0x75fa7 $4
+	ld a, [wBeatenChamp]
+	bit 0, a
+	jr z, .storybattle
+	ld hl, ThetaText_rematchwin
+	ld de, ThetaText_rematchwin
+	call SaveEndBattleTextPointers
 	ld a, $2
 	jr .done
-.Charmander
-	ld a, $3
+.storybattle
+	ld a, $1
 .done
 	ld [W_TRAINERNO], a
 
@@ -109,6 +105,9 @@ GaryScript3: ; 75fbb (1d:5fbb)
 	ret
 
 GaryScript4: ; 75fe4 (1d:5fe4)
+	ld a, [wBeatenChamp]
+	set 0, a
+	ld [wBeatenChamp], a
 	callba Music_Cities1AlternateTempo
 	ld a, $2
 	ld [$ff8c], a
@@ -149,7 +148,7 @@ GaryScript5: ; 7601a (1d:601a)
 	ld a, $3
 	ld [$ff8c], a
 	call GaryScript_760c8
-	ld a, $6
+	ld a, $7
 	ld [W_GARYCURSCRIPT], a
 	ret
 
@@ -244,9 +243,16 @@ GaryText1: ; 760e0 (1d:60e0)
 	db $08 ; asm
 	ld a, [wd867]
 	bit 1, a
+	jr nz, .done
+	ld a, [wBeatenChamp] ; if rematch
+	bit 0, a
+	jr nz, .rematch
 	ld hl, GaryText_760f4
-	jr z, .asm_17e9f ; 0x760e9
+.done
 	ld hl, GaryText_76103
+	jr .asm_17e9f
+.rematch
+	ld hl, ThetaText_REMATCH
 .asm_17e9f ; 0x760ee
 	call PrintText
 	jp TextScriptEnd
@@ -259,6 +265,14 @@ GaryText_760f9: ; 760f9 (1d:60f9)
 	TX_FAR _GaryText_760f9
 	db "@"
 
+ThetaText_rematchwin: ; 760f9 (1d:60f9)
+	text "."
+	prompt
+	
+ThetaText_REMATCH:
+	TX_FAR _ThetaText_REMATCH
+	db "@"
+	
 GaryText_760fe: ; 760fe (1d:60fe)
 	TX_FAR _GaryText_760fe
 	db "@"

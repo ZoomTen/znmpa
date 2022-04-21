@@ -30,13 +30,38 @@ BuildBattlePalPacket: ; 71e06 (1c:5e06)
 	ld de, wcf2d
 	ld bc, $10
 	call CopyData
+	ld a, [wBattleMonSpecies]
+	and a
+	jr nz, .notplayer
+	ld a, [W_BATTLETYPE]
+	cp 1
+	jr z, .oldman
+	ld a, PAL_ZILO
+	jr .copy1
+.oldman
+	ld a, PAL_MEWMON
+	jr .copy1
+.notplayer
 	ld a, [W_PLAYERBATTSTATUS3]
 	ld hl, wBattleMonSpecies
 	call DeterminePaletteID
+.copy1
 	ld b, a
+	ld a, [wPaletteFlag]
+	and a
+	jr z, .nottrainer
+	ld hl, TrainerPalettes
+	ld a, [W_TRAINERCLASS]
+	ld e, a
+	ld d, 0
+	add hl, de
+	ld a, [hl]
+	jr .copy
+.nottrainer
 	ld a, [W_ENEMYBATTSTATUS3]
 	ld hl, wEnemyMonSpecies2
 	call DeterminePaletteID
+.copy
 	ld c, a
 	ld hl, wcf2e
 	ld a, [wcf1d]
@@ -117,13 +142,44 @@ SendPalPacket_Titlescreen: ; 71ea6 (1c:5ea6)
 
 ; used mostly for menus and the Oak intro
 SendPalPacket_Generic: ; 71ead (1c:5ead)
-	ld hl, PalPacket_Generic
+	ld a, [wPalSelect]
+	ld d, 0
+	ld e, a
+	ld hl, PalPacket_List
+	add hl, de
+	add hl, de
+	ld a,[hli]
+	ld e, a
+	ld a, [hl]
+	ld d, a
+	ld h,d
+	ld l,e
 	ld de, BlkPacket_WholeScreen
+	xor a
+	ld [wPalSelect], a
 	ret
+	
+PalPacket_List:
+	dw PalPacket_Generic
+	dw PalPacket_C64
+	dw PalPacket_SHULK
 
 SendPalPacket_NidorinoIntro: ; 71eb4 (1c:5eb4)
+	ld a, [wIntroPalFlag]
+	and a
+	jr z, .zilo
+	dec a
+	jr z, .monty
 	ld hl, PalPacket_NidorinoIntro
 	ld de, BlkPacket_NidorinoIntro
+	ret
+.zilo
+	ld hl, PalPacket_ZiloIntro
+	ld de, BlkPacket_NewIntro
+	ret
+.monty
+	ld hl, PalPacket_MontyIntro
+	ld de, BlkPacket_NewIntro
 	ret
 
 SendPalPacket_GameFreakIntro: ; 71ebb (1c:5ebb)
@@ -145,6 +201,8 @@ BuildOverworldPalPacket: ; 71ec7 (1c:5ec7)
 	cp CAVERN
 	jr z, .caveOrBruno
 	ld a, [W_CURMAP]
+	cp CHAMPIONS_ROOM
+	jr z, .theta
 	cp REDS_HOUSE_1F
 	jr c, .townOrRoute
 	cp UNKNOWN_DUNGEON_2
@@ -177,6 +235,9 @@ BuildOverworldPalPacket: ; 71ec7 (1c:5ec7)
 	jr .town
 .Lorelei
 	xor a
+	jr .town
+.theta
+	ld a, PAL_BROWNMON - 1
 	jr .town
 
 ; used when a Pokemon is the only thing on the screen
@@ -612,6 +673,8 @@ Func_72188: ; 72188 (1c:6188)
 INCLUDE "data/sgb_packets.asm"
 
 INCLUDE "data/mon_palettes.asm"
+
+INCLUDE "data/trainer_palettes.asm"
 
 INCLUDE "data/super_palettes.asm"
 

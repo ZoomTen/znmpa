@@ -11,6 +11,7 @@ LavenderTownTextPointers: ; 4410e (11:410e)
 	dw PokeCenterSignText
 	dw LavenderTownText8
 	dw LavenderTownText9
+	dw DoMwahBattle
 
 LavenderTownText1: ; 44120 (11:4120)
 	db $08 ; asm

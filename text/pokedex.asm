@@ -298,6 +298,16 @@ _TangelaDexEntry::
 	next "shake as it walks"
 	dex
 
+_GlaceonDexEntry::
+	text "By controlling its"
+	next "body heat, it can"
+	next "freeze the atmo-"
+
+	page "sphere around it"
+	next "to make a diamond"
+	next "dust flurry"     
+	dex
+
 _GrowlitheDexEntry::
 	text "Very protective"
 	next "of its territory."
@@ -449,13 +459,72 @@ _PsyduckDexEntry::
 	dex
 
 _DrowzeeDexEntry::
-	text "Puts enemies to"
-	next "sleep then eats"
-	next "their dreams."
+	text "It remembers every"
+	next "dream it eats."
+	
+	page "It rarely eats"
+	next "the dreams of"
+	next "adults because"
+	
+	page "children's are"
+	next "much tastier" 
+	dex
 
-	page "Occasionally gets"
-	next "sick from eating"
-	next "bad dreams"
+_KitsarushiDexEntry::
+	text "KITSARUSHI love to"
+	next "play and follow"
+	next "their trainers."
+	
+	page "They are also very"
+	next "fond of fluffy"
+	next "things"
+	
+	dex
+	
+_RexMaskDexEntry::
+	text "CREEPY REX MASK is"
+	next "a boo'ful mask it"
+	next "goes in your face"
+	
+	page "and when you wear"
+	next "it, you.........."
+	next "............."
+	
+	page "solve mydsteries"
+	next "and go  to"
+	next "7elrbven"
+	
+	page "Seriously. Is this"
+	next "even a ", $54, "MON at"
+	next "all"
+	dex
+	
+_RexPumkinDexEntry::
+	text "creepy REX PUMKIN"
+	next "is a crepey ou"
+	next "mking dat com from"
+	
+	page "ur fac, dent ur"
+	next "navel 100 tims in"
+	next "sucsmeon u win"
+	dex
+	
+_KitsutoDexEntry::
+	text "KITSUTO live high"
+	next "up in the mount-"
+	next "ains."
+	
+	page "Their thick coats"
+	next "protects them"
+	next "from cold weather"
+	
+	page "and it is also"
+	next "believed that"
+	next "they are able to"
+	
+	page "control clouds"
+	next "in the sky"
+	
 	dex
 
 _GolemDexEntry::

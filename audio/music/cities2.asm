@@ -373,14 +373,9 @@ Music_Cities2_branch_b64c::
 	A_ 2
 	G# 2
 	F# 2
-	E_ 2
+.ll	E_ 2
 	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
+	loopchannel 4, .ll
 	F# 2
 	A_ 2
 	F# 2
@@ -389,14 +384,9 @@ Music_Cities2_branch_b64c::
 	A_ 2
 	G# 2
 	F# 2
-	E_ 2
+.oo	E_ 2
 	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
+	loopchannel 4, .oo
 	F# 2
 	A_ 2
 	F# 2
@@ -405,13 +395,8 @@ Music_Cities2_branch_b64c::
 	A_ 2
 	G# 2
 	F# 2
-	E_ 2
+.loop	E_ 2
 	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
-	E_ 2
-	G# 2
+	loopchannel 4, .loop
 	loopchannel 0, Music_Cities2_branch_b64c
 ; 0xb6c7

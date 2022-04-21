@@ -34,25 +34,29 @@ SetDefaultNames: ; 60ca (1:60ca)
 OakSpeech: ; 6115 (1:6115)
 	ld a,$FF
 	call PlaySound ; stop music
-	ld a, BANK(Music_Routes2) ; bank of song
-	ld c,a
-	ld a, MUSIC_ROUTES2 ; song #
-	call PlayMusic  ; plays music
+	xor a
+	ld [wBeatenChamp], a
+	ld a, Mus_Routes2
+	call PlayMusicEntry
 	call ClearScreen
 	call LoadTextBoxTilePatterns
 	call SetDefaultNames
 	predef InitPlayerData2
+	
 	ld hl,wNumBoxItems
 	ld a,POTION
 	ld [wcf91],a
 	ld a,1
 	ld [wcf96],a
 	call AddItemToInventory  ; give one potion
+	
 	ld a,[W_ANIMATIONID]
 	ld [wDestinationMap],a
 	call SpecialWarpIn
+	
 	xor a
 	ld [hTilesetType],a
+	
 	ld a,[wd732]
 	bit 1,a ; XXX when is bit 1 set?
 	jp nz,Func_61bc ; easter egg: skip the intro
@@ -64,7 +68,7 @@ OakSpeech: ; 6115 (1:6115)
 	call PrintText      ; prints text box
 	call GBFadeOutToWhite
 	call ClearScreen
-	ld a,NIDORINO
+	ld a,REX_MASK
 	ld [wd0b5],a    ; pic displayed is stored at this location
 	ld [wcf91],a
 	call GetMonHeader      ; this is also related to the pic
@@ -75,22 +79,12 @@ OakSpeech: ; 6115 (1:6115)
 	call PrintText      ; Prints text box
 	call GBFadeOutToWhite
 	call ClearScreen
-	ld de,RedPicFront
-	ld bc,(Bank(RedPicFront) << 8) | $00
-	call IntroPredef3B      ; displays player pic?
-	call MovePicLeft
-	ld hl,IntroducePlayerText
-	call PrintText
-	call LoadDefaultNamesPlayer ; brings up NewName/Red/etc menu
-	call GBFadeOutToWhite
-	call ClearScreen
 	ld de,Rival1Pic
 	ld bc,(Bank(Rival1Pic) << 8) | $00
 	call IntroPredef3B ; displays rival pic
 	call FadeInIntroPic
 	ld hl,IntroduceRivalText
 	call PrintText
-	call LoadDefaultNamesRival
 
 Func_61bc: ; 61bc (1:61bc)
 	call GBFadeOutToWhite
@@ -105,22 +99,15 @@ Func_61bc: ; 61bc (1:61bc)
 	ld hl,OakSpeechText3
 	call PrintText
 .next
-	ld a,[H_LOADEDROMBANK]
-	push af
-	ld a,(SFX_02_48 - SFX_Headers_02) / 3
-	call PlaySound
-	pop af
-	ld [H_LOADEDROMBANK],a
-	ld [$2000],a
 	ld c,4
 	call DelayFrames
 	ld de,RedSprite ; $4180
 	ld hl,vSprites
 	ld bc,(BANK(RedSprite) << 8) | $0C
 	call CopyVideoData
-	ld de,ShrinkPic1
-	ld bc,(BANK(ShrinkPic1) << 8) | $00
-	call IntroPredef3B
+	;ld de,ShrinkPic1
+	;ld bc,(BANK(ShrinkPic1) << 8) | $00
+	;call IntroPredef3B
 	ld c,4
 	call DelayFrames
 	ld de,ShrinkPic2
@@ -129,14 +116,14 @@ Func_61bc: ; 61bc (1:61bc)
 	call ResetPlayerSpriteData
 	ld a,[H_LOADEDROMBANK]
 	push af
-	ld a, BANK(Music_PalletTown)
-	ld [wc0ef],a
-	ld [wc0f0],a
-	ld a,$A
-	ld [wMusicHeaderPointer],a
-	ld a,$FF
-	ld [wc0ee],a
-	call PlaySound ; stop music
+	;ld a, BANK(Music_PalletTown)
+	;ld [wc0ef],a
+	;ld [wc0f0],a
+	;ld a,$A
+	;ld [wMusicHeaderPointer],a
+	;ld a,$FF
+	;ld [wc0ee],a
+	;call PlaySound ; stop music
 	pop af
 	ld [H_LOADEDROMBANK],a
 	ld [$2000],a
@@ -160,9 +147,6 @@ OakSpeechText2: ; 6258 (1:6258)
 	TX_FAR _OakSpeechText2A
 	db $14 ; play NIDORINA cry from TextCommandSounds
 	TX_FAR _OakSpeechText2B
-	db "@"
-IntroducePlayerText: ; 6262 (1:6262)
-	TX_FAR _IntroducePlayerText
 	db "@"
 IntroduceRivalText: ; 6267 (1:6267)
 	TX_FAR _IntroduceRivalText

@@ -113,12 +113,14 @@ Music_MuseumGuy:: ; 82a3 (2:42a3)
 	dw Music_MuseumGuy_Ch4
 
 Music_SafariZone:: ; 82af (2:42af)
-	db ( $80 | CH0 )
+	db ( $c0 | CH0 )
 	dw Music_SafariZone_Ch1
 	db CH1
 	dw Music_SafariZone_Ch2
 	db CH2
 	dw Music_SafariZone_Ch3
+	db CH3
+	dw Music_SafariZone_Ch4
 
 Music_PkmnHealed:: ; 82b8 (2:42b8)
 	db ( $80 | CH0 )

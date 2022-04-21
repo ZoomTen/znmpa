@@ -21,7 +21,7 @@ CeruleanCityObject: ; 0x18786 (size=170)
 	db $19, $b, $10 ; CeruleanCityText16
 	db $15, $1b, $11 ; CeruleanCityText17
 
-	db $b ; people
+	db $c ; people
 	db SPRITE_BLUE, $2 + 4, $14 + 4, $ff, $d0, $1 ; person
 	db SPRITE_ROCKET, $8 + 4, $1e + 4, $ff, $ff, TRAINER | $2, ROCKET + $C8, $5
 	db SPRITE_BLACK_HAIR_BOY_1, $14 + 4, $1f + 4, $ff, $d0, $3 ; person
@@ -33,6 +33,7 @@ CeruleanCityObject: ; 0x18786 (size=170)
 	db SPRITE_LASS, $1b + 4, $9 + 4, $fe, $2, $9 ; person
 	db SPRITE_BLACK_HAIR_BOY_2, $c + 4, $4 + 4, $ff, $d0, $a ; person
 	db SPRITE_GUARD, $c + 4, $1b + 4, $ff, $d0, $b ; person
+	db SPRITE_BLACK_HAIR_BOY_1, $11 + 4, $09 + 4, $fe, $03, 18 ; person
 
 	; warp-to
 	EVENT_DISP CERULEAN_CITY_WIDTH, $b, $1b ; TRASHED_HOUSE

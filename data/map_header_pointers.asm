@@ -11,7 +11,7 @@ MapHeaderPointers:: ; 01ae (0:01ae)
 	dw CinnabarIsland_h
 	dw IndigoPlateau_h
 	dw SaffronCity_h
-	dw SaffronCity_h
+	dw Route6_Link_h
 	dw Route1_h
 	dw Route2_h
 	dw Route3_h
@@ -248,6 +248,4 @@ MapHeaderPointers:: ; 01ae (0:01ae)
 	dw Lorelei_h
 	dw Bruno_h
 	dw Agatha_h ;247
-IF DEF(_OPTION_BEACH_HOUSE)
-	dw BeachHouse_h
-ENDC
+	dw Route6_Gate2_h

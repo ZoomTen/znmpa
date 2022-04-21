@@ -6,6 +6,7 @@ ENDM
 
 	music_const MUSIC_PALLET_TOWN,         Music_PalletTown
 	music_const MUSIC_POKECENTER,          Music_Pokecenter
+	music_const MUSIC_UNUSED,	       Music_Unused
 	music_const MUSIC_GYM,                 Music_Gym
 	music_const MUSIC_CITIES1,             Music_Cities1
 	music_const MUSIC_CITIES2,             Music_Cities2
@@ -28,7 +29,10 @@ ENDM
 	music_const MUSIC_GYM_LEADER_BATTLE,   Music_GymLeaderBattle
 	music_const MUSIC_TRAINER_BATTLE,      Music_TrainerBattle
 	music_const MUSIC_WILD_BATTLE,         Music_WildBattle
+	music_const MUSIC_SPECIAL_BATTLE,      Music_SpecialBattle
 	music_const MUSIC_FINAL_BATTLE,        Music_FinalBattle
+	music_const MUSIC_CHAMP_BATTLE,        Music_GSC_ChampBattle
+	music_const MUSIC_HAIDEN_BATTLE,       Music_HaidenBattle
 	music_const MUSIC_DEFEATED_TRAINER,    Music_DefeatedTrainer
 	music_const MUSIC_DEFEATED_WILD_MON,   Music_DefeatedWildMon
 	music_const MUSIC_DEFEATED_GYM_LEADER, Music_DefeatedGymLeader
@@ -51,4 +55,3 @@ ENDM
 	music_const MUSIC_MEET_EVIL_TRAINER,   Music_MeetEvilTrainer
 	music_const MUSIC_MEET_FEMALE_TRAINER, Music_MeetFemaleTrainer
 	music_const MUSIC_MEET_MALE_TRAINER,   Music_MeetMaleTrainer
-

@@ -59,7 +59,7 @@ _HM01NoRoomText:: ; 8145d (20:545d)
 
 _SSAnne7Text2:: ; 81480 (20:5480)
 	text "Yuck! Shouldn't"
-	line "have looked!"
+	line "have looked."
 	done
 
 _SSAnne7Text3:: ; 8149d (20:549d)

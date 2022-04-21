@@ -339,21 +339,38 @@ TradeCenterText: ; 5d97 (1:5d97)
 ContinueGame: ; 5db5 (1:5db5)
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a ; $ffba
-	hlCoord 4, 7
-	ld b, $8
+	hlCoord 4, 6
+	ld b, $A
 	ld c, $e
 	call TextBoxBorder
-	hlCoord 5, 9
+	hlCoord 5, 10
 	ld de, SaveScreenInfoText
 	call PlaceString
-	hlCoord 12, 9
+	
+	ld a, [W_CURMAP] ; W_CURMAP
+	cp a, REDS_HOUSE_1F
+	jr c, .outsidemap
+	callba GetInsideMapName
+	hlCoord 5, 8
+	ld de, wcd6d
+	call PlaceString
+	jr .continue
+.outsidemap	
+	ld a, [W_CURMAP]
+	ld d, a
+	callba GetMapName
+	hlCoord 5, 8
+	ld de, wcd6d
+	call PlaceString
+.continue
+	hlCoord 12, 10
 	ld de, wPlayerName ; wd158
 	call PlaceString
-	hlCoord 17, 11
+	hlCoord 17, 12
 	call Func_5e2f
-	hlCoord 16, 13
+	hlCoord 16, 14
 	call Func_5e42
-	hlCoord 13, 15
+	hlCoord 13, 16
 	call Func_5e55
 	ld a, $1
 	ld [H_AUTOBGTRANSFERENABLED], a ; $ffba
@@ -363,29 +380,46 @@ ContinueGame: ; 5db5 (1:5db5)
 PrintSaveScreenText: ; 5def (1:5def)
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	ld hl, wTileMap + $4
-	ld b, $8
+	hlCoord 4, 0
+	ld b, $a
 	ld c, $e
 	call TextBoxBorder
 	call LoadTextBoxTilePatterns
 	call UpdateSprites
-	ld hl, wTileMap + $2d
+	hlCoord 5, 4
 	ld de, SaveScreenInfoText
 	call PlaceString
-	ld hl, wTileMap + $34
+	
+	ld a, [W_CURMAP] ; W_CURMAP
+	cp a, REDS_HOUSE_1F
+	jr c, .outsidemap
+	callba GetInsideMapName
+	hlCoord 5, 2
+	ld de, wcd6d
+	call PlaceString
+	jr .continue
+.outsidemap	
+	ld a, [W_CURMAP]
+	ld d, a
+	callba GetMapName
+	hlCoord 5, 2
+	ld de, wcd6d
+	call PlaceString
+.continue
+	hlCoord 12, 4
 	ld de, wPlayerName
 	call PlaceString
-	ld hl, wTileMap + $61
+	hlCoord $11, 6
 	call Func_5e2f
-	ld hl, wTileMap + $88
+	hlCoord 16, 8
 	call Func_5e42
-	ld hl, wTileMap + $ad
+	hlCoord $d, 10
 	call Func_5e55
 	ld a, $1
 	ld [H_AUTOBGTRANSFERENABLED], a
 	ld c, $1e
 	jp DelayFrames
-
+	
 Func_5e2f: ; 5e2f (1:5e2f)
 	push hl
 	ld hl, W_OBTAINEDBADGES
@@ -424,15 +458,7 @@ SaveScreenInfoText: ; 5e6a (1:5e6a)
 
 DisplayOptionMenu: ; 5e8a (1:5e8a)
 	hlCoord 0, 0
-	ld b,3
-	ld c,18
-	call TextBoxBorder
-	hlCoord 0, 5
-	ld b,3
-	ld c,18
-	call TextBoxBorder
-	hlCoord 0, 10
-	ld b,3
+	ld b,16
 	ld c,18
 	call TextBoxBorder
 	hlCoord 1, 1
@@ -480,7 +506,7 @@ DisplayOptionMenu: ; 5e8a (1:5e8a)
 	cp a,16 ; is the cursor on Cancel?
 	jr nz,.loop
 .exitMenu
-	ld a,(SFX_02_40 - SFX_Headers_02) / 3
+	ld a,$b6
 	call PlaySound ; play sound
 	ret
 .eraseOldMenuCursor

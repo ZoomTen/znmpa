@@ -1,0 +1,2 @@
+PCM_HMMHMM	equ	1
+PCM_OU		equ	2

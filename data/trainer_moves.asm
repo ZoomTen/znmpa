@@ -44,7 +44,7 @@ TeamMoves:
 	db 2,2,TACKLE
 	db 2,3,STRING_SHOT
 	db 0
-
+	
 	db YOUNGSTER,$e
 	db 1,4,FISSURE
 	db 0
@@ -161,37 +161,13 @@ TeamMoves:
 	db 5,2,FIRE_BLAST
 	db 5,3,THUNDER
 	db 0
-
-	db SONY3,$1
-	db 1,3,EARTHQUAKE
-	db 2,4,KINESIS
-	db 3,4,LEECH_SEED
-	db 4,1,ICE_BEAM
-	db 5,1,CONFUSE_RAY
-	db 5,4,FIRE_SPIN
-	db 6,3,QUICK_ATTACK
+	
+	db HAIDEN,$1
+	db 6,4,THUNDER
 	db 0
-
-	db SONY3,$2
-	db 1,3,EARTHQUAKE
-	db 2,4,KINESIS
-	db 3,4,LEECH_SEED
-	db 4,1,THUNDERBOLT
-	db 5,1,ICE_BEAM
-	db 6,2,REFLECT
-	db 6,3,QUICK_ATTACK
-	db 0
-
-	db SONY3,$3
-	db 1,3,EARTHQUAKE
-	db 2,4,KINESIS
-	db 3,4,LEECH_SEED
-	db 4,1,CONFUSE_RAY
-	db 4,4,FIRE_SPIN
-	db 5,1,THUNDERBOLT
-	db 6,1,AURORA_BEAM
-	db 6,3,QUICK_ATTACK
-	db 0
-
+	
+	db MWAH, $1
+	db 1,1,LOVELY_KISS
+	db 2,4,LOVELY_KISS
 	db $ff
 endc

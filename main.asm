@@ -2,7 +2,6 @@ INCLUDE "constants.asm"
 
 NPC_SPRITES_1 EQU $4
 NPC_SPRITES_2 EQU $5
-
 GFX EQU $4
 
 PICS_1 EQU $9
@@ -10,7 +9,6 @@ PICS_2 EQU $A
 PICS_3 EQU $B
 PICS_4 EQU $C
 PICS_5 EQU $D
-
 
 INCLUDE "home.asm"
 
@@ -67,16 +65,16 @@ ResetStatusAndHalveMoneyOnBlackout::
 	predef_jump HealParty
 
 
-MewPicFront:: INCBIN "pic/bmon/mew.pic"
+MewPicFront:: INCBIN "pic/ymon/mew.pic"
 MewPicBack::  INCBIN "pic/monback/mewb.pic"
-INCLUDE "data/baseStats/mew.asm"
 
 INCLUDE "engine/battle/safari_zone.asm"
 
-INCLUDE "engine/titlescreen.asm"
+INCLUDE "engine/znmpa_title.asm"
+;INCLUDE "engine/titlescreen.asm"
 
-NintenText: db "NINTEN@"
-SonyText:   db "SONY@"
+NintenText: db "ZILO@"
+SonyText:   db "MONTY@"
 
 
 LoadMonData_:
@@ -1071,6 +1069,9 @@ DisplayTextIDInit: ; 7096 (1:7096)
 
 ; function that displays the start menu
 DrawStartMenu: ; 710b (1:710b)
+	hlCoord 0, $0d
+	ld bc, $050a
+	call ClearScreenArea
 	ld a,[wd74b]
 	bit 5,a ; does the player have the pokedex?
 ; menu with pokedex
@@ -1096,7 +1097,7 @@ DrawStartMenu: ; 710b (1:710b)
 	xor a
 	ld [wcc37],a
 	ld hl,wd730
-	set 6,[hl] ; no pauses between printing each letter
+	;set 6,[hl] ; no pauses between printing each letter
 	hlCoord 12, 2
 	ld a,[wd74b]
 	bit 5,a ; does the player have the pokedex?
@@ -1139,7 +1140,7 @@ StartMenuPokemonText: ; 7197 (1:7197)
 	db "POKéMON@"
 
 StartMenuItemText: ; 719f (1:719f)
-	db "ITEM@"
+	db "PACK@"
 
 StartMenuSaveText: ; 71a4 (1:71a4)
 	db "SAVE@"
@@ -1160,6 +1161,101 @@ PrintStartMenuItem: ; 71bb (1:71bb)
 	ld de,$28
 	add hl,de
 	ret
+
+RefreshInfoBox:
+	hlCoord 0, $0d
+	ld bc, $050a
+	call ClearScreenArea
+	push hl
+	push bc
+	ld a,[wd72e]
+	bit 6,a ; is the player using the link feature?
+	ld de, .tablelink
+	jr nz, .checkdex
+	ld de, .table
+.checkdex
+	ld a,[wd74b]
+	bit 5,a			; is pokedex present?
+	jr nz, .loadtable
+	inc de			; move to next entry if there's
+	inc de			; no pokedex
+.loadtable
+	ld a,[wCurrentMenuItem]
+	ld bc, 0		; 16-bit, for good measure :v
+	add a, a		; 2 * menu item index
+	ld c, a			; move result to c
+	ld h, d			; you can't directly copy
+	ld l, e			; hl and de...
+	add hl, bc		; voila, the correct entry is loaded,
+				; time to fetch the pointer..
+				; It's in little endian tho
+	inc hl			; grab upper byte
+	ld a, [hl]
+	ld d, a
+	dec hl			; then lower byte
+	ld a, [hl]
+	ld e, a
+	; de is now loaded with the correct pointer,
+	; now it's time to print it to the screen ;)
+	; but first, we need to put bc and hl back
+	; to their homes.
+	pop bc
+	pop hl
+
+.printtext
+	hlCoord 0, $E
+	call PlaceString
+	ret			; YAY!
+
+.table
+	dw .item0txt
+	dw .item1txt
+	dw .item2txt
+	dw .item3txt
+	dw .item4txt
+	dw .item5txt
+	dw .item6txt
+	
+.tablelink
+	dw .item0txt
+	dw .item1txt
+	dw .item2txt
+	dw .item3txt
+	dw .item4txtlink
+	dw .item5txt
+	dw .item6txt
+
+.item0txt
+	db "#MON", $4E
+	db "database@"
+
+.item1txt
+	db "View", $4E
+	db "party@"
+
+.item2txt
+	db "Contains", $4e
+	db "items@"
+
+.item3txt
+	db "Your own", $4E
+	db "status@"
+
+.item4txt
+	db "Save your", $4E
+	db "progress@"
+	
+.item4txtlink
+	db "Perform a", $4E
+	db "soft-reset@"
+
+.item5txt
+	db "Change", $4E
+	db "settings@"
+
+.item6txt
+	db "Exit the", $4E
+	db "menu@"
 
 INCLUDE "engine/overworld/cable_club_npc.asm"
 
@@ -2026,7 +2122,6 @@ Func_7c18: ; 7c18 (1:7c18)
 	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ret
-
 
 SECTION "bank3",ROMX,BANK[$3]
 
@@ -4738,14 +4833,15 @@ LyingOldManSprite:     INCBIN "gfx/sprites/lying_old_man.2bpp"
 
 SECTION "Graphics", ROMX, BANK[GFX]
 
-PokemonLogoGraphics:            INCBIN "gfx/pokemon_logo.2bpp"
-FontGraphics:                   INCBIN "gfx/font.1bpp"
+ZiloAndMixelTitleLogo:          INCBIN "gfx/zampa_title.2bpp"
+ZiloAndMixelTitleVNumbers:          INCBIN "gfx/zampa_title_numbers.2bpp"
+ZiloAndMixelTitleCopyright:          INCBIN "gfx/zampa_copyright.2bpp"
+FontGraphics:                   INCBIN "gfx/font.2bpp"
 ABTiles:                        INCBIN "gfx/AB.2bpp"
 HpBarAndStatusGraphics:         INCBIN "gfx/hp_bar_and_status.2bpp"
-BattleHudTiles1:                INCBIN "gfx/battle_hud1.1bpp"
-BattleHudTiles2:                INCBIN "gfx/battle_hud2.1bpp"
-BattleHudTiles3:                INCBIN "gfx/battle_hud3.1bpp"
-NintendoCopyrightLogoGraphics:  INCBIN "gfx/copyright.2bpp"
+BattleHudTiles1:                INCBIN "gfx/battle_hud1.2bpp"
+BattleHudTiles2:                INCBIN "gfx/battle_hud2.2bpp"
+BattleHudTiles3:                INCBIN "gfx/battle_hud3.2bpp"
 GamefreakLogoGraphics:          INCBIN "gfx/gamefreak.2bpp"
 TextBoxGraphics:                INCBIN "gfx/text_box.2bpp"
 PokedexTileGraphics:            INCBIN "gfx/pokedex.2bpp"
@@ -5093,63 +5189,63 @@ INCLUDE "engine/hidden_object_functions7.asm"
 
 SECTION "Pics 1", ROMX, BANK[PICS_1]
 
-RhydonPicFront::      INCBIN "pic/bmon/rhydon.pic"
+RhydonPicFront::      INCBIN "pic/ymon/rhydon.pic"
 RhydonPicBack::       INCBIN "pic/monback/rhydonb.pic"
-KangaskhanPicFront::  INCBIN "pic/bmon/kangaskhan.pic"
+KangaskhanPicFront::  INCBIN "pic/ymon/kangaskhan.pic"
 KangaskhanPicBack::   INCBIN "pic/monback/kangaskhanb.pic"
-NidoranMPicFront::    INCBIN "pic/bmon/nidoranm.pic"
+NidoranMPicFront::    INCBIN "pic/ymon/nidoranm.pic"
 NidoranMPicBack::     INCBIN "pic/monback/nidoranmb.pic"
-ClefairyPicFront::    INCBIN "pic/bmon/clefairy.pic"
+ClefairyPicFront::    INCBIN "pic/ymon/clefairy.pic"
 ClefairyPicBack::     INCBIN "pic/monback/clefairyb.pic"
-SpearowPicFront::     INCBIN "pic/bmon/spearow.pic"
+SpearowPicFront::     INCBIN "pic/ymon/spearow.pic"
 SpearowPicBack::      INCBIN "pic/monback/spearowb.pic"
-VoltorbPicFront::     INCBIN "pic/bmon/voltorb.pic"
+VoltorbPicFront::     INCBIN "pic/ymon/voltorb.pic"
 VoltorbPicBack::      INCBIN "pic/monback/voltorbb.pic"
-NidokingPicFront::    INCBIN "pic/bmon/nidoking.pic"
+NidokingPicFront::    INCBIN "pic/ymon/nidoking.pic"
 NidokingPicBack::     INCBIN "pic/monback/nidokingb.pic"
-SlowbroPicFront::     INCBIN "pic/bmon/slowbro.pic"
+SlowbroPicFront::     INCBIN "pic/ymon/slowbro.pic"
 SlowbroPicBack::      INCBIN "pic/monback/slowbrob.pic"
-IvysaurPicFront::     INCBIN "pic/bmon/ivysaur.pic"
+IvysaurPicFront::     INCBIN "pic/ymon/ivysaur.pic"
 IvysaurPicBack::      INCBIN "pic/monback/ivysaurb.pic"
-ExeggutorPicFront::   INCBIN "pic/bmon/exeggutor.pic"
+ExeggutorPicFront::   INCBIN "pic/ymon/exeggutor.pic"
 ExeggutorPicBack::    INCBIN "pic/monback/exeggutorb.pic"
-LickitungPicFront::   INCBIN "pic/bmon/lickitung.pic"
+LickitungPicFront::   INCBIN "pic/ymon/lickitung.pic"
 LickitungPicBack::    INCBIN "pic/monback/lickitungb.pic"
-ExeggcutePicFront::   INCBIN "pic/bmon/exeggcute.pic"
+ExeggcutePicFront::   INCBIN "pic/ymon/exeggcute.pic"
 ExeggcutePicBack::    INCBIN "pic/monback/exeggcuteb.pic"
-GrimerPicFront::      INCBIN "pic/bmon/grimer.pic"
+GrimerPicFront::      INCBIN "pic/ymon/grimer.pic"
 GrimerPicBack::       INCBIN "pic/monback/grimerb.pic"
-GengarPicFront::      INCBIN "pic/bmon/gengar.pic"
+GengarPicFront::      INCBIN "pic/ymon/gengar.pic"
 GengarPicBack::       INCBIN "pic/monback/gengarb.pic"
-NidoranFPicFront::    INCBIN "pic/bmon/nidoranf.pic"
+NidoranFPicFront::    INCBIN "pic/ymon/nidoranf.pic"
 NidoranFPicBack::     INCBIN "pic/monback/nidoranfb.pic"
-NidoqueenPicFront::   INCBIN "pic/bmon/nidoqueen.pic"
+NidoqueenPicFront::   INCBIN "pic/ymon/nidoqueen.pic"
 NidoqueenPicBack::    INCBIN "pic/monback/nidoqueenb.pic"
-CubonePicFront::      INCBIN "pic/bmon/cubone.pic"
+CubonePicFront::      INCBIN "pic/ymon/cubone.pic"
 CubonePicBack::       INCBIN "pic/monback/cuboneb.pic"
-RhyhornPicFront::     INCBIN "pic/bmon/rhyhorn.pic"
+RhyhornPicFront::     INCBIN "pic/ymon/rhyhorn.pic"
 RhyhornPicBack::      INCBIN "pic/monback/rhyhornb.pic"
-LaprasPicFront::      INCBIN "pic/bmon/lapras.pic"
+LaprasPicFront::      INCBIN "pic/ymon/lapras.pic"
 LaprasPicBack::       INCBIN "pic/monback/laprasb.pic"
-ArcaninePicFront::    INCBIN "pic/bmon/arcanine.pic"
+ArcaninePicFront::    INCBIN "pic/ymon/arcanine.pic"
 ArcaninePicBack::     INCBIN "pic/monback/arcanineb.pic"
-GyaradosPicFront::    INCBIN "pic/bmon/gyarados.pic"
+GyaradosPicFront::    INCBIN "pic/ymon/gyarados.pic"
 GyaradosPicBack::     INCBIN "pic/monback/gyaradosb.pic"
-ShellderPicFront::    INCBIN "pic/bmon/shellder.pic"
+ShellderPicFront::    INCBIN "pic/ymon/shellder.pic"
 ShellderPicBack::     INCBIN "pic/monback/shellderb.pic"
-TentacoolPicFront::   INCBIN "pic/bmon/tentacool.pic"
+TentacoolPicFront::   INCBIN "pic/ymon/tentacool.pic"
 TentacoolPicBack::    INCBIN "pic/monback/tentacoolb.pic"
 GastlyPicFront::      INCBIN "pic/bmon/gastly.pic"
 GastlyPicBack::       INCBIN "pic/monback/gastlyb.pic"
-ScytherPicFront::     INCBIN "pic/bmon/scyther.pic"
+ScytherPicFront::     INCBIN "pic/ymon/scyther.pic"
 ScytherPicBack::      INCBIN "pic/monback/scytherb.pic"
-StaryuPicFront::      INCBIN "pic/bmon/staryu.pic"
+StaryuPicFront::      INCBIN "pic/ymon/staryu.pic"
 StaryuPicBack::       INCBIN "pic/monback/staryub.pic"
-BlastoisePicFront::   INCBIN "pic/bmon/blastoise.pic"
+BlastoisePicFront::   INCBIN "pic/ymon/blastoise.pic"
 BlastoisePicBack::    INCBIN "pic/monback/blastoiseb.pic"
-PinsirPicFront::      INCBIN "pic/bmon/pinsir.pic"
+PinsirPicFront::      INCBIN "pic/ymon/pinsir.pic"
 PinsirPicBack::       INCBIN "pic/monback/pinsirb.pic"
-TangelaPicFront::     INCBIN "pic/bmon/tangela.pic"
+TangelaPicFront::     INCBIN "pic/ymon/tangela.pic"
 TangelaPicBack::      INCBIN "pic/monback/tangelab.pic"
 
 
@@ -5161,69 +5257,69 @@ INCLUDE "engine/battle/moveEffects/focus_energy_effect.asm"
 
 SECTION "Pics 2", ROMX, BANK[PICS_2]
 
-GrowlithePicFront::   INCBIN "pic/bmon/growlithe.pic"
+GrowlithePicFront::   INCBIN "pic/ymon/growlithe.pic"
 GrowlithePicBack::    INCBIN "pic/monback/growlitheb.pic"
-OnixPicFront::        INCBIN "pic/bmon/onix.pic"
+OnixPicFront::        INCBIN "pic/ymon/onix.pic"
 OnixPicBack::         INCBIN "pic/monback/onixb.pic"
-FearowPicFront::      INCBIN "pic/bmon/fearow.pic"
+FearowPicFront::      INCBIN "pic/ymon/fearow.pic"
 FearowPicBack::       INCBIN "pic/monback/fearowb.pic"
-PidgeyPicFront::      INCBIN "pic/bmon/pidgey.pic"
+PidgeyPicFront::      INCBIN "pic/ymon/pidgey.pic"
 PidgeyPicBack::       INCBIN "pic/monback/pidgeyb.pic"
-SlowpokePicFront::    INCBIN "pic/bmon/slowpoke.pic"
+SlowpokePicFront::    INCBIN "pic/ymon/slowpoke.pic"
 SlowpokePicBack::     INCBIN "pic/monback/slowpokeb.pic"
-KadabraPicFront::     INCBIN "pic/bmon/kadabra.pic"
+KadabraPicFront::     INCBIN "pic/ymon/kadabra.pic"
 KadabraPicBack::      INCBIN "pic/monback/kadabrab.pic"
-GravelerPicFront::    INCBIN "pic/bmon/graveler.pic"
+GravelerPicFront::    INCBIN "pic/ymon/graveler.pic"
 GravelerPicBack::     INCBIN "pic/monback/gravelerb.pic"
-ChanseyPicFront::     INCBIN "pic/bmon/chansey.pic"
+ChanseyPicFront::     INCBIN "pic/ymon/chansey.pic"
 ChanseyPicBack::      INCBIN "pic/monback/chanseyb.pic"
-MachokePicFront::     INCBIN "pic/bmon/machoke.pic"
+MachokePicFront::     INCBIN "pic/ymon/machoke.pic"
 MachokePicBack::      INCBIN "pic/monback/machokeb.pic"
-MrMimePicFront::      INCBIN "pic/bmon/mr.mime.pic"
+MrMimePicFront::      INCBIN "pic/ymon/mr.mime.pic"
 MrMimePicBack::       INCBIN "pic/monback/mr.mimeb.pic"
-HitmonleePicFront::   INCBIN "pic/bmon/hitmonlee.pic"
+HitmonleePicFront::   INCBIN "pic/ymon/hitmonlee.pic"
 HitmonleePicBack::    INCBIN "pic/monback/hitmonleeb.pic"
-HitmonchanPicFront::  INCBIN "pic/bmon/hitmonchan.pic"
+HitmonchanPicFront::  INCBIN "pic/ymon/hitmonchan.pic"
 HitmonchanPicBack::   INCBIN "pic/monback/hitmonchanb.pic"
-ArbokPicFront::       INCBIN "pic/bmon/arbok.pic"
+ArbokPicFront::       INCBIN "pic/ymon/arbok.pic"
 ArbokPicBack::        INCBIN "pic/monback/arbokb.pic"
-ParasectPicFront::    INCBIN "pic/bmon/parasect.pic"
+ParasectPicFront::    INCBIN "pic/ymon/parasect.pic"
 ParasectPicBack::     INCBIN "pic/monback/parasectb.pic"
-PsyduckPicFront::     INCBIN "pic/bmon/psyduck.pic"
+PsyduckPicFront::     INCBIN "pic/ymon/psyduck.pic"
 PsyduckPicBack::      INCBIN "pic/monback/psyduckb.pic"
-DrowzeePicFront::     INCBIN "pic/bmon/drowzee.pic"
+DrowzeePicFront::     INCBIN "pic/ymon/drowzee.pic"
 DrowzeePicBack::      INCBIN "pic/monback/drowzeeb.pic"
-GolemPicFront::       INCBIN "pic/bmon/golem.pic"
+GolemPicFront::       INCBIN "pic/ymon/golem.pic"
 GolemPicBack::        INCBIN "pic/monback/golemb.pic"
-MagmarPicFront::      INCBIN "pic/bmon/magmar.pic"
+MagmarPicFront::      INCBIN "pic/ymon/magmar.pic"
 MagmarPicBack::       INCBIN "pic/monback/magmarb.pic"
-ElectabuzzPicFront::  INCBIN "pic/bmon/electabuzz.pic"
+ElectabuzzPicFront::  INCBIN "pic/ymon/electabuzz.pic"
 ElectabuzzPicBack::   INCBIN "pic/monback/electabuzzb.pic"
-MagnetonPicFront::    INCBIN "pic/bmon/magneton.pic"
+MagnetonPicFront::    INCBIN "pic/ymon/magneton.pic"
 MagnetonPicBack::     INCBIN "pic/monback/magnetonb.pic"
-KoffingPicFront::     INCBIN "pic/bmon/koffing.pic"
+KoffingPicFront::     INCBIN "pic/ymon/koffing.pic"
 KoffingPicBack::      INCBIN "pic/monback/koffingb.pic"
 MankeyPicFront::      INCBIN "pic/bmon/mankey.pic"
 MankeyPicBack::       INCBIN "pic/monback/mankeyb.pic"
-SeelPicFront::        INCBIN "pic/bmon/seel.pic"
+SeelPicFront::        INCBIN "pic/ymon/seel.pic"
 SeelPicBack::         INCBIN "pic/monback/seelb.pic"
-DiglettPicFront::     INCBIN "pic/bmon/diglett.pic"
+DiglettPicFront::     INCBIN "pic/ymon/diglett.pic"
 DiglettPicBack::      INCBIN "pic/monback/diglettb.pic"
-TaurosPicFront::      INCBIN "pic/bmon/tauros.pic"
+TaurosPicFront::      INCBIN "pic/ymon/tauros.pic"
 TaurosPicBack::       INCBIN "pic/monback/taurosb.pic"
-FarfetchdPicFront::   INCBIN "pic/bmon/farfetchd.pic"
+FarfetchdPicFront::   INCBIN "pic/ymon/farfetchd.pic"
 FarfetchdPicBack::    INCBIN "pic/monback/farfetchdb.pic"
-VenonatPicFront::     INCBIN "pic/bmon/venonat.pic"
+VenonatPicFront::     INCBIN "pic/ymon/venonat.pic"
 VenonatPicBack::      INCBIN "pic/monback/venonatb.pic"
-DragonitePicFront::   INCBIN "pic/bmon/dragonite.pic"
+DragonitePicFront::   INCBIN "pic/ymon/dragonite.pic"
 DragonitePicBack::    INCBIN "pic/monback/dragoniteb.pic"
-DoduoPicFront::       INCBIN "pic/bmon/doduo.pic"
+DoduoPicFront::       INCBIN "pic/ymon/doduo.pic"
 DoduoPicBack::        INCBIN "pic/monback/doduob.pic"
-PoliwagPicFront::     INCBIN "pic/bmon/poliwag.pic"
+PoliwagPicFront::     INCBIN "pic/ymon/poliwag.pic"
 PoliwagPicBack::      INCBIN "pic/monback/poliwagb.pic"
-JynxPicFront::        INCBIN "pic/bmon/jynx.pic"
+JynxPicFront::        INCBIN "pic/ymon/jynx.pic"
 JynxPicBack::         INCBIN "pic/monback/jynxb.pic"
-MoltresPicFront::     INCBIN "pic/bmon/moltres.pic"
+MoltresPicFront::     INCBIN "pic/ymon/moltres.pic"
 MoltresPicBack::      INCBIN "pic/monback/moltresb.pic"
 
 
@@ -5247,9 +5343,9 @@ VulpixPicFront::      INCBIN "pic/bmon/vulpix.pic"
 VulpixPicBack::       INCBIN "pic/monback/vulpixb.pic"
 NinetalesPicFront::   INCBIN "pic/bmon/ninetales.pic"
 NinetalesPicBack::    INCBIN "pic/monback/ninetalesb.pic"
-PikachuPicFront::     INCBIN "pic/bmon/pikachu.pic"
+PikachuPicFront::     INCBIN "pic/ymon/pikachu.pic"
 PikachuPicBack::      INCBIN "pic/monback/pikachub.pic"
-RaichuPicFront::      INCBIN "pic/bmon/raichu.pic"
+RaichuPicFront::      INCBIN "pic/ymon/raichu.pic"
 RaichuPicBack::       INCBIN "pic/monback/raichub.pic"
 DratiniPicFront::     INCBIN "pic/bmon/dratini.pic"
 DratiniPicBack::      INCBIN "pic/monback/dratinib.pic"
@@ -5265,17 +5361,17 @@ SeadraPicFront::      INCBIN "pic/bmon/seadra.pic"
 SeadraPicBack::       INCBIN "pic/monback/seadrab.pic"
 SandshrewPicFront::   INCBIN "pic/bmon/sandshrew.pic"
 SandshrewPicBack::    INCBIN "pic/monback/sandshrewb.pic"
-SandslashPicFront::   INCBIN "pic/bmon/sandslash.pic"
+SandslashPicFront::   INCBIN "pic/ymon/sandslash.pic"
 SandslashPicBack::    INCBIN "pic/monback/sandslashb.pic"
-OmanytePicFront::     INCBIN "pic/bmon/omanyte.pic"
+OmanytePicFront::     INCBIN "pic/ymon/omanyte.pic"
 OmanytePicBack::      INCBIN "pic/monback/omanyteb.pic"
-OmastarPicFront::     INCBIN "pic/bmon/omastar.pic"
+OmastarPicFront::     INCBIN "pic/ymon/omastar.pic"
 OmastarPicBack::      INCBIN "pic/monback/omastarb.pic"
-JigglypuffPicFront::  INCBIN "pic/bmon/jigglypuff.pic"
+JigglypuffPicFront::  INCBIN "pic/ymon/jigglypuff.pic"
 JigglypuffPicBack::   INCBIN "pic/monback/jigglypuffb.pic"
-WigglytuffPicFront::  INCBIN "pic/bmon/wigglytuff.pic"
+WigglytuffPicFront::  INCBIN "pic/ymon/wigglytuff.pic"
 WigglytuffPicBack::   INCBIN "pic/monback/wigglytuffb.pic"
-EeveePicFront::       INCBIN "pic/bmon/eevee.pic"
+EeveePicFront::       INCBIN "pic/ymon/eevee.pic"
 EeveePicBack::        INCBIN "pic/monback/eeveeb.pic"
 FlareonPicFront::     INCBIN "pic/bmon/flareon.pic"
 FlareonPicBack::      INCBIN "pic/monback/flareonb.pic"
@@ -5283,21 +5379,21 @@ JolteonPicFront::     INCBIN "pic/bmon/jolteon.pic"
 JolteonPicBack::      INCBIN "pic/monback/jolteonb.pic"
 VaporeonPicFront::    INCBIN "pic/bmon/vaporeon.pic"
 VaporeonPicBack::     INCBIN "pic/monback/vaporeonb.pic"
-MachopPicFront::      INCBIN "pic/bmon/machop.pic"
+MachopPicFront::      INCBIN "pic/ymon/machop.pic"
 MachopPicBack::       INCBIN "pic/monback/machopb.pic"
-ZubatPicFront::       INCBIN "pic/bmon/zubat.pic"
+ZubatPicFront::       INCBIN "pic/ymon/zubat.pic"
 ZubatPicBack::        INCBIN "pic/monback/zubatb.pic"
-EkansPicFront::       INCBIN "pic/bmon/ekans.pic"
+EkansPicFront::       INCBIN "pic/ymon/ekans.pic"
 EkansPicBack::        INCBIN "pic/monback/ekansb.pic"
-ParasPicFront::       INCBIN "pic/bmon/paras.pic"
+ParasPicFront::       INCBIN "pic/ymon/paras.pic"
 ParasPicBack::        INCBIN "pic/monback/parasb.pic"
 PoliwhirlPicFront::   INCBIN "pic/bmon/poliwhirl.pic"
 PoliwhirlPicBack::    INCBIN "pic/monback/poliwhirlb.pic"
 PoliwrathPicFront::   INCBIN "pic/bmon/poliwrath.pic"
 PoliwrathPicBack::    INCBIN "pic/monback/poliwrathb.pic"
-WeedlePicFront::      INCBIN "pic/bmon/weedle.pic"
+WeedlePicFront::      INCBIN "pic/ymon/weedle.pic"
 WeedlePicBack::       INCBIN "pic/monback/weedleb.pic"
-KakunaPicFront::      INCBIN "pic/bmon/kakuna.pic"
+KakunaPicFront::      INCBIN "pic/ymon/kakuna.pic"
 KakunaPicBack::       INCBIN "pic/monback/kakunab.pic"
 BeedrillPicFront::    INCBIN "pic/bmon/beedrill.pic"
 BeedrillPicBack::     INCBIN "pic/monback/beedrillb.pic"
@@ -5322,63 +5418,63 @@ INCLUDE "engine/game_corner_slots2.asm"
 
 SECTION "Pics 4", ROMX, BANK[PICS_4]
 
-DodrioPicFront::       INCBIN "pic/bmon/dodrio.pic"
+DodrioPicFront::       INCBIN "pic/ymon/dodrio.pic"
 DodrioPicBack::        INCBIN "pic/monback/dodriob.pic"
-PrimeapePicFront::     INCBIN "pic/bmon/primeape.pic"
+PrimeapePicFront::     INCBIN "pic/ymon/primeape.pic"
 PrimeapePicBack::      INCBIN "pic/monback/primeapeb.pic"
 DugtrioPicFront::      INCBIN "pic/bmon/dugtrio.pic"
 DugtrioPicBack::       INCBIN "pic/monback/dugtriob.pic"
-VenomothPicFront::     INCBIN "pic/bmon/venomoth.pic"
+VenomothPicFront::     INCBIN "pic/ymon/venomoth.pic"
 VenomothPicBack::      INCBIN "pic/monback/venomothb.pic"
 DewgongPicFront::      INCBIN "pic/bmon/dewgong.pic"
 DewgongPicBack::       INCBIN "pic/monback/dewgongb.pic"
-CaterpiePicFront::     INCBIN "pic/bmon/caterpie.pic"
+CaterpiePicFront::     INCBIN "pic/ymon/caterpie.pic"
 CaterpiePicBack::      INCBIN "pic/monback/caterpieb.pic"
-MetapodPicFront::      INCBIN "pic/bmon/metapod.pic"
+MetapodPicFront::      INCBIN "pic/ymon/metapod.pic"
 MetapodPicBack::       INCBIN "pic/monback/metapodb.pic"
-ButterfreePicFront::   INCBIN "pic/bmon/butterfree.pic"
+ButterfreePicFront::   INCBIN "pic/ymon/butterfree.pic"
 ButterfreePicBack::    INCBIN "pic/monback/butterfreeb.pic"
-MachampPicFront::      INCBIN "pic/bmon/machamp.pic"
+MachampPicFront::      INCBIN "pic/ymon/machamp.pic"
 MachampPicBack::       INCBIN "pic/monback/machampb.pic"
-GolduckPicFront::      INCBIN "pic/bmon/golduck.pic"
+GolduckPicFront::      INCBIN "pic/ymon/golduck.pic"
 GolduckPicBack::       INCBIN "pic/monback/golduckb.pic"
-HypnoPicFront::        INCBIN "pic/bmon/hypno.pic"
+HypnoPicFront::        INCBIN "pic/ymon/hypno.pic"
 HypnoPicBack::         INCBIN "pic/monback/hypnob.pic"
-GolbatPicFront::       INCBIN "pic/bmon/golbat.pic"
+GolbatPicFront::       INCBIN "pic/ymon/golbat.pic"
 GolbatPicBack::        INCBIN "pic/monback/golbatb.pic"
-MewtwoPicFront::       INCBIN "pic/bmon/mewtwo.pic"
+MewtwoPicFront::       INCBIN "pic/ymon/mewtwo.pic"
 MewtwoPicBack::        INCBIN "pic/monback/mewtwob.pic"
-SnorlaxPicFront::      INCBIN "pic/bmon/snorlax.pic"
+SnorlaxPicFront::      INCBIN "pic/ymon/snorlax.pic"
 SnorlaxPicBack::       INCBIN "pic/monback/snorlaxb.pic"
-MagikarpPicFront::     INCBIN "pic/bmon/magikarp.pic"
+MagikarpPicFront::     INCBIN "pic/ymon/magikarp.pic"
 MagikarpPicBack::      INCBIN "pic/monback/magikarpb.pic"
-MukPicFront::          INCBIN "pic/bmon/muk.pic"
+MukPicFront::          INCBIN "pic/ymon/muk.pic"
 MukPicBack::           INCBIN "pic/monback/mukb.pic"
-KinglerPicFront::      INCBIN "pic/bmon/kingler.pic"
+KinglerPicFront::      INCBIN "pic/ymon/kingler.pic"
 KinglerPicBack::       INCBIN "pic/monback/kinglerb.pic"
-CloysterPicFront::     INCBIN "pic/bmon/cloyster.pic"
+CloysterPicFront::     INCBIN "pic/ymon/cloyster.pic"
 CloysterPicBack::      INCBIN "pic/monback/cloysterb.pic"
-ElectrodePicFront::    INCBIN "pic/bmon/electrode.pic"
+ElectrodePicFront::    INCBIN "pic/ymon/electrode.pic"
 ElectrodePicBack::     INCBIN "pic/monback/electrodeb.pic"
-ClefablePicFront::     INCBIN "pic/bmon/clefable.pic"
+ClefablePicFront::     INCBIN "pic/ymon/clefable.pic"
 ClefablePicBack::      INCBIN "pic/monback/clefableb.pic"
-WeezingPicFront::      INCBIN "pic/bmon/weezing.pic"
+WeezingPicFront::      INCBIN "pic/ymon/weezing.pic"
 WeezingPicBack::       INCBIN "pic/monback/weezingb.pic"
-PersianPicFront::      INCBIN "pic/bmon/persian.pic"
+PersianPicFront::      INCBIN "pic/ymon/persian.pic"
 PersianPicBack::       INCBIN "pic/monback/persianb.pic"
-MarowakPicFront::      INCBIN "pic/bmon/marowak.pic"
+MarowakPicFront::      INCBIN "pic/ymon/marowak.pic"
 MarowakPicBack::       INCBIN "pic/monback/marowakb.pic"
 HaunterPicFront::      INCBIN "pic/bmon/haunter.pic"
 HaunterPicBack::       INCBIN "pic/monback/haunterb.pic"
-AbraPicFront::         INCBIN "pic/bmon/abra.pic"
+AbraPicFront::         INCBIN "pic/ymon/abra.pic"
 AbraPicBack::          INCBIN "pic/monback/abrab.pic"
-AlakazamPicFront::     INCBIN "pic/bmon/alakazam.pic"
+AlakazamPicFront::     INCBIN "pic/ymon/alakazam.pic"
 AlakazamPicBack::      INCBIN "pic/monback/alakazamb.pic"
-PidgeottoPicFront::    INCBIN "pic/bmon/pidgeotto.pic"
+PidgeottoPicFront::    INCBIN "pic/ymon/pidgeotto.pic"
 PidgeottoPicBack::     INCBIN "pic/monback/pidgeottob.pic"
-PidgeotPicFront::      INCBIN "pic/bmon/pidgeot.pic"
+PidgeotPicFront::      INCBIN "pic/ymon/pidgeot.pic"
 PidgeotPicBack::       INCBIN "pic/monback/pidgeotb.pic"
-StarmiePicFront::      INCBIN "pic/bmon/starmie.pic"
+StarmiePicFront::      INCBIN "pic/ymon/starmie.pic"
 StarmiePicBack::       INCBIN "pic/monback/starmieb.pic"
 
 RedPicBack::           INCBIN "pic/trainer/redb.pic"
@@ -5392,9 +5488,9 @@ INCLUDE "engine/battle/moveEffects/one_hit_ko_effect.asm"
 
 SECTION "Pics 5", ROMX, BANK[PICS_5]
 
-BulbasaurPicFront::    INCBIN "pic/bmon/bulbasaur.pic"
+BulbasaurPicFront::    INCBIN "pic/ymon/bulbasaur.pic"
 BulbasaurPicBack::     INCBIN "pic/monback/bulbasaurb.pic"
-VenusaurPicFront::     INCBIN "pic/bmon/venusaur.pic"
+VenusaurPicFront::     INCBIN "pic/ymon/venusaur.pic"
 VenusaurPicBack::      INCBIN "pic/monback/venusaurb.pic"
 TentacruelPicFront::   INCBIN "pic/bmon/tentacruel.pic"
 TentacruelPicBack::    INCBIN "pic/monback/tentacruelb.pic"
@@ -5406,51 +5502,51 @@ PonytaPicFront::       INCBIN "pic/bmon/ponyta.pic"
 RapidashPicFront::     INCBIN "pic/bmon/rapidash.pic"
 PonytaPicBack::        INCBIN "pic/monback/ponytab.pic"
 RapidashPicBack::      INCBIN "pic/monback/rapidashb.pic"
-RattataPicFront::      INCBIN "pic/bmon/rattata.pic"
+RattataPicFront::      INCBIN "pic/ymon/rattata.pic"
 RattataPicBack::       INCBIN "pic/monback/rattatab.pic"
-RaticatePicFront::     INCBIN "pic/bmon/raticate.pic"
+RaticatePicFront::     INCBIN "pic/ymon/raticate.pic"
 RaticatePicBack::      INCBIN "pic/monback/raticateb.pic"
 NidorinoPicFront::     INCBIN "pic/bmon/nidorino.pic"
 NidorinoPicBack::      INCBIN "pic/monback/nidorinob.pic"
 NidorinaPicFront::     INCBIN "pic/bmon/nidorina.pic"
 NidorinaPicBack::      INCBIN "pic/monback/nidorinab.pic"
-GeodudePicFront::      INCBIN "pic/bmon/geodude.pic"
+GeodudePicFront::      INCBIN "pic/ymon/geodude.pic"
 GeodudePicBack::       INCBIN "pic/monback/geodudeb.pic"
 PorygonPicFront::      INCBIN "pic/bmon/porygon.pic"
 PorygonPicBack::       INCBIN "pic/monback/porygonb.pic"
-AerodactylPicFront::   INCBIN "pic/bmon/aerodactyl.pic"
+AerodactylPicFront::   INCBIN "pic/ymon/aerodactyl.pic"
 AerodactylPicBack::    INCBIN "pic/monback/aerodactylb.pic"
-MagnemitePicFront::    INCBIN "pic/bmon/magnemite.pic"
+MagnemitePicFront::    INCBIN "pic/ymon/magnemite.pic"
 MagnemitePicBack::     INCBIN "pic/monback/magnemiteb.pic"
-CharmanderPicFront::   INCBIN "pic/bmon/charmander.pic"
+CharmanderPicFront::   INCBIN "pic/ymon/charmander.pic"
 CharmanderPicBack::    INCBIN "pic/monback/charmanderb.pic"
-SquirtlePicFront::     INCBIN "pic/bmon/squirtle.pic"
+SquirtlePicFront::     INCBIN "pic/ymon/squirtle.pic"
 SquirtlePicBack::      INCBIN "pic/monback/squirtleb.pic"
-CharmeleonPicFront::   INCBIN "pic/bmon/charmeleon.pic"
+CharmeleonPicFront::   INCBIN "pic/ymon/charmeleon.pic"
 CharmeleonPicBack::    INCBIN "pic/monback/charmeleonb.pic"
-WartortlePicFront::    INCBIN "pic/bmon/wartortle.pic"
+WartortlePicFront::    INCBIN "pic/ymon/wartortle.pic"
 WartortlePicBack::     INCBIN "pic/monback/wartortleb.pic"
-CharizardPicFront::    INCBIN "pic/bmon/charizard.pic"
+CharizardPicFront::    INCBIN "pic/ymon/charizard.pic"
 CharizardPicBack::     INCBIN "pic/monback/charizardb.pic"
 FossilAerodactylPic::  INCBIN "pic/bmon/fossilaerodactyl.pic"
 GhostPic::             INCBIN "pic/other/ghost.pic"
-OddishPicFront::       INCBIN "pic/bmon/oddish.pic"
+OddishPicFront::       INCBIN "pic/ymon/oddish.pic"
 OddishPicBack::        INCBIN "pic/monback/oddishb.pic"
-GloomPicFront::        INCBIN "pic/bmon/gloom.pic"
+GloomPicFront::        INCBIN "pic/ymon/gloom.pic"
 GloomPicBack::         INCBIN "pic/monback/gloomb.pic"
-VileplumePicFront::    INCBIN "pic/bmon/vileplume.pic"
+VileplumePicFront::    INCBIN "pic/ymon/vileplume.pic"
 VileplumePicBack::     INCBIN "pic/monback/vileplumeb.pic"
-BellsproutPicFront::   INCBIN "pic/bmon/bellsprout.pic"
+BellsproutPicFront::   INCBIN "pic/ymon/bellsprout.pic"
 BellsproutPicBack::    INCBIN "pic/monback/bellsproutb.pic"
-WeepinbellPicFront::   INCBIN "pic/bmon/weepinbell.pic"
+WeepinbellPicFront::   INCBIN "pic/ymon/weepinbell.pic"
 WeepinbellPicBack::    INCBIN "pic/monback/weepinbellb.pic"
-VictreebelPicFront::   INCBIN "pic/bmon/victreebel.pic"
+VictreebelPicFront::   INCBIN "pic/ymon/victreebel.pic"
 VictreebelPicBack::    INCBIN "pic/monback/victreebelb.pic"
 
 
 SECTION "Battle (bank D)", ROMX, BANK[$D]
 
-INCLUDE "engine/titlescreen2.asm"
+;INCLUDE "engine/titlescreen2.asm"
 INCLUDE "engine/battle/link_battle_versus_text.asm"
 INCLUDE "engine/slot_machine.asm"
 INCLUDE "engine/overworld/pewter_guys.asm"
@@ -6516,7 +6612,6 @@ INCLUDE "engine/in_game_trades.asm"
 INCLUDE "engine/palettes.asm"
 INCLUDE "engine/save.asm"
 
-
 SECTION "bank1D",ROMX,BANK[$1D]
 
 CopycatsHouse1FBlocks: INCBIN "maps/copycatshouse1f.blk"
@@ -6670,12 +6765,418 @@ INCLUDE "engine/overworld/elevator.asm"
 
 INCLUDE "engine/items/tm_prices.asm"
 
-IF DEF(_OPTION_BEACH_HOUSE)
-SECTION "bank3C",ROMX[$4314],BANK[$3C]
+SECTION "bank2D", ROMX, BANK[$2D]
+INCLUDE "engine/menu/bills_pc.asm"
+LumiSprite:      INCBIN "gfx/sprites/lumi.2bpp"
+JinxSprite:      INCBIN "gfx/sprites/jinx.2bpp"
+ThetaSprite:      INCBIN "gfx/sprites/theta.2bpp"
+MochaSprite:      INCBIN "gfx/sprites/mocha.2bpp"
+LumiPic::   	   INCBIN "pic/trainer/lumi.pic"
+MaskedLumiPic::   	   INCBIN "pic/trainer/maskedlumi.pic"
+JinxPic::	   INCBIN "pic/trainer/jinx.pic"
+TronSilvumiPic::	   INCBIN "pic/trainer/tron_silvumi.pic"
+HaidenPic::	   INCBIN "pic/trainer/haiden.pic"
+MwahPic::	   INCBIN "pic/trainer/mwah.pic"
+MochaPic::	   INCBIN "pic/trainer/mocha2.pic"	; rae likes this one more than mocha1
+GlaceonPicFront::	   INCBIN "pic/bmon/glaceon.pic"
+GlaceonPicBack::	   INCBIN "pic/monback/glaceonb.pic"
+INCLUDE "data/mapHeaders/route6gate2.asm"
+INCLUDE "scripts/route6gate2.asm"
+INCLUDE "data/mapObjects/route6gate2.asm"
+Route6Gate2Blocks: INCBIN "maps/route8gate.blk"
+INCLUDE "text/maps/route_6_lumi_and_jinx.asm"
+INCLUDE "data/mapHeaders/route6link.asm"
+INCLUDE "scripts/route6link.asm"
+INCLUDE "data/mapObjects/route6link.asm"
+Route6LinkBlocks: INCBIN "maps/route6_link.blk"
+INCLUDE "engine/battle/battle_transition_picscroll.asm"
+KitsarushiPicFront::	   INCBIN "pic/bmon/kitsarushi.pic"
+KitsarushiPicBack::	   INCBIN "pic/monback/kitsarushib.pic"
+KitsutoPicFront::	   INCBIN "pic/bmon/kitsuto.pic"
+KitsutoPicBack::	   INCBIN "pic/monback/kitsutob.pic"
+RexMaskPicFront::	   INCBIN "pic/bmon/rex.pic"
+RexMaskPicBack::	   INCBIN "pic/monback/rex.pic"
+RexPumkinPicFront::	   INCBIN "pic/bmon/pumkin.pic"
+RexPumkinPicBack::	   INCBIN "pic/monback/pumkin.pic"
 
-BeachHouse_GFX:
-	INCBIN "gfx/tilesets/beachhouse.2bpp"
+_HaidenUsedHaxText:
+	text "HAIDEN used"
+	line "HAX!"
+	prompt
 
-BeachHouse_Block:
-	INCBIN "gfx/blocksets/beachhouse.bst"
-ENDC
+NintendoCopyrightLogoGraphics:  INCBIN "gfx/newcopyright.2bpp"
+
+MonBankData:
+	db $00,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09	; 00-0F
+	db $09,$09,$09,$09,$09,$01,$09,$09,$09,$09,$09,$09,$09,$09,$09,$2D	; 10-1F
+	db $2D,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A,$0A	; 20-2F
+	db $0A,$0A,$2D,$0A,$2D,$0A,$0A,$0A,$2D,$0A,$0A,$0A,$0A,$FF,$FF,$FF	; 30-3F
+	db $0A,$0A,$0A,$FF,$FF,$FF,$0A,$0A,$0A,$0A,$0B,$0B,$0B,$0B,$0B,$FF	; 40-4F
+	db $FF,$FF,$0B,$0B,$0B,$0B,$FF,$FF,$0B,$0B,$0B,$0B,$0B,$0B,$FF,$FF	; 50-5F
+	db $0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B,$0B	; 60-6F
+	db $0B,$0B,$0B,$FF,$0C,$0C,$0C,$0C,$0C,$FF,$FF,$0C,$0C,$0C,$0C,$FF	; 70-7F
+	db $0C,$0C,$0C,$0C,$0C,$0C,$FF,$FF,$0C,$FF,$0C,$0C,$FF,$0C,$0C,$0C	; 80-8F
+	db $0C,$0C,$FF,$0C,$0C,$0C,$0C,$0C,$0C,$0D,$0D,$0D,$FF,$0D,$0D,$FF	; 90-9F
+	db $FF,$FF,$FF,$0D,$0D,$0D,$0D,$0D,$0D,$0D,$0D,$0D,$FF,$0D,$FF,$FF	; A0-AF
+	db $0D,$0D,$0D,$0D,$0D,$FF,$0B,$0D,$0D,$0D,$0D,$0D,$0D,$0D,$0D		; B0-BF
+	;   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+	
+	INCLUDE "engine/menu/soundtest.asm"
+	INCLUDE "data/musicentries.asm"
+	INCLUDE "engine/menu/battem.asm"
+	INCLUDE "engine/battle/battle_transition_split.asm"
+	INCLUDE "engine/battle/battle_transition_whiteout.asm"
+	
+DisplayMonFrontSpriteInBox2::
+; literally the same fucking thing as
+; DisplayMonFrontSpriteInBox, only it plays the cry of the pokemon
+	push hl
+	ld a, $1
+	ld [H_AUTOBGTRANSFERENABLED], a ; $ffba
+	call Delay3
+	call SaveScreenTilesToBuffer1
+	ld a, MON_SPRITE_POPUP
+	ld [wTextBoxID], a
+	call DisplayTextBoxID
+	call UpdateSprites
+	ld a, [wcf91]
+	ld [wd0b5], a
+	call GetMonHeader
+	ld de, vChars1 + $310
+	call LoadMonFrontSprite
+	ld a, $80
+	ld [$ffe1], a
+	hlCoord 10, 11
+	predef Func_3f073
+	ld a, [wcf91]
+	call PlayCry
+	call WaitForTextScrollButtonPress
+	call LoadScreenTilesFromBuffer1
+	call Delay3
+	call LoadFontTilePatterns
+	pop hl
+	ret
+	
+GiveSingleItem2:
+	ld b, d
+	ld e, 1
+GiveItem2:
+	ld b, d
+	ld c, e
+	call GiveItem
+	jr nc, .BagFull
+	ld a, $43
+	ld [hSpriteIndexOrTextID], a
+	call PrintPredefTextID
+	ret
+.BagFull
+	ld a, $44
+	ld [hSpriteIndexOrTextID], a
+	call PrintPredefTextID
+	ret
+	
+Func_GotItemText:
+	TX_FAR _GotMapText
+	db $11,"@"
+
+Func_BagFullText:
+	TX_FAR _DaisyBagFullText
+	db "@"
+	
+_PlayMusicEntry:
+	;ld b, a
+	;ld a, Bank(MusicEntries)
+	;call BankswitchHome
+	;ld a, b
+	ld a, d
+	add a
+	ld c, a
+	xor a
+	ld b, a
+	ld hl, MusicEntries
+	add hl, bc
+	ld a, [hli]
+	ld c, a
+	ld a, [hl]
+	jp PlayMusic
+	;jp BankswitchBack
+	
+_PlaceMenuCursor:
+	ld a,[wTopMenuItemY]
+	and a ; is the y coordinate 0?
+	jr z,.adjustForXCoord
+	ld hl,wTileMap
+	ld bc,SCREEN_WIDTH
+.topMenuItemLoop
+	add hl,bc
+	dec a
+	jr nz,.topMenuItemLoop
+.adjustForXCoord
+	ld a,[wTopMenuItemX]
+	ld b,0
+	ld c,a
+	add hl,bc
+	push hl
+	ld a,[wLastMenuItem]
+	and a ; was the previous menu id 0?
+	jr z,.checkForArrow1
+	push af
+	ld a,[hFlags_0xFFF6]
+	bit 1,a ; is the menu double spaced?
+	jr z,.doubleSpaced1
+	ld bc,20
+	jr .getOldMenuItemScreenPosition
+.doubleSpaced1
+	ld bc,40
+.getOldMenuItemScreenPosition
+	pop af
+.oldMenuItemLoop
+	add hl,bc
+	dec a
+	jr nz,.oldMenuItemLoop
+.checkForArrow1
+	ld a,[hl]
+	cp a,"▶" ; was an arrow next to the previously selected menu item?
+	jr nz,.skipClearingArrow
+.clearArrow
+	ld a,[wTileBehindCursor]
+	ld [hl],a
+.skipClearingArrow
+	pop hl
+	ld a,[wCurrentMenuItem]
+	and a
+	jr z,.checkForArrow2
+	push af
+	ld a,[hFlags_0xFFF6]
+	bit 1,a ; is the menu double spaced?
+	jr z,.doubleSpaced2
+	ld bc,20
+	jr .getCurrentMenuItemScreenPosition
+.doubleSpaced2
+	ld bc,40
+.getCurrentMenuItemScreenPosition
+	pop af
+.currentMenuItemLoop
+	add hl,bc
+	dec a
+	jr nz,.currentMenuItemLoop
+.checkForArrow2
+	ld a,[hl]
+	cp a,"▶" ; has the right arrow already been placed?
+	jr z,.skipSavingTile ; if so, don't lose the saved tile
+	ld [wTileBehindCursor],a ; save tile before overwriting with right arrow
+.skipSavingTile
+	ld a,"▶" ; place right arrow
+	ld [hl],a
+	ld a,l
+	ld [wMenuCursorLocation],a
+	ld a,h
+	ld [wMenuCursorLocation + 1],a
+	ld a,[wCurrentMenuItem]
+	ld [wLastMenuItem],a
+	ret
+
+_ReloadMapSpriteTilePatterns:
+	ld hl, wFontLoaded
+	ld a, [hl]
+	push af
+	res 0, [hl]
+	push hl
+	xor a
+	ld [W_SPRITESETID], a
+	call DisableLCD
+	callba InitMapSprites
+	call EnableLCD
+	pop hl
+	pop af
+	ld [hl], a
+	call LoadPlayerSpriteGraphics
+	call LoadFontTilePatterns
+	jp UpdateSprites
+
+;INCLUDE "yellow_pcm/run_pcm_ID.asm"
+
+INCLUDE "yellow_pcm/jf/jf_pcm_routine.asm"
+
+MwahBattleText::
+	db 8
+	ld hl, MwahBattleText2
+	call PrintText
+	call Delay3
+	ld a, [rDIV]	; take random
+	and a, 1
+	ld e, a
+	call PlayPCM
+	ld a, MWAH + $C8
+	ld [W_CUROPPONENT], a
+	ld a, [W_CURMAP]
+	cp PEWTER_CITY
+	jr z, .lv1
+	cp CERULEAN_CITY
+	jr z, .lv2
+	cp VERMILION_CITY + 1
+	jr c, .lv3
+	ld a, 4
+	ld [W_TRAINERNO], a
+	jr .done
+.lv1
+	ld a, 1
+	ld [W_TRAINERNO], a
+	jr .done
+.lv2
+	ld a, 2
+	ld [W_TRAINERNO], a
+	jr .done
+.lv3
+	ld a, 3
+	ld [W_TRAINERNO], a
+.done
+	jp TextScriptEnd
+	
+MwahBattleText2:
+	     ;XXXXXXXXXXXXXXXXXX
+	text "MWAH: Ready for a"
+	line "twerk battle?"
+	done
+	
+SECTION "bank30", ROMX, BANK[$30]
+JonicPic::	   INCBIN "pic/trainer/tron_silvumi.pic"
+SetAllPokestoLv1:
+.dolevel
+	ld a, 1			; WTFHAX
+	ld [$d16e], a		; THESE ARE FIXED VALUES.
+	ld [$d18c], a
+	
+	ld [$d19a], a
+	ld [$d1b8], a
+	
+	ld [$d1c6], a
+	ld [$d1e4], a
+	
+	ld [$d1f2], a
+	ld [$d210], a
+	
+	ld [$d21e], a
+	ld [$d23c], a
+	
+	ld [$d24a], a
+	ld [$d268], a
+.doexp
+	ld a, 0
+	ld [$d179], a
+	ld [$d17a], a
+	ld [$d1a5], a
+	ld [$d1a6], a
+	ld [$d1d1], a
+	ld [$d1d2], a
+	ld [$d1fd], a
+	ld [$d1fe], a
+	ld [$d229], a
+	ld [$d22a], a
+	ld [$d255], a
+	ld [$d256], a
+	
+	ld a, 5
+	ld [$d17b], a
+	ld [$d1a7], a
+	ld [$d1d3], a
+	ld [$d1ff], a
+	ld [$d22b], a
+	ld [$d257], a
+.dohp
+	ld a, 0
+	ld [$d16c], a
+	ld [$d198], a
+	ld [$d1c4], a
+	ld [$d1f0], a
+	ld [$d21c], a
+	ld [$d248], a
+	
+	ld [$d18d], a
+	ld [$d1b9], a
+	ld [$d1e5], a
+	ld [$d211], a
+	ld [$d23d], a
+	ld [$d269], a
+	
+	ld a, 5
+	ld [$d16d], a
+	ld [$d199], a
+	ld [$d1c5], a
+	ld [$d1f1], a
+	ld [$d21d], a
+	ld [$d249], a
+	
+	ld [$d18e], a
+	ld [$d1ba], a
+	ld [$d1e6], a
+	ld [$d212], a
+	ld [$d23e], a
+	ld [$d26a], a
+	
+.dostats
+	ld [$d190], a
+	ld [$d192], a
+	ld [$d194], a
+	ld [$d196], a
+
+	ld [$d1bc], a
+	ld [$d1be], a
+	ld [$d1c0], a
+	ld [$d1c2], a
+	
+	ld [$d1e8], a
+	ld [$d1ea], a
+	ld [$d1ec], a
+	ld [$d1ee], a
+
+	ld [$d214], a
+	ld [$d216], a
+	ld [$d218], a
+	ld [$d21a], a
+	
+	ld [$d240], a
+	ld [$d242], a
+	ld [$d244], a
+	ld [$d246], a
+	
+	ld [$d26c], a
+	ld [$d26e], a
+	ld [$d270], a
+	ld [$d272], a
+	
+	xor a
+
+	ld [$d18f], a
+	ld [$d191], a
+	ld [$d193], a
+	ld [$d195], a
+
+	ld [$d1bb], a
+	ld [$d1bd], a
+	ld [$d1bf], a
+	ld [$d1c1], a
+	
+	ld [$d1e7], a
+	ld [$d1e9], a
+	ld [$d1eb], a
+	ld [$d1ed], a
+
+	ld [$d213], a
+	ld [$d215], a
+	ld [$d217], a
+	ld [$d219], a
+	
+	ld [$d23f], a
+	ld [$d241], a
+	ld [$d243], a
+	ld [$d245], a
+	
+	ld [$d26b], a
+	ld [$d26d], a
+	ld [$d26f], a
+	ld [$d271], a
+	ret
+	
+SECTION "bank2C",ROMX,BANK[$2C]
+INCLUDE	"engine/c64intro.asm"

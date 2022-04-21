@@ -131,4 +131,3 @@ _Route6Text7:: ; 8de49 (23:5e49)
 	line "CERULEAN CITY -"
 	cont "VERMILION CITY"
 	done
-

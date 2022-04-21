@@ -112,3 +112,56 @@ _Route10Text10:: ; 8e8e1 (23:68e1)
 	text "POWER PLANT"
 	done
 
+_Route10Text11::
+	;     XXXXXXXXXXXXXXXXXX
+	text "LUMI: HEY ", $52
+	line "I FOUND A BAE."
+	done
+	
+_Route10Text12::
+	;     XXXXXXXXXXXXXXXXXX
+	text "LUMI: ", $52, ","
+	line "meet TRON SILVER."
+	cont "He's my bae now."
+	para "That said, let's"
+	line "battle!"
+	done
+	
+_Route10TronEndBattle::
+	;     XXXXXXXXXXXXXXXXXX
+	text "Aww."
+	para "TRON SILVER: Good"
+	line "battle!"
+	prompt
+	
+_Route10Text13::
+	;     XXXXXXXXXXXXXXXXXX
+	text "LUMI: Well, that"
+	line "was noice."
+	cont "Cya, dude."
+	para "And remember: the"
+	line "one and only,baby!"
+	para "TRON SILVER: Dats"
+	line "right!"
+	done
+	
+_Route10BattleText7:: ; 8e844 (23:6844)
+	text "MOCHA: Boo!"
+	line "Hehehehehe! Did I"
+	cont "scurr you?"
+	para "I just can't help"
+	line "myself! XD"
+	done
+
+_Route10EndBattleText7:: ; 8e872 (23:6872)
+	text "...u"
+	line "scurred meh."
+	prompt
+
+_Route10AfterBattleText7:: ; 8e884 (23:6884)
+	text "MOCHA: Okay, okay"
+	line "I'll stop follow-"
+	cont "ing you. F'real"
+	cont "this time tho."
+	para "Good luck bby!"
+	done

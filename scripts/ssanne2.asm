@@ -27,9 +27,8 @@ SSAnne2Script0: ; 613be (18:53be)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld c, BANK(Music_MeetRival)
-	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
+	ld a, Mus_MeetRival
+	call PlayMusicEntry
 	ld a, [wWhichTrade]
 	ld [$ffdb], a
 	ld a, HS_SS_ANNE_2_RIVAL

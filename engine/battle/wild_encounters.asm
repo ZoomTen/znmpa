@@ -20,7 +20,7 @@ TryDoWildEncounter: ; 13870 (4:7870)
 	and a
 	jr z, .asm_1389e
 	dec a
-	jr z, .lastRepelStep
+	jp z, .lastRepelStep
 	ld [wRepelRemainingSteps], a
 .asm_1389e
 ; determine if wild pokemon can appear in the half-block we're standing in	
@@ -75,9 +75,33 @@ TryDoWildEncounter: ; 13870 (4:7870)
 	add hl, bc
 	ld a, [hli]
 	ld [W_CURENEMYLVL], a
+	
+; Pokemon 731 is possible ;)
+; but here it's the Rex Mask
+
+	ld a, [W_CURMAP]
+	cp ROUTE_4		; is current map = route 4?
+	jr nz, .notroute4
+	
+; 16th grass tile
+	ld a, [W_YCOORD]
+	cp $0b
+	jr nz, .notroute4
+	
+	ld a, [W_XCOORD]
+	cp $45
+	jr nz, .notroute4
+	
+; 100% chance
+	ld a, REX_MASK
+	ld [wcf91], a
+	ld [wEnemyMonSpecies2], a
+	jr .continue
+.notroute4	
 	ld a, [hl]
 	ld [wcf91], a
 	ld [wEnemyMonSpecies2], a
+.continue
 	ld a, [wRepelRemainingSteps]
 	and a
 	jr z, .willEncounter

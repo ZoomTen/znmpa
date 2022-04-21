@@ -19,22 +19,22 @@ TitleScroll_Out: ; 3724f (d:724f)
 TitleScroll: ; 37258 (d:7258)
 	ld a, d
 
-	ld bc, TitleScroll_In
-	ld d, $88
-	ld e, 0 ; don't animate titleball
+	ld bc, TitleScroll_In	; load scroll-in table
+	ld d, $88		; scx start value
+	ld e, 0			; don't animate titleball
 
 	and a
 	jr nz, .ok
 
-	ld bc, TitleScroll_Out
-	ld d, $00
-	ld e, 0 ; don't animate titleball
+	ld bc, TitleScroll_Out	; load scroll-out table
+	ld d, $00		; scx start value
+	ld e, 0 		; don't animate titleball
 .ok
 
 _TitleScroll: ; 3726a (d:726a)
 	ld a, [bc]
 	and a
-	ret z
+	ret z			; if table ends then stop
 
 	inc bc
 	push bc
@@ -45,7 +45,7 @@ _TitleScroll: ; 3726a (d:726a)
 	ld a, b
 	and $f0
 	swap a
-	ld b, a
+	ld b, a			; loop c times, incrementing SCX by b pixels each time
 
 .loop
 	ld h, d
@@ -80,6 +80,7 @@ _TitleScroll: ; 3726a (d:726a)
 	ld a, [$ff44] ; rLY
 	cp h
 	jr z, .wait2
+	cp l
 	ret
 
 TitleBallYTable: ; 372a0 (d:72a0)

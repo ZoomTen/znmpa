@@ -59,13 +59,13 @@ ItemUsePtrTable: ; d5e1 (3:55e1)
 	dw UnusableItem      ; DOME_FOSSIL
 	dw UnusableItem      ; HELIX_FOSSIL
 	dw UnusableItem      ; SECRET_KEY
-	dw UnusableItem
+	dw ItemSoundTest     ; SOUND_TEST
 	dw UnusableItem      ; BIKE_VOUCHER
 	dw ItemUseXAccuracy  ; X_ACCURACY
 	dw ItemUseEvoStone   ; LEAF_STONE
 	dw ItemUseCardKey    ; CARD_KEY
 	dw UnusableItem      ; NUGGET
-	dw UnusableItem      ; ??? PP_UP
+	dw UnusableItem      ; TWINKLY
 	dw ItemUsePokedoll   ; POKE_DOLL
 	dw ItemUseMedicine   ; FULL_HEAL
 	dw ItemUseMedicine   ; REVIVE
@@ -99,6 +99,11 @@ ItemUsePtrTable: ; d5e1 (3:55e1)
 	dw ItemUsePPRestore  ; MAX_ETHER
 	dw ItemUsePPRestore  ; ELIXER
 	dw ItemUsePPRestore  ; MAX_ELIXER
+	dw UnusableItem      ; Floating Item
+	dw UnusableItem      ; Zomom
+	dw UnusableItem      ; Znozzzzzzz Egg
+	dw UnusableItem      ; Bagolandepoff
+	dw ItemUseBattem     ; Battem (Battle Emulator)
 
 ItemUseBall: ; d687 (3:5687)
 	ld a,[W_ISINBATTLE]
@@ -1720,9 +1725,8 @@ PlayedFluteHadEffectText: ; e215 (3:6215)
 ; play out-of-battle pokeflute music
 	ld a,$ff
 	call PlaySound ; turn off music
-	ld a, (SFX_02_5e - SFX_Headers_02) / 3
-	ld c, BANK(SFX_02_5e)
-	call PlayMusic ; play music
+	ld a, Mus_Pokeflute
+	call PlayMusicEntry
 .musicWaitLoop ; wait for music to finish playing
 	ld a,[wc028]
 	cp a,$b8
@@ -2069,6 +2073,49 @@ PPRestoredText: ; e471 (3:6471)
 ; for items that can't be used from the Item menu
 UnusableItem: ; e476 (3:6476)
 	jp ItemUseNotTime
+	
+ItemSoundTest:
+	ld a,[W_ISINBATTLE]
+	and a
+	jp nz,ItemUseNotTime
+	ld hl,SoundTestInstructions
+	call PrintText
+	xor a
+	ld [H_AUTOBGTRANSFERENABLED],a
+	call ClearScreen
+	call UpdateSprites
+	callab DisplaySoundTestMenu
+	call LoadScreenTilesFromBuffer2 ; restore saved screen
+	;call LoadTextBoxTilePatterns
+	ret
+	;jp UpdateSprites ; move sprites
+	
+SoundTestInstructions:
+	TX_FAR _SoundTestInstructions
+	db "@"
+	
+ItemUseBattem:
+	ld a,[W_ISINBATTLE]
+	and a
+	jp nz,ItemUseNotTime	; basic in-battle check
+	
+	ld de, TownMapUpArrow
+	ld hl, vChars1 + $400	; $ED
+	ld bc, (BANK(TownMapUpArrow) << 8) + $01
+	call CopyVideoDataDouble
+	
+	hlCoord 0, 12
+	ld b,4  ; height
+	ld c,18 ; width
+	call TextBoxBorder
+	
+	hlCoord 6, 4
+	ld b,4  ; height
+	ld c,6 ; width
+	call TextBoxBorder
+	callba BattemMenu_Main
+	jp LoadFontTilePatterns
+	
 
 ItemUseTMHM: ; e479 (3:6479)
 	ld a,[W_ISINBATTLE]

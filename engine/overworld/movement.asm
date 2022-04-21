@@ -249,7 +249,7 @@ ChangeFacingDirection: ; 4fc8 (1:4fc8)
 ; c: new facing direction (0,4,8 or $c)
 ; d: Y movement delta (-1, 0 or 1)
 ; e: X movement delta (-1, 0 or 1)
-; hl: pointer to tile the sprite would wlak onto
+; hl: pointer to tile the sprite would walk onto
 ; set carry on failure, clears carry on success
 TryWalking: ; 4fcb (1:4fcb)
 	push hl

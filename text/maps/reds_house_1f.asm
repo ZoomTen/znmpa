@@ -1,16 +1,24 @@
-_MomWakeUpText::
-	text "MOM: Right."
-	line "All boys leave"
-IF DEF(_YELLOW)
-	cont "home someday."
-ELSE
-	cont "home some day."
-ENDC
-	cont "It said so on TV."
+_LumiArriveText::
+;	      XXXXXXXXXXXXXXXXXX
+	text "LUMI: Hi ", $52, "!"
+	line "We decided to"
+	cont "travel around this"
+	cont "region for a while"
+	cont "and we thought"
+	cont "everything is nice"
+	cont "here!"
+	para "We're staying at"
+	line "your house to take"
+	cont "a quick rest if"
+	cont "that's okay with"
+	cont "you."
+;	      XXXXXXXXXXXXXXXXXX
+	done
 
-	para "PROF.OAK, next"
-	line "door, is looking"
-	cont "for you."
+_JinxArriveText::
+;	      XXXXXXXXXXXXXXXXX
+	text "JINX: Hello,"
+	line $52, "!"
 	done
 
 _MomHealText1::
@@ -40,15 +48,22 @@ _MomHealText2::
 	done
 
 _StandByMeText::
+;	      XXXXXXXXXXXXXXXXXX
 	text "There's a movie"
-	line "on TV. Four boys"
-	cont "are walking on"
-	cont "railroad tracks."
+	line "on TV. A strange"
+	cont "-looking rat is"		; LITTLE KING JOHN
+	cont "searching for land"
+	cont "to build his new"
+	cont "kingdom."
 
 	para "I better go too."
 	done
 
 _TVWrongSideText::
-	text "Oops, wrong side."
+;	      XXXXXXXXXXXXXXXXXX
+	text "I can't see a"		; literal translation
+	line "thing! Oh, wait,"		; from Pokemon R/G
+	cont "I'm looking at the"
+	cont "wrong side."
 	done
 

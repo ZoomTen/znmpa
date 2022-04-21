@@ -17,6 +17,7 @@ HiddenObjectMaps: ; 46a40 (11:6a40)
 	db VERMILION_POKECENTER
 	db VERMILION_GYM
 	db CELADON_MANSION_2
+	db CELADON_MANSION_3
 	db CELADON_POKECENTER
 	db CELADON_GYM
 	db GAME_CORNER
@@ -106,6 +107,7 @@ HiddenObjectPointers: ; 46a96 (11:6a96)
 	dw VermilionPokecenterHiddenObjects
 	dw VermilionGymHiddenObjects
 	dw CeladonMansion2HiddenObjects
+	dw CeladonMansion3HiddenObjects
 	dw CeladonPokecenterHiddenObjects
 	dw CeladonGymHiddenObjects
 	dw GameCornerHiddenObjects
@@ -340,6 +342,11 @@ VermilionGymHiddenObjects: ; 46c18 (11:6c18)
 	db $FF
 CeladonMansion2HiddenObjects: ; 46c85 (11:6c85)
 	db $05,$00,$04
+	db BANK(OpenPokemonCenterPC)
+	dw OpenPokemonCenterPC
+	db $FF
+CeladonMansion3HiddenObjects: ; 46c85 (11:6c85)
+	db $06,$00,$04
 	db BANK(OpenPokemonCenterPC)
 	dw OpenPokemonCenterPC
 	db $FF
