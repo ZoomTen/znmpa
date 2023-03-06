@@ -1,5 +1,5 @@
 # Build Red/Blue. Yellow is WIP.
-roms := pokered.gbc pokeblue.gbc
+roms := pokered.gbc
 
 
 .PHONY: all clean red blue yellow compare
@@ -94,4 +94,5 @@ poke%.gbc: $$(%_obj)
 
 clean:
 	rm -f $(roms) $(all_obj) poke*.sym
+	rm -f map_poke*.txt
 	find . \( -iname '*.1bpp' -o -iname '*.2bpp' -o -iname '*.pic' \) -exec rm {} +
