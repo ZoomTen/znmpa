@@ -1,0 +1,45 @@
+2013-02-22+16:02:15 ./OC-TS_OLD.png
+2013-02-23+11:52:13 ./OC-OW.png
+2013-02-23+11:53:01 ./OC-OW_b.png
+2013-02-23+11:55:12 ./OC-OW_s.png
+2013-02-23+11:57:39 ./OC-OWf2.png
+2013-02-23+11:59:41 ./OC-OW_b2.png
+2013-02-23+12:02:36 ./OC-OW_s2.png
+2013-02-23+12:06:52 ./oc_sprite_full.wmv
+2013-02-23+18:55:47 ./OC-TS_BACK.png
+2013-02-26+12:54:26 ./ROOM.bmp
+2013-03-23+12:17:01 ./new logo.png
+2013-04-19+10:49:48 ./char-new.png
+2013-04-20+10:43:29 ./char-new300.png
+2013-04-28+08:55:50 ./OC-TS_NEW.png
+2013-04-28+08:59:38 ./N_OC_ZILO_TF.png
+2013-04-28+10:18:59 ./N_OC_ZILO_TB.png
+2013-07-16+15:17:31 ./Zsprite_b716.png
+2013-07-16+15:49:52 ./Msprite_b716.png
+2013-07-18+16:06:57 ./Msprite_b718_b.png
+2013-08-23+19:42:43 ./ROOM-l.bmp
+2013-08-31+00:09:00 ./startmenugfx.bmp
+2013-08-31+07:06:32 ./startmenugfx2.bmp
+2014-05-04+22:28:13 ./Zsprite_b542014.png
+2014-05-04+22:37:55 ./startmenugfx3.bmp
+2015-06-18+22:08:15 ./lumi.png
+2015-06-19+08:58:52 ./jinx.png
+2015-06-19+14:39:44 ./lumi2.png
+2015-06-19+14:50:39 ./lumi-jinx.png
+2015-06-19+15:02:31 ./lumi_trainer_2.png
+2015-06-19+15:02:55 ./jinx_trainer.png
+2015-06-20+22:20:13 ./lumiandtronic.png
+2015-06-22+17:32:22 ./tron_silvumi_trainer.png
+2015-06-23+18:25:25 ./pokered.png
+2015-06-26+13:38:58 ./haidern.png
+2015-06-26+20:59:32 ./mlg.png
+2015-06-29+23:01:51 ./kitsarushib.png
+2015-06-29+23:10:33 ./kitsarushi full palette.png
+2015-06-29+23:10:44 ./kitsarushiback full palette.png
+2015-06-30+08:42:17 ./kitsutob.png
+2015-06-30+08:43:22 ./kitsuto.png
+2015-06-30+08:44:08 ./kitsarushi.png
+2015-07-11+21:21:20 ./pokemon selection screen draft.xcf
+2015-07-18+09:05:20 ./sprite_base.png
+2015-07-30+20:25:26 ./jacob_pika.png
+2024-09-01+16:06:15 ./file_list.txt

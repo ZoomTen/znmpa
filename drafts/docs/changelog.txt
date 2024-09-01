@@ -1,0 +1,45 @@
+0224 (0.01)
+-Intro screen
+-Rewritten title screen
+-New border, 2bpp font (battle still 1bpp)
+-New character (back and front pic + sprite)
+
+0316 (0.02)
+-Brighter palette and sped up fading
+-Redesigned title screen (3-8-2013)
+-Added Options screen confirm SFX
+-Menu against white background
+-Added Reset option in menu
+-Hacked trainer card screen
+
+0324 (0.04) [0.02B]
+-Added start menu pic
+-Save in white BG
+
+0809 (0.05)
+-Fixed palette for intro
+-Completely rewritten title screen with graphics
+-New font
+-New character pics and sprites
+-Start menu pic changed
+
+0823 (0.06)
+-Fixed title screen palette issue
+-Fixed Oak rival pic pointer
+-New font (both 2bpp and 1bpp)
+
+0827 (0.07)
+-New intro
+-Changed title screen palette, null palette changed
+-Fixed font
+-2bpp battle font, 1bpp font removed
+
+0831 (0.08)
+-Start menu pic changed (again)
+-Removed reset option in menu
+
+0504 (0.09)
+-Used new character designs (damn compressing site's dead..)
+-New intro
+-SHIGGUMA-CHAN THE START SCREEN AND INTRO SPRITES DAYUMN
+-Fixed save screen glitch

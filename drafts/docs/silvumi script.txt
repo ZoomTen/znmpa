@@ -1,0 +1,37 @@
+(ROUTE 10)
+
+(On enter, and if player's Y:08 or 09)
+
+On step:
+ XXXXXXXXXXXXXXXXXX
+ LUMI: HEY ZILO
+ I FOUND A BAE.
+
+(Lumi and Tron Silver walks in)
+
+ HIS NAME IS TRON
+ SILVAH.
+ 
+ LET'S BATTLE.
+ XXXXXXXXXXXXXXXXXX
+ 
+On defeat:
+ XXXXXXXXXXXXXXXXXX
+ LUMI: NO REGRETS!
+ 
+ TRON SILVER: Nice
+ battle!
+ 
+ After battle:
+ LUMI: Well, that
+ was totes beauti-
+ ful. Cya, dude.
+ 
+ And remember. The
+ one and only,
+ baby!
+ 
+ TRON SILVER: Dats
+ right!
+ 
+(LUMI and TRON SILVER walk out)

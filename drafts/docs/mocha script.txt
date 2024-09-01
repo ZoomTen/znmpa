@@ -1,0 +1,26 @@
+(ROUTE 10, position Y=$36 X=$08)
+
+(secondary counter unset)
+(show Mocha, exclamation marks)
+XXXXXXXXXXXXXXXXX
+MOCHA: Boo!
+Hehehehehe! Did I
+scurr you?
+I just can't help
+myself! XD
+(set secondary counter to 1)
+(battle start)
+
+(battle end)
+XXXXXXXXXXXXXXXXX
+MOCHA: ...u
+scurred meh.
+
+(after battle)
+XXXXXXXXXXXXXXXXX
+MOCHA: Okay, okay
+I'll stop follow-
+ing you. F'real
+this time tho.
+Good luck bby!
+(set secondary counter to 2)

@@ -1,0 +1,80 @@
+Script
+
+RED'S HOUSE 1F
+
+(at first start, two sprites, Lumi and ?Jay appear)
+
+[17 char limit]
+XXXXXXXXXXXXXXXXX
+LUMI: Hello! Its
+okay to stay at
+your house for
+a while, right?
+
+XXXXXXXXXXXXXXXXX
+JAY: We think
+this is a nice
+place to live.
+
+Isnt that right,
+ZILO?
+
+(after you get Pokedex, these two disappear from
+your house)
+
+(at some point you meet these two)
+
+(LUMI SCRIPT)
+XXXXXXXXXXXXXXXXX
+LUMI: Hello
+ZILO!
+
+Guess who just
+became trainers?
+
+That's right!
+
+We want to see
+how good we are,
+care for a
+battle?
+
+(YES / NO)
+
+(YES)
+YUS!
+
+(NO)
+XXXXXXXXXXXXXXXXX
+Aww, maybe next
+time.
+
+
+
+(JAY SCRIPT)
+XXXXXXXXXXXXXXXXX
+JAY: Hey buddy!
+
+Yes, we're
+POKeMON trainers
+now!
+
+Wanna battle?
+
+(YES / NO)
+
+(YES)
+I'll take you
+down!
+
+(NO)
+Maybe another
+time, sorry!
+
+
+
+(AFTER BATTLE SCRIPT)
+XXXXXXXXXXXXXXXXX
+LUMI: Yep, we
+need to practice
+more.

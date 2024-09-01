@@ -1,0 +1,14 @@
+constants/pokemon_constants.asm
+constants/pokedex_constants.asm
+data/pokedex_order.asm
+data/pokedex_entries.asm
+data/base_stats.asm	(and the corresponding file in baseStats folder)
+data/cries.asm
+data/evos_moves.asm
+data/mon_party_sprites.asm
+data/mon_palettes.asm
+text/pokedex.asm
+text/monster_names.asm
+home.asm		(under UncompressMonSprite)
+main.asm		(where the front and back sprites are located)
+

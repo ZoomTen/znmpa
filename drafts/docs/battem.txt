@@ -1,0 +1,23 @@
+  An item can be picked up at the
+  Celadon Mansion, which is the "BATTEM". It allows you to battle
+  any trainer. Wild Pokemon can also be encountered with this tool. However
+  it is glitchy. When used, it asks for a code which would then be
+  decoded to get the correct trainer/pokemon ID and instance number/level.
+  The format is as follows:
+  
+  XYYZ
+  
+  X = Which ID to use? ("I"=internal, "X"=external)
+  YY= the trainer ID. It is encoded alphabetically, where "A" = 0.
+  Example: $F3 is encoded as "PD", $2A is encoded as "CL"
+  Z = If YY is higher than "NI", it's the trainer's instance.
+  Lower than that, it's the Pokemon's level divided by 6. It's
+  encoded in the same way as YY. 
+  
+  Example code would be:
+  IPDA	=	Internal ID, Trainer $F3, Instance $01 (Theta battle)
+  XADC	=	External ID, Trainer $03, Instance $03
+  IABA	=	Internal ID, Pokemon $01 (Rhydon), level 6 (A = 1)
+  
+  This would be useful in cases where battle scripts haven't been implemented
+  yet.

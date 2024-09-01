@@ -1,0 +1,8 @@
+TODO:
+- Implement a sort of radio
+  
+- Add evolutionary items and make them accessable in-game.
+
+- Finalize Jonic trainer, and add Jacob as well
+
+- Add in SISTERS trainer class. Team: MACHOP, ZOROARK, VAPOREON, GENGAR (uses Iris' theme)

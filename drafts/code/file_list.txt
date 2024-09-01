@@ -1,0 +1,14 @@
+2013-03-16+20:58:41 ./PkRedDefs.asm
+2013-03-24+08:10:27 ./Control.asm
+2013-05-29+05:28:33 ./Diploma.asm
+2013-05-29+05:32:52 ./Diploma2.asm
+2013-05-29+05:38:47 ./7158 Draw Start Menu.asm
+2013-05-29+06:01:22 ./Start Menu.asm
+2013-07-09+17:28:24 ./derp.txt
+2013-07-16+14:19:15 ./42B7 Title Screen.asm
+2013-07-31+16:01:12 ./74064 Credits.asm
+2013-08-31+07:39:22 ./00BE Start Menu Exit.asm
+2014-05-05+09:47:26 ./7C49 Draw Start Menu Image.asm
+2021-03-19+23:11:30 ./Diploma_fixed.asm
+2021-03-19+23:21:24 ./Diploma2_fixed.asm
+2024-09-01+16:06:21 ./file_list.txt
