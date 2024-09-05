@@ -1,3 +1,12 @@
+IF DEF(GBS)
+AUDIO_1 EQU $1
+AUDIO_2 EQU $2
+AUDIO_3 EQU $3
+AUDIO_4 EQU $4
+AUDIO_5 EQU $5
+AUDIO_6 EQU $6
+PCM_1	EQU $7
+ELSE
 AUDIO_1 EQU $2
 AUDIO_2 EQU $8
 AUDIO_3 EQU $1f
@@ -5,6 +14,7 @@ AUDIO_4 EQU $2e
 AUDIO_5 EQU $2f
 PCM_1	EQU $30
 AUDIO_6 EQU $31
+ENDC
 
 INCLUDE "constants.asm"
 
@@ -390,6 +400,7 @@ Music31_WavePointers:
 
 
 SECTION "Audio Engine 1", ROMX, BANK[AUDIO_1]
+IF !DEF(GBS)
 PlayBattleMusic:: ; 0x90c6
 	xor a
 	ld [wMusicHeaderPointer], a
@@ -468,10 +479,12 @@ PlayBattleMusic:: ; 0x90c6
 	ld a, Mus_LanceBattle ; this ain't just Red's theme ya know
 .playSong
 	jp PlayMusicEntry
+ENDC
 
 
 INCLUDE "audio/engine_1.asm"
 
+IF !DEF(GBS)
 
 ; an alternate start for MeetRival which has a different first measure
 Music_RivalAlternateStart:: ; 0x9b47
@@ -524,8 +537,11 @@ Music_Cities1AlternateTempo:: ; 0x9b81
 	ld de, Music_PalletTown_Changetempo
 	jp Music2_OverwriteChannelPointer
 
+ENDC
 
 SECTION "Audio Engine 2", ROMX, BANK[AUDIO_2]
+
+IF !DEF(GBS)
 Music_DoLowHealthAlarm:: ; 2136e (8:536e)
 	ld a, [wLowHealthAlarm]
 	cp $ff
@@ -602,12 +618,12 @@ Music_DoLowHealthAlarm:: ; 2136e (8:536e)
 .toneDataSilence
 	db $00,$00,$00,$80
 
-
+ENDC
 ;INCLUDE "engine/menu/bills_pc.asm"
 
 INCLUDE "audio/engine_2.asm"
 
-
+IF !DEF(GBS)
 Music_PokeFluteInBattle:: ; 22306 (8:6306)
 	ld a, (SFX_08_46 - SFX_Headers_08) / 3 ; PokeFlute outside of battle
 	call PlaySoundWaitForCurrent
@@ -625,8 +641,10 @@ Music8_OverwriteChannelPointer: ; 2231d (8:631d)
 	ld [hli], a
 	ret
 
+ENDC
 
 SECTION "Audio Engine 3", ROMX, BANK[AUDIO_3]
+IF !DEF(GBS)
 Func_7d13b:: ; 7d13b (1f:513b)
 	ld a, [$ffdc]
 	ld c, $0
@@ -663,6 +681,7 @@ PokedexRatingSfxPointers: ; 7d162 (1f:5162)
 
 OwnedMonValues: ; 7d170 (1f:5170)
 	db 10, 40, 60, 90, 120, 150, $ff
+ENDC
 
 
 INCLUDE "audio/engine_3.asm"

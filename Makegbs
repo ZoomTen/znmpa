@@ -1,0 +1,18 @@
+.SUFFIXES:
+.PRECIOUS:
+.PHONY: all clean
+
+all: znmpa.gbs
+
+$(info $(shell $(MAKE) -C tool))
+
+clean:
+	rm -fv znmpa.gbs map_znmpa_gbs.txt wram.o gbs.o audio.o
+	$(MAKE) clean -C tool/
+
+znmpa.gbs : wram.o gbs.o audio.o
+	rgblink -o $@ -m map_znmpa_gbs.txt $^
+	tool/gbstrim $@
+
+%.o: %.asm
+	rgbasm -o $@ -DGBS $<
