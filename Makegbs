@@ -11,7 +11,7 @@ clean:
 	$(MAKE) clean -C tool/
 
 znmpa.gbs : wram.o gbs.o audio.o
-	rgblink -o $@ -m map_znmpa_gbs.txt $^
+	rgblink -o $@ -m map_znmpa_gbs.txt -n znmpa.gbs.sym $^
 	tool/gbstrim $@
 
 %.o: %.asm

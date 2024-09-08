@@ -39,7 +39,7 @@ INCLUDE "audio/headers/musicheaders08.asm"
 SECTION "Music Headers 3", ROMX, BANK[AUDIO_3]
 INCLUDE "audio/headers/musicheaders1f.asm"
 
-SECTION "Music Headers 31", ROMX, BANK[AUDIO_6]
+SECTION "Music Headers 31", ROMX[$422e], BANK[AUDIO_6]
 INCLUDE "audio/headers/musicheaders31.asm"
 
 SECTION "Sound Effects 1", ROMX, BANK[AUDIO_1]
