@@ -1,0 +1,144 @@
+# See https://github.com/zoomten/game-music-tagging
+# for details on this file.
+
+# @album     Zilo & Monty's Pokémon Adventures
+# @company   ZoomTen
+# @publisher ZoomTen
+# @artist    ZoomTen
+# @date      2015
+# %length    10:00
+# @fade      5
+
+# %title     Evolution/Safari Zone
+# %artist    Junichi Masuda
+# %composer  Junichi Masuda
+# %arranger  Junichi Masuda
+# %sequencer Junichi Masuda
+# %length    0:41
+# %comment   Ported from Pokémon Gold and Silver.
+znmpa.gbs?14
+
+# %title     Battle! Tron Silver & Lumi
+# %artist    ZoomTen
+# %composer  ZoomTen
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    1:47
+# %comment   Labelled as "Battle! Special" in-game.
+znmpa.gbs?24
+
+# %title     Battle! Theta
+# %artist    Junichi Masuda
+# %composer  Junichi Masuda
+# %arranger  Junichi Masuda
+# %sequencer Junichi Masuda
+# %length    1:46
+# %comment   "Battle! (Champion)" ported from Pokémon Gold and Silver.
+znmpa.gbs?26
+
+# %title     Battle?! Haiden
+# %artist    ZoomTen
+# %composer  Yasuharu Takanashi
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %comment   "Dragon Fight" from Fairy Tail.
+# %length    2:35
+znmpa.gbs?27
+
+# %title     Victory! Wild Pokémon
+# %artist    ZoomTen
+# %composer  Junichi Masuda
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    0:24
+znmpa.gbs?29
+
+# %title     Hall of Fame
+# %artist    Junichi Masuda
+# %composer  Junichi Masuda
+# %arranger  Junichi Masuda
+# %sequencer Junichi Masuda
+# %length    0:45
+# %comment   Ported from Pokémon Gold and Silver.
+znmpa.gbs?33
+
+# %title     Pokémon Red Unused Song (Unused)
+# %artist    BGVC
+# %composer  Junichi Masuda
+# %arranger  BGVC
+# %sequencer BGVC
+# %length    0:58
+# %comment   https://www.youtube.com/watch?v=XO7ZDbywOus
+znmpa.gbs?49
+
+# %title     Battle! Steven (Unused)
+# %artist    ZoomTen
+# %composer  Junichi Masuda
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    2:01
+# %comment   "Battle! (Steven)" from Pokémon Ruby/Sapphire & Emerald.
+znmpa.gbs?50
+
+# %title     Battle! Theta (Rematch)
+# %artist    ZoomTen
+# %composer  Junichi Masuda, Shota Kageyama
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    2:29
+# %comment   "Pokémon World Championships Final" from Pokémon Black/White and later games.
+znmpa.gbs?52
+
+# %title     Gym Leaders' Final Pokémon!
+# %artist    ZoomTen
+# %composer  Junichi Masuda, Go Ichinose
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    1:32
+# %comment   "Victory Lies Before You!" from Pokémon Black 2/White 2. Labelled in-game as "Decisive Battle!"
+znmpa.gbs?53
+
+# %title     Toy Warrior (Credits)
+# %artist    ZoomTen
+# %composer  Johan Wendell
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    3:13
+znmpa.gbs?54
+
+# %title     Battle! Masked Lumi (Unused)
+# %artist    ZoomTen
+# %composer  Jun Ishikawa
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    1:04
+# %comment   "The Masked King" from Kirby Super Star Ultra.
+znmpa.gbs?55
+
+# %title     Touhou 3 Character Select (Unused)
+# %artist    ZoomTen
+# %composer  Jun'ya Oota (ZUN)
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    1:54
+# %comment   "Selection" from Phantasmagoria of Dim.Dream.
+znmpa.gbs?56
+
+# %title     Ocean Dries Up (Easter Egg)
+# %artist    ZoomTen
+# %composer  Peter Clarke
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    2:47
+# %fade      0
+# %comment   Also known as "Ocean Loader 3".
+znmpa.gbs?57
+
+# %title     Battle! Lumi (Rematch)
+# %artist    ZoomTen
+# %composer  Ichiro Shimakura
+# %arranger  ZoomTen
+# %sequencer ZoomTen
+# %length    3:43
+# %comment   "Club Master Battle" from Pokémon TCG.
+znmpa.gbs?58
